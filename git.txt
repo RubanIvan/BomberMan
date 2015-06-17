@@ -1,0 +1,2 @@
+git remote add origin https://github.com/RubanIvan/BomberMan.git
+git push -u origin master
