@@ -28,12 +28,9 @@ namespace BomberMan
         public static int Y;
 
         //размер
-        public static int DX = Const.ScrDx;
-        public static int DY = Const.ScrDy;
-
-        //координаты конца экрана
-        public static int XEnd;
-        public static int YEnd;
+        public const int DX = Const.ScrDx;
+        public const int DY = Const.ScrDy;
+        
     }
 
     public class Game1 : Microsoft.Xna.Framework.Game
@@ -65,6 +62,7 @@ namespace BomberMan
 
             GameStateManager.Add(State.PlayGame, new GameStatePlayGame(Texture, SpriteBatch));
             GameStateManager.SwitchTo(State.PlayGame);
+
             
         }
 
@@ -78,15 +76,20 @@ namespace BomberMan
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
+            if (InputHelper.IsKeyDown(Keys.Escape)) this.Exit();
+
+            //Обновляем состояние игры
+            GameStateManager.CurrentState.Update(gameTime);
+
+            //Обновляем состояние клавиатуры
+            InputHelper.Update();
 
             
-
-            base.Update(gameTime);
+            
         }
 
-        /// <summary>This is called when the game should draw itself.</summary>
+        /// <summary>Отрисовываем текущее состояние</summary>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
@@ -94,10 +97,8 @@ namespace BomberMan
 
             GameStateManager.CurrentState.Draw();
 
-
             SpriteBatch.End();
             
-            //base.Draw(gameTime);
         }
     }
 }

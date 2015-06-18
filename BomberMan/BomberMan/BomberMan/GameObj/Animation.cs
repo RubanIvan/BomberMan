@@ -63,12 +63,13 @@ namespace BomberMan
 
         //Конструктор
         public Animation(List<Rectangle> spriteList, int timeToFrameMilliseconds = 0, 
-                         bool isAnimated = false, bool isLoop = false)
+                         bool isAnimated = false, bool isLoop = false,Action AnimationEnd=null)
         {
             this.SpriteTimeToFrame = timeToFrameMilliseconds;
             this.SpriteList = spriteList;
             this.isAnimated = isAnimated;
             this.isLoop = isLoop;
+            this.AnimationEnd += AnimationEnd;
         }
 
         /// <summary>Анимировать спрайт </summary>

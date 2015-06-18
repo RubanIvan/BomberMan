@@ -5,3 +5,4 @@ D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\obj\x86\Debug\Microsoft.
 D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\obj\x86\Debug\BomberMan.exe
 D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\obj\x86\Debug\BomberMan.pdb
 D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\spritesheet.xnb
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level1.txt

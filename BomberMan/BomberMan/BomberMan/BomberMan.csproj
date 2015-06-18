@@ -74,9 +74,11 @@
   <ItemGroup>
     <Compile Include="GameObj\Animation.cs" />
     <Compile Include="CommonLib.cs" />
+    <Compile Include="GameObj\BrickWall.cs" />
     <Compile Include="GameObj\GameObject.cs" />
     <Compile Include="GameObj\GameState.cs" />
     <Compile Include="GameObj\GameStatePlayGame.cs" />
+    <Compile Include="GameObj\Player.cs" />
     <Compile Include="GameObj\StoneWall.cs" />
     <Compile Include="InputHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +89,9 @@
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
+    </Content>
+    <Content Include="Levels\Level1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
