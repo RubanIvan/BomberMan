@@ -85,7 +85,7 @@ namespace BomberMan
             //Обновляем состояние клавиатуры
             InputHelper.Update();
 
-            
+            base.Update(gameTime);
             
         }
 
@@ -99,6 +99,7 @@ namespace BomberMan
 
             SpriteBatch.End();
             
+            base.Draw(gameTime);
         }
     }
 }

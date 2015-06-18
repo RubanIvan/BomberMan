@@ -15,6 +15,8 @@ namespace BomberMan.GameObj
         /// <summary>ссылка на игрока </summary>
         public Player Player;
 
+        public int ElapsedTime;
+
         public GameStatePlayGame(Texture2D texture, SpriteBatch spriteBatch)
             : base(texture, spriteBatch)
         {
@@ -29,7 +31,6 @@ namespace BomberMan.GameObj
 
         public override void Update(GameTime gameTime)
         {
-
             for (int i = 0; i < GameObjects.Count; i++)
             {
                 //Обновляем все объекты
@@ -38,13 +39,21 @@ namespace BomberMan.GameObj
                 //Удаляем мертвые 
                 if (!GameObjects[i].isAlive) GameObjects.RemoveAt(i);
 
-                if (InputHelper.KeyPressed(Keys.Right))
-                
-                {
+                ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
 
-                    Player.MoveRight(gameTime);
-                        
+                if (ElapsedTime > 10000)
+                {
+                    ElapsedTime = 0;
+                    if (InputHelper.IsKeyDown(Keys.Right))
+                    {
+
+                        Player.MoveRight(gameTime);
+
+                    }
                 }
+                
+
+               
 
 
             }
@@ -110,11 +119,11 @@ namespace BomberMan.GameObj
                 {
                     Player = (Player)O;
                     GameObjects.Remove(Player);
-                    GameObjects.Add(Player); 
+                    GameObjects.Add(Player);
                     break;
                 }
 
-            
+
         }
 
     }

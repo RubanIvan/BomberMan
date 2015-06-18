@@ -74,9 +74,6 @@ namespace BomberMan.GameObj
 
         public void MoveRight(GameTime gameTime)
         {
-            ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-            if (ElapsedTime<25000)return;
-
             ChangeState(ObjectState.WalkRight);
             //Debug.WriteLine(PosWorldX);
             PosWorldX += 1;
