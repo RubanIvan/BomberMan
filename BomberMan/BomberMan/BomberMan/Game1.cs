@@ -60,8 +60,8 @@ namespace BomberMan
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Texture = Content.Load<Texture2D>("spritesheet");
 
-            GameStateManager.Add(State.PlayGame, new GameStatePlayGame(Texture, SpriteBatch));
-            GameStateManager.SwitchTo(State.PlayGame);
+            GamePhaseManager.Add(Phase.PlayGame, new PhasePlayGame(Texture, SpriteBatch));
+            GamePhaseManager.SwitchTo(Phase.PlayGame);
 
             
         }
@@ -80,7 +80,7 @@ namespace BomberMan
             if (InputHelper.IsKeyDown(Keys.Escape)) this.Exit();
 
             //Обновляем состояние игры
-            GameStateManager.CurrentState.Update(gameTime);
+            GamePhaseManager.CurrentPhase.Update(gameTime);
 
             //Обновляем состояние клавиатуры
             InputHelper.Update();
@@ -95,7 +95,7 @@ namespace BomberMan
             GraphicsDevice.Clear(Color.Black);
             SpriteBatch.Begin();
 
-            GameStateManager.CurrentState.Draw();
+            GamePhaseManager.CurrentPhase.Draw();
 
             SpriteBatch.End();
             

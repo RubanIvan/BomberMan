@@ -12,12 +12,7 @@ namespace BomberMan
         Left,Right,Up,Down
     }
 
-    /// <summary>Состояния игры</summary>
-    public enum State
-    {
-        MainMenu,PlayGame
-    }
-
+  
     public static class Rnd
     {
         static Random R = new Random(DateTime.Now.Millisecond);
