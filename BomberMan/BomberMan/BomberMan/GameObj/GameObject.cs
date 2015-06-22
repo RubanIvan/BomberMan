@@ -7,46 +7,77 @@ using Microsoft.Xna.Framework;
 namespace BomberMan.GameObj
 {
     /// <summary>Состояние игровых объектов </summary>
-    public enum ObjectState
+    //public enum ObjectState
+    //{
+    //    /// <summary>Стоит в ожидании </summary>
+    //    Idle,
+    //    /// <summary>Стоит развернут в вниз</summary>
+    //    //IdleDown = Idle,
+
+    //    /// <summary>Идет в лево </summary>
+    //    WalkLeft,
+    //    /// <summary>Идет в право</summary>
+    //    WalkRight,
+    //    /// <summary>Идет вверх </summary>
+    //    WalkUp,
+    //    /// <summary>Идет вниз</summary>
+    //    WalkDown,
+
+    //    /// <summary>Стоит развернут в лево </summary>
+    //    IdleLeft,
+    //    /// <summary>Стоит развернут в право</summary>
+    //    IdleRight,
+    //    /// <summary>Стоит развернут в вверх </summary>
+    //    IdleUp,
+
+    //    /// <summary>Горит, подорвался на бомбе</summary>
+    //    Fire,
+
+   
+    //}
+
+    /// <summary>Состояние объекта </summary>
+    public class State
     {
-        /// <summary>Стоит в ожидании </summary>
-        Idle,
-        /// <summary>Стоит развернут в вниз</summary>
-        //IdleDown = Idle,
+        /// <summary>Текущая анимация объекта</summary>
+        public Animation Animation;
 
-        /// <summary>Идет в лево </summary>
-        WalkLeft,
-        /// <summary>Идет в право</summary>
-        WalkRight,
-        /// <summary>Идет вверх </summary>
-        WalkUp,
-        /// <summary>Идет вниз</summary>
-        WalkDown,
-        
-        /// <summary>Стоит развернут в лево </summary>
-        IdleLeft,
-        /// <summary>Стоит развернут в право</summary>
-        IdleRight,
-        /// <summary>Стоит развернут в вверх </summary>
-        IdleUp,
-        
-        /// <summary>Горит, подорвался на бомбе</summary>
-        Fire,
+        /// <summary>Объект которому принадлежит это состояние</summary>
+        protected GameObject GameObject;
 
-        /// <summary>Стена осыпается с лева</summary>
-        WallDestroyLeft,
-        /// <summary>Стена осыпается с права</summary>
-        WallDestroyRight,
-        /// <summary>Стена осыпается с верху</summary>
-        WallDestroyUp,
-        /// <summary>Стена осыпается с низу</summary>
-        WallDestroyDown,
+        /// <summary>Время в тиках прошедшее после последнего действия</summary>
+        protected int ElapsedTime = 0;
+
+        //Конструктор
+        public State(Animation animation)
+        {
+            Animation = animation;
+        }
+
+        /// <summary>Конструктор</summary>
+        /// <param name="gameObject">кому принадлежит это состояние</param>
+        public State(GameObject gameObject)
+        {
+            GameObject = gameObject;
+        }
+
+       
+        public virtual void Update(GameTime gameTime)
+        {
+            Animation.Update(gameTime);
+        }
 
     }
 
 
+    /// <summary>Обобщенный игровой объект</summary>
     public class GameObject
     {
+        ///<summary>Перечесление всех состояний объекта </summary>
+        public Dictionary<System.Enum, string> EnumState= new Dictionary<System.Enum, string>();
+        
+        //public System.Enum EnumState;
+
         ///<summary>Мировые координаты.</summary>
         public int PosWorldX;
 
@@ -56,24 +87,26 @@ namespace BomberMan.GameObj
         /// <summary>Жив ли объект</summary>
         public bool isAlive;
 
-        /// <summary>Список всех анимаций объекта</summary>
-        //protected List<Animation> AnimationList=new List<Animation>();
+        /// <summary>Хранит все состояния объекта</summary>
+        protected Dictionary<System.Enum, State> ObjectStates = new Dictionary<System.Enum, State>();
 
-        /// <summary>Хранит все анимации объекта</summary>
-        protected Dictionary<ObjectState, Animation> AnimationStates = new Dictionary<ObjectState, Animation>();
+        /// <summary>Текущее состояние объекта</summary>
+        protected State State;
 
-        /// <summary>Текущая анимация объекта</summary>
-        protected Animation Animation;
+        /// <summary>Текущего состояние конечного автомата</summary>
+        protected System.Enum SMstate;
+
+        /// <summary>Таблица переходов конечного автомата</summary>
+        protected Dictionary<System.Enum, Dictionary<System.Enum, System.Enum>> SMtransition = new Dictionary<Enum, Dictionary<Enum, Enum>>();
 
         /// <summary>Текущее изображение объекта (координаты в текстуре)</summary>
-        public Rectangle Sprite { get { return Animation.SpritePos; } }
+        public Rectangle Sprite { get { return State.Animation.SpritePos; } }
 
         public virtual void Update(GameTime gameTime)
         {
-            Animation.Update(gameTime);
+            State.Update(gameTime);
         }
 
-        
         //Конструктор
         public GameObject(int x,int y)
         {
@@ -83,10 +116,19 @@ namespace BomberMan.GameObj
         }
 
         /// <summary>Сменить состояние объекта</summary>
-        public void ChangeState(ObjectState state)
+        public void ChangeState(System.Enum state)
         {
-            Animation = AnimationStates[state];
+            State = ObjectStates[state];
+            SMstate = state;
+        }
+
+        /// <summary>Переход в новое состояние конечного автомата</summary>
+        public void SMrequest(System.Enum newstate)
+        {
+            ChangeState(SMtransition[SMstate][newstate]);
         }
         
     }
+
+   
 }

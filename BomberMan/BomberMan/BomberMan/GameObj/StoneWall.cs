@@ -10,8 +10,8 @@ namespace BomberMan.GameObj
     {
         public StoneWall(int x,int y):base(x,y)
         {
-            AnimationStates.Add(ObjectState.Idle , new Animation(new List<Rectangle>() { new Rectangle(2 * 48, 0, 48, 48) }));
-            ChangeState(ObjectState.Idle);
+            ObjectStates.Add(WallEnum.Idle,new State(new Animation(new List<Rectangle>() { new Rectangle(2 * 48, 0, 48, 48) })));
+            ChangeState(WallEnum.Idle);
         }
     }
 
@@ -21,8 +21,9 @@ namespace BomberMan.GameObj
         public SteelWall(int x, int y)
             : base(x, y)
         {
-            AnimationStates.Add(ObjectState.Idle, new Animation(new List<Rectangle>() { new Rectangle(3 * 48, 0, 48, 48) }));
-            ChangeState(ObjectState.Idle);
+            ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(3 * 48, 0, 48, 48) })));
+            ChangeState(WallEnum.Idle);
+            
         }
     }
 
@@ -31,8 +32,9 @@ namespace BomberMan.GameObj
         public EmptyLand(int x, int y)
             : base(x, y)
         {
-            AnimationStates.Add(ObjectState.Idle, new Animation(new List<Rectangle>() { new Rectangle(4 * 48, 0, 48, 48) }));
-            ChangeState(ObjectState.Idle);
+            ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(4 * 48, 0, 48, 48) })));
+            ChangeState(WallEnum.Idle);
+
         }
     }
 }

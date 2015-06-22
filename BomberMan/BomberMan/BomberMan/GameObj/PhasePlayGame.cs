@@ -15,10 +15,7 @@ namespace BomberMan.GameObj
         /// <summary>ссылка на игрока </summary>
         public Player Player;
 
-        public int ElapsedTime;
-
-        public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch)
-            : base(texture, spriteBatch)
+        public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch): base(texture, spriteBatch)
         {
             //GameObjects.Add(new StoneWall(0, 0));
             //GameObjects.Add(new Player(48, 48));
@@ -39,23 +36,7 @@ namespace BomberMan.GameObj
                 //Удаляем мертвые 
                 if (!GameObjects[i].isAlive) GameObjects.RemoveAt(i);
 
-                ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-
-                if (ElapsedTime > 10000)
-                {
-                    ElapsedTime = 0;
-                    if (InputHelper.IsKeyDown(Keys.Right))
-                    {
-
-                        Player.MoveRight(gameTime);
-
-                    }
-                }
                 
-
-               
-
-
             }
 
         }
@@ -101,7 +82,12 @@ namespace BomberMan.GameObj
                             GameObjects.Add(new EmptyLand(48 * i, 48 * j));
                             break;
                         case '.':
-                            if (Rnd.Next(100) > 60) GameObjects.Add(new BrickWall(48 * i, 48 * j));
+                            if (Rnd.Next(100) > 60)
+                            {
+                                //подкладываем землю под каждую стену
+                                GameObjects.Add(new EmptyLand(48 * i, 48 * j));
+                                GameObjects.Add(new BrickWall(48 * i, 48 * j));
+                            }
                             else GameObjects.Add(new EmptyLand(48 * i, 48 * j));
                             break;
 
