@@ -32,6 +32,8 @@ namespace BomberMan.GameObj
         public EmptyLand(int x, int y)
             : base(x, y)
         {
+            isPassability = true;
+
             ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(4 * 48, 0, 48, 48) })));
             ChangeState(WallEnum.Idle);
 

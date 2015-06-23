@@ -3,38 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace BomberMan.GameObj
 {
-    /// <summary>Состояние игровых объектов </summary>
-    //public enum ObjectState
-    //{
-    //    /// <summary>Стоит в ожидании </summary>
-    //    Idle,
-    //    /// <summary>Стоит развернут в вниз</summary>
-    //    //IdleDown = Idle,
+    
 
-    //    /// <summary>Идет в лево </summary>
-    //    WalkLeft,
-    //    /// <summary>Идет в право</summary>
-    //    WalkRight,
-    //    /// <summary>Идет вверх </summary>
-    //    WalkUp,
-    //    /// <summary>Идет вниз</summary>
-    //    WalkDown,
-
-    //    /// <summary>Стоит развернут в лево </summary>
-    //    IdleLeft,
-    //    /// <summary>Стоит развернут в право</summary>
-    //    IdleRight,
-    //    /// <summary>Стоит развернут в вверх </summary>
-    //    IdleUp,
-
-    //    /// <summary>Горит, подорвался на бомбе</summary>
-    //    Fire,
-
-   
-    //}
+    /// <summary>Интерфейс для объектов которые могут быть уничтожены взрывом</summary>
+    interface Iexterminable
+    {
+        void Blow(BlowSide side);
+    }
 
     /// <summary>Состояние объекта </summary>
     public class State
@@ -73,10 +52,8 @@ namespace BomberMan.GameObj
     /// <summary>Обобщенный игровой объект</summary>
     public class GameObject
     {
-        ///<summary>Перечесление всех состояний объекта </summary>
-        public Dictionary<System.Enum, string> EnumState= new Dictionary<System.Enum, string>();
-        
-        //public System.Enum EnumState;
+        /// <summary>Ссылка на все объекты на карте</summary>
+        protected List<GameObject> GameObjects;
 
         ///<summary>Мировые координаты.</summary>
         public int PosWorldX;
@@ -102,6 +79,9 @@ namespace BomberMan.GameObj
         /// <summary>Текущее изображение объекта (координаты в текстуре)</summary>
         public Rectangle Sprite { get { return State.Animation.SpritePos; } }
 
+        /// <summary>Проходимо ли поле </summary>
+        public bool isPassability=false;
+
         public virtual void Update(GameTime gameTime)
         {
             State.Update(gameTime);
@@ -113,6 +93,7 @@ namespace BomberMan.GameObj
             PosWorldX = x;
             PosWorldY = y;
             isAlive = true;
+            
         }
 
         /// <summary>Сменить состояние объекта</summary>

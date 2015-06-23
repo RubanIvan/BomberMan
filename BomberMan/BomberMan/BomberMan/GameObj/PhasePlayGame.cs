@@ -70,7 +70,7 @@ namespace BomberMan.GameObj
                     {
                         case 'S':
                             GameObjects.Add(new EmptyLand(48 * i, 48 * j));
-                            GameObjects.Add(new Player(48 * i, 48 * j));
+                            GameObjects.Add(new Player(48 * i, 48 * j,GameObjects));
                             break;
                         case 'X':
                             GameObjects.Add(new SteelWall(48 * i, 48 * j));

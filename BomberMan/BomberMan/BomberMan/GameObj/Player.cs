@@ -37,10 +37,14 @@ namespace BomberMan.GameObj
         /// <summary>Время в тиках прошедшее после последнего действия</summary>
         private int ElapsedTime = 0;
 
+        //Количество однавремен
+        //private int MaxBombCount = 1;
+
         //конструктор
-        public Player(int x, int y)
+        public Player(int x, int y, List<GameObject> O)
             : base(x, y)
         {
+            GameObjects = O;
 
             //Задание состояний
             ObjectStates.Add(PlayerEnum.Idle, new PlayerIdle(this));
@@ -52,11 +56,11 @@ namespace BomberMan.GameObj
             ObjectStates.Add(PlayerEnum.IdleUp, new PlayerIdleUp(this));
             ObjectStates.Add(PlayerEnum.WalkDown, new PlayerWalkDown(this));
 
-         
+
             ChangeState(PlayerEnum.Idle);
 
-            SMtransition.Add(PlayerEnum.Idle,new Dictionary<Enum, Enum>());
-            SMtransition[PlayerEnum.Idle].Add(PlayerEnum.Idle,PlayerEnum.Idle);
+            SMtransition.Add(PlayerEnum.Idle, new Dictionary<Enum, Enum>());
+            SMtransition[PlayerEnum.Idle].Add(PlayerEnum.Idle, PlayerEnum.Idle);
             SMtransition[PlayerEnum.Idle].Add(PlayerEnum.WalkRight, PlayerEnum.WalkRight);
             SMtransition[PlayerEnum.Idle].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkLeft);
             SMtransition[PlayerEnum.Idle].Add(PlayerEnum.WalkUp, PlayerEnum.WalkUp);
@@ -65,23 +69,23 @@ namespace BomberMan.GameObj
             SMtransition.Add(PlayerEnum.WalkRight, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.Idle, PlayerEnum.IdleRight);
             SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.WalkRight, PlayerEnum.WalkRight);
-            SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.WalkLeft, PlayerEnum.Idle);
-            SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.WalkUp, PlayerEnum.IdleUp);
-            SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.WalkDown, PlayerEnum.Idle);
-            
+            SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkRight);
+            SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.WalkUp, PlayerEnum.WalkRight);
+            SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.WalkDown, PlayerEnum.WalkRight);
+
             SMtransition.Add(PlayerEnum.IdleRight, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.Idle, PlayerEnum.IdleRight);
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkRight, PlayerEnum.WalkRight);
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkLeft, PlayerEnum.Idle);
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkUp, PlayerEnum.IdleUp);
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkDown, PlayerEnum.Idle);
-            
+
             SMtransition.Add(PlayerEnum.WalkLeft, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.Idle, PlayerEnum.IdleLeft);
-            SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.WalkRight, PlayerEnum.Idle);
+            SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.WalkRight, PlayerEnum.WalkLeft);
             SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkLeft);
-            SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.WalkUp, PlayerEnum.IdleUp);
-            SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.WalkDown, PlayerEnum.Idle);
+            SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.WalkUp, PlayerEnum.WalkLeft);
+            SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.WalkDown, PlayerEnum.WalkLeft);
 
             SMtransition.Add(PlayerEnum.IdleLeft, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.Idle, PlayerEnum.IdleLeft);
@@ -92,10 +96,10 @@ namespace BomberMan.GameObj
 
             SMtransition.Add(PlayerEnum.WalkUp, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.Idle, PlayerEnum.IdleUp);
-            SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.WalkRight, PlayerEnum.Idle);
-            SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.WalkLeft, PlayerEnum.Idle);
+            SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.WalkRight, PlayerEnum.WalkUp);
+            SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkUp);
             SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.WalkUp, PlayerEnum.WalkUp);
-            SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.WalkDown, PlayerEnum.Idle);
+            SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.WalkDown, PlayerEnum.WalkUp);
 
             SMtransition.Add(PlayerEnum.IdleUp, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.Idle, PlayerEnum.IdleUp);
@@ -106,9 +110,9 @@ namespace BomberMan.GameObj
 
             SMtransition.Add(PlayerEnum.WalkDown, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.Idle, PlayerEnum.Idle);
-            SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.WalkRight, PlayerEnum.Idle);
-            SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.WalkLeft, PlayerEnum.Idle);
-            SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.WalkUp, PlayerEnum.IdleUp);
+            SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.WalkRight, PlayerEnum.WalkDown);
+            SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkDown);
+            SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.WalkUp, PlayerEnum.WalkDown);
             SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.WalkDown, PlayerEnum.WalkDown);
 
         }
@@ -124,31 +128,7 @@ namespace BomberMan.GameObj
             if (ElapsedTime > 10)
             {
                 ElapsedTime = 0;
-                if (InputHelper.IsKeyDown(Keys.Right))
-                {
-                    SMrequest(PlayerEnum.WalkRight);
-                    return;
-                }
 
-                if (InputHelper.IsKeyDown(Keys.Left))
-                {
-                    SMrequest(PlayerEnum.WalkLeft);
-                    return;
-                }
-
-                if (InputHelper.IsKeyDown(Keys.Up))
-                {
-                    SMrequest(PlayerEnum.WalkUp);
-                    return;
-                }
-
-                if (InputHelper.IsKeyDown(Keys.Down))
-                {
-                    SMrequest(PlayerEnum.WalkDown);
-                    return;
-                }
-
-                //состояние простоя (не нажата нии одна клавища)
 
                 if ((PlayerEnum)SMstate == PlayerEnum.WalkRight || (PlayerEnum)SMstate == PlayerEnum.WalkLeft)
                 {
@@ -162,13 +142,76 @@ namespace BomberMan.GameObj
                     return;
                 }
 
+
+                if (InputHelper.IsKeyDown(Keys.Right))
+                {
+                    //если мы не в квадрате то выходим
+                    if (PosWorldX % 48 != 0) return;
+
+                    //Проверка на возможность входа в квадрат
+                    foreach (GameObject O in GameObjects)
+                        if (O.PosWorldX == PosWorldX + 48 && O.PosWorldY == PosWorldY && O.isPassability == false) return;
+                    
+                    SMrequest(PlayerEnum.WalkRight);
+
+                }
+
+
+                if (InputHelper.IsKeyDown(Keys.Left))
+                {
+                    //если мы не в квадрате то выходим
+                    if (PosWorldX % 48 != 0) return;
+
+                    foreach (GameObject O in GameObjects)
+                        if (O.PosWorldX == PosWorldX - 48 && O.PosWorldY == PosWorldY && O.isPassability == false) return;
+                    
+                    SMrequest(PlayerEnum.WalkLeft);
+                    
+                }
+
+                if (InputHelper.IsKeyDown(Keys.Up))
+                {
+                    //если мы не в квадрате то выходим
+                    if (PosWorldY % 48 != 0) return;
+
+                    foreach (GameObject O in GameObjects)
+                        if (O.PosWorldX == PosWorldX  && O.PosWorldY+48 == PosWorldY && O.isPassability == false) return;
+
+                    SMrequest(PlayerEnum.WalkUp);
+                    
+                }
+
+                if (InputHelper.IsKeyDown(Keys.Down))
+                {
+                    //если мы не в квадрате то выходим
+                    if (PosWorldY % 48 != 0) return;
+
+                    foreach (GameObject O in GameObjects)
+                        if (O.PosWorldX == PosWorldX && O.PosWorldY - 48 == PosWorldY && O.isPassability == false) return;
+
+                    SMrequest(PlayerEnum.WalkDown);
+                    //return;
+                }
+
+                //Установка бомбы
+                if (InputHelper.IsKeyDown(Keys.Space))
+                {
+                    //если мы не в квадрате то выходим
+                    if (PosWorldY%48 != 0) return;
+
+                    //В клетке с бомбой может быть только 2 элемента игрок и пустое поле тогда только ставим бомбу
+                    if( GameObjects.FindAll(o => o.PosWorldX == PosWorldX && o.PosWorldY == PosWorldY).Count==2)
+                        GameObjects.Add(new Bomb(PosWorldX, PosWorldY, GameObjects));
+
+                    return;
+                }
             }
 
 
 
         }
 
-        
+
 
     }
 
@@ -176,7 +219,8 @@ namespace BomberMan.GameObj
     /// <summary>Игрок стоит на месте</summary>
     public class PlayerIdle : State
     {
-        public PlayerIdle(GameObject player): base(player)
+        public PlayerIdle(GameObject player)
+            : base(player)
         {
             Animation = new Animation(new List<Rectangle>() { new Rectangle(0 * 48, 11 * 48, 48, 48) });
         }
@@ -185,16 +229,18 @@ namespace BomberMan.GameObj
     /// <summary>Игрок стоит повернут в право</summary>
     public class PlayerIdleRight : State
     {
-        public PlayerIdleRight(GameObject player): base(player)
+        public PlayerIdleRight(GameObject player)
+            : base(player)
         {
-            Animation = new Animation(new List<Rectangle>() {new Rectangle(0*48, 12*48, 48, 48)});
+            Animation = new Animation(new List<Rectangle>() { new Rectangle(0 * 48, 12 * 48, 48, 48) });
         }
     }
 
     /// <summary>Игрок стоит повернут в лево</summary>
     public class PlayerIdleLeft : State
     {
-        public PlayerIdleLeft(GameObject player): base(player)
+        public PlayerIdleLeft(GameObject player)
+            : base(player)
         {
             Animation = new Animation(new List<Rectangle>() { new Rectangle(0 * 48, 10 * 48, 48, 48) });
         }
@@ -203,7 +249,8 @@ namespace BomberMan.GameObj
     /// <summary>Игрок стоит повернут в верх</summary>
     public class PlayerIdleUp : State
     {
-        public PlayerIdleUp(GameObject player): base(player)
+        public PlayerIdleUp(GameObject player)
+            : base(player)
         {
             Animation = new Animation(new List<Rectangle>() { new Rectangle(0 * 48, 9 * 48, 48, 48) });
         }
@@ -238,7 +285,7 @@ namespace BomberMan.GameObj
         }
 
     }
-    
+
     /// <summary>Игрок идет в лево</summary>
     public class PlayerWalkLeft : State
     {
@@ -273,7 +320,8 @@ namespace BomberMan.GameObj
     /// <summary>Игрок идет в вниз</summary>
     public class PlayerWalkDown : State
     {
-        public PlayerWalkDown(GameObject player): base(player)
+        public PlayerWalkDown(GameObject player)
+            : base(player)
         {
             Animation = new Animation(new List<Rectangle>()
             {
@@ -303,7 +351,8 @@ namespace BomberMan.GameObj
     /// <summary>Игрок идет в верх</summary>
     public class PlayerWalkUp : State
     {
-        public PlayerWalkUp(GameObject player): base(player)
+        public PlayerWalkUp(GameObject player)
+            : base(player)
         {
             Animation = new Animation(new List<Rectangle>()
             {

@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="GameObj\Animation.cs" />
     <Compile Include="CommonLib.cs" />
+    <Compile Include="GameObj\Bomb.cs" />
     <Compile Include="GameObj\BrickWall.cs" />
     <Compile Include="GameObj\GameObject.cs" />
     <Compile Include="GameObj\GamePhase.cs" />

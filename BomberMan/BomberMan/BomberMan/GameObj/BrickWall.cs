@@ -21,17 +21,14 @@ namespace BomberMan.GameObj
     }
 
 
-    class BrickWall:GameObject
+    class BrickWall:GameObject,Iexterminable
     {
         //конструктор
         public BrickWall(int x, int y) : base(x, y)
         {
-           
-            EnumState.Add(WallEnum.DestroyLeft, "Idle");
-
             ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(1 * 48, 0 * 48, 48, 48) })));
 
-            ObjectStates.Add(WallEnum.DestroyRight, new State(new Animation(new List<Rectangle>()
+            ObjectStates.Add(WallEnum.DestroyLeft, new State(new Animation(new List<Rectangle>()
             {
                 new Rectangle(0 * 48, 1 * 48, 48, 48),new Rectangle(1 * 48, 1 * 48, 48, 48),new Rectangle(2 * 48, 1 * 48, 48, 48),
                 new Rectangle(3 * 48, 1 * 48, 48, 48),new Rectangle(4 * 48, 1 * 48, 48, 48),new Rectangle(5 * 48, 1 * 48, 48, 48),
@@ -41,7 +38,7 @@ namespace BomberMan.GameObj
             }, 100, true, false, Destroy)));
 
 
-            ObjectStates.Add(WallEnum.DestroyLeft, new State(new Animation(new List<Rectangle>()
+            ObjectStates.Add(WallEnum.DestroyRight, new State(new Animation(new List<Rectangle>()
             {
                 new Rectangle(0 * 48, 2 * 48, 48, 48),new Rectangle(1 * 48, 2 * 48, 48, 48),new Rectangle(2 * 48, 2 * 48, 48, 48),
                 new Rectangle(3 * 48, 2 * 48, 48, 48),new Rectangle(4 * 48, 2 * 48, 48, 48),new Rectangle(5 * 48, 2 * 48, 48, 48),
@@ -51,7 +48,7 @@ namespace BomberMan.GameObj
             }, 100, true, false, Destroy)));
 
 
-            ObjectStates.Add(WallEnum.DestroyDown, new State(new Animation(new List<Rectangle>()
+            ObjectStates.Add(WallEnum.DestroyUp, new State(new Animation(new List<Rectangle>()
             {
                 new Rectangle(0 * 48, 3 * 48, 48, 48),new Rectangle(1 * 48, 3 * 48, 48, 48),new Rectangle(2 * 48, 3 * 48, 48, 48),
                 new Rectangle(3 * 48, 3 * 48, 48, 48),new Rectangle(4 * 48, 3 * 48, 48, 48),new Rectangle(5 * 48, 3 * 48, 48, 48),
@@ -61,7 +58,7 @@ namespace BomberMan.GameObj
             }, 100, true, false, Destroy)));
 
 
-            ObjectStates.Add(WallEnum.DestroyUp, new State(new Animation(new List<Rectangle>()
+            ObjectStates.Add(WallEnum.DestroyDown, new State(new Animation(new List<Rectangle>()
             {
                 new Rectangle(0 * 48, 4 * 48, 48, 48),new Rectangle(1 * 48, 4 * 48, 48, 48),new Rectangle(2 * 48, 4 * 48, 48, 48),
                 new Rectangle(3 * 48, 4 * 48, 48, 48),new Rectangle(4 * 48, 4 * 48, 48, 48),new Rectangle(5 * 48, 4 * 48, 48, 48),
@@ -79,5 +76,28 @@ namespace BomberMan.GameObj
             isAlive = false;
         }
 
+        public void Blow(BlowSide side)
+        {
+            //если стена еще не разрушается
+            if ((WallEnum) SMstate == WallEnum.Idle)
+            {
+                switch (side)
+                {
+                    case BlowSide.Left:
+                        ChangeState(WallEnum.DestroyLeft);
+                        break;
+                    case BlowSide.Right:
+                        ChangeState(WallEnum.DestroyRight);
+                        break;
+                    case BlowSide.Up:
+                        ChangeState(WallEnum.DestroyUp);
+                        break;
+                    case BlowSide.Down:
+                        ChangeState(WallEnum.DestroyDown);
+                        break;
+                    
+                }
+            }
+        }
     }
 }
