@@ -31,11 +31,13 @@ namespace BomberMan.GameObj
         Fire,
     }
 
-    class Player : GameObject
+    class Player : GameObject, Iexterminable
     {
 
         /// <summary>Время в тиках прошедшее после последнего действия</summary>
         private int ElapsedTime = 0;
+
+        public int BombPower = 3;
 
         //Количество однавремен
         //private int MaxBombCount = 1;
@@ -55,7 +57,7 @@ namespace BomberMan.GameObj
             ObjectStates.Add(PlayerEnum.WalkUp, new PlayerWalkUp(this));
             ObjectStates.Add(PlayerEnum.IdleUp, new PlayerIdleUp(this));
             ObjectStates.Add(PlayerEnum.WalkDown, new PlayerWalkDown(this));
-
+            ObjectStates.Add(PlayerEnum.Fire, new PlayerFire(this));
 
             ChangeState(PlayerEnum.Idle);
 
@@ -65,6 +67,8 @@ namespace BomberMan.GameObj
             SMtransition[PlayerEnum.Idle].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkLeft);
             SMtransition[PlayerEnum.Idle].Add(PlayerEnum.WalkUp, PlayerEnum.WalkUp);
             SMtransition[PlayerEnum.Idle].Add(PlayerEnum.WalkDown, PlayerEnum.WalkDown);
+            SMtransition[PlayerEnum.Idle].Add(PlayerEnum.Fire, PlayerEnum.Fire);
+
 
             SMtransition.Add(PlayerEnum.WalkRight, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.Idle, PlayerEnum.IdleRight);
@@ -72,6 +76,7 @@ namespace BomberMan.GameObj
             SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkRight);
             SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.WalkUp, PlayerEnum.WalkRight);
             SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.WalkDown, PlayerEnum.WalkRight);
+            SMtransition[PlayerEnum.WalkRight].Add(PlayerEnum.Fire, PlayerEnum.Fire);
 
             SMtransition.Add(PlayerEnum.IdleRight, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.Idle, PlayerEnum.IdleRight);
@@ -79,6 +84,7 @@ namespace BomberMan.GameObj
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkLeft, PlayerEnum.Idle);
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkUp, PlayerEnum.IdleUp);
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkDown, PlayerEnum.Idle);
+            SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.Fire, PlayerEnum.Fire);
 
             SMtransition.Add(PlayerEnum.WalkLeft, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.Idle, PlayerEnum.IdleLeft);
@@ -86,6 +92,7 @@ namespace BomberMan.GameObj
             SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkLeft);
             SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.WalkUp, PlayerEnum.WalkLeft);
             SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.WalkDown, PlayerEnum.WalkLeft);
+            SMtransition[PlayerEnum.WalkLeft].Add(PlayerEnum.Fire, PlayerEnum.Fire);
 
             SMtransition.Add(PlayerEnum.IdleLeft, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.Idle, PlayerEnum.IdleLeft);
@@ -93,6 +100,7 @@ namespace BomberMan.GameObj
             SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkLeft);
             SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.WalkUp, PlayerEnum.IdleUp);
             SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.WalkDown, PlayerEnum.Idle);
+            SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.Fire, PlayerEnum.Fire);
 
             SMtransition.Add(PlayerEnum.WalkUp, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.Idle, PlayerEnum.IdleUp);
@@ -100,6 +108,7 @@ namespace BomberMan.GameObj
             SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkUp);
             SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.WalkUp, PlayerEnum.WalkUp);
             SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.WalkDown, PlayerEnum.WalkUp);
+            SMtransition[PlayerEnum.WalkUp].Add(PlayerEnum.Fire, PlayerEnum.Fire);
 
             SMtransition.Add(PlayerEnum.IdleUp, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.Idle, PlayerEnum.IdleUp);
@@ -107,6 +116,7 @@ namespace BomberMan.GameObj
             SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.WalkLeft, PlayerEnum.Idle);
             SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.WalkUp, PlayerEnum.WalkUp);
             SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.WalkDown, PlayerEnum.Idle);
+            SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.Fire, PlayerEnum.Fire);
 
             SMtransition.Add(PlayerEnum.WalkDown, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.Idle, PlayerEnum.Idle);
@@ -114,6 +124,15 @@ namespace BomberMan.GameObj
             SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkDown);
             SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.WalkUp, PlayerEnum.WalkDown);
             SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.WalkDown, PlayerEnum.WalkDown);
+            SMtransition[PlayerEnum.WalkDown].Add(PlayerEnum.Fire, PlayerEnum.Fire);
+
+            SMtransition.Add(PlayerEnum.Fire, new Dictionary<Enum, Enum>());
+            SMtransition[PlayerEnum.Fire].Add(PlayerEnum.Idle, PlayerEnum.Fire);
+            SMtransition[PlayerEnum.Fire].Add(PlayerEnum.WalkRight, PlayerEnum.Fire);
+            SMtransition[PlayerEnum.Fire].Add(PlayerEnum.WalkLeft, PlayerEnum.Fire);
+            SMtransition[PlayerEnum.Fire].Add(PlayerEnum.WalkUp, PlayerEnum.Fire);
+            SMtransition[PlayerEnum.Fire].Add(PlayerEnum.WalkDown, PlayerEnum.Fire);
+            SMtransition[PlayerEnum.Fire].Add(PlayerEnum.Fire, PlayerEnum.Fire);
 
         }
 
@@ -129,6 +148,13 @@ namespace BomberMan.GameObj
             {
                 ElapsedTime = 0;
 
+
+                //Установка бомбы
+                if (InputHelper.KeyPressed(Keys.Space))
+                {
+                    DropBomb();
+
+                }
 
                 if ((PlayerEnum)SMstate == PlayerEnum.WalkRight || (PlayerEnum)SMstate == PlayerEnum.WalkLeft)
                 {
@@ -151,7 +177,7 @@ namespace BomberMan.GameObj
                     //Проверка на возможность входа в квадрат
                     foreach (GameObject O in GameObjects)
                         if (O.PosWorldX == PosWorldX + 48 && O.PosWorldY == PosWorldY && O.isPassability == false) return;
-                    
+
                     SMrequest(PlayerEnum.WalkRight);
 
                 }
@@ -164,9 +190,9 @@ namespace BomberMan.GameObj
 
                     foreach (GameObject O in GameObjects)
                         if (O.PosWorldX == PosWorldX - 48 && O.PosWorldY == PosWorldY && O.isPassability == false) return;
-                    
+
                     SMrequest(PlayerEnum.WalkLeft);
-                    
+
                 }
 
                 if (InputHelper.IsKeyDown(Keys.Up))
@@ -175,10 +201,10 @@ namespace BomberMan.GameObj
                     if (PosWorldY % 48 != 0) return;
 
                     foreach (GameObject O in GameObjects)
-                        if (O.PosWorldX == PosWorldX  && O.PosWorldY+48 == PosWorldY && O.isPassability == false) return;
+                        if (O.PosWorldX == PosWorldX && O.PosWorldY + 48 == PosWorldY && O.isPassability == false) return;
 
                     SMrequest(PlayerEnum.WalkUp);
-                    
+
                 }
 
                 if (InputHelper.IsKeyDown(Keys.Down))
@@ -193,26 +219,133 @@ namespace BomberMan.GameObj
                     //return;
                 }
 
-                //Установка бомбы
-                if (InputHelper.IsKeyDown(Keys.Space))
+
+
+
+                //Востание из мертвых
+                if (InputHelper.IsKeyDown(Keys.R))
                 {
-                    //если мы не в квадрате то выходим
-                    if (PosWorldY%48 != 0) return;
+                    //ObjectStates.Add(PlayerEnum.Fire, new PlayerFire(this));
+                    ObjectStates[PlayerEnum.Fire].Animation.SpriteCurentFrameNum = 0;
+                    ObjectStates[PlayerEnum.Fire].Animation.isAnimated = true;
+                    PosWorldX = 48;
+                    PosWorldY = 48;
 
-                    //В клетке с бомбой может быть только 2 элемента игрок и пустое поле тогда только ставим бомбу
-                    if( GameObjects.FindAll(o => o.PosWorldX == PosWorldX && o.PosWorldY == PosWorldY).Count==2)
-                        GameObjects.Add(new Bomb(PosWorldX, PosWorldY, GameObjects));
-
+                    SMstate = PlayerEnum.Idle;
+                    ChangeState(PlayerEnum.Idle);
                     return;
                 }
+
+                //Для тестовых целей 
+                if (InputHelper.IsKeyDown(Keys.T))
+                {
+                    //ObjectStates.Add(PlayerEnum.Fire, new PlayerFire(this));
+                    ObjectStates[PlayerEnum.Fire].Animation.SpriteCurentFrameNum = 0;
+                    ObjectStates[PlayerEnum.Fire].Animation.isAnimated = true;
+                    PosWorldX = 48*5;
+                    PosWorldY = 48;
+
+                    SMstate = PlayerEnum.Idle;
+                    ChangeState(PlayerEnum.Idle);
+                    return;
+                }
+
             }
 
 
 
         }
 
+        /// <summary>Игрок пытается установить бомбу</summary>
+        public void DropBomb()
+        {
+            int x, y;
 
+            //Debug.WriteLine("Pos: " + PosWorldX + "  " + PosWorldY);
 
+            //если мы в квадрате 
+            if (PosWorldY % 48 == 0 && PosWorldX % 48 == 0)
+            {
+                //В клетке с бомбой может быть только 2 элемента игрок и пустое поле тогда только ставим бомбу
+                if (GameObjects.FindAll(o => o.PosWorldX == PosWorldX && o.PosWorldY == PosWorldY).Count == 2)
+                    GameObjects.Add(new Bomb(PosWorldX, PosWorldY, BombPower, GameObjects));
+            }
+            else //мы не в квадрате
+            {
+                //если идем в право
+                if ((PlayerEnum)SMstate == PlayerEnum.WalkRight)
+                {
+                    y = PosWorldY;
+                    x = PosWorldX - PosWorldX % 48;
+                    if (PosWorldX % 48 > 38)
+                    {
+                        if (isEmptyCell(x + 48, y)) GameObjects.Add(new Bomb(x + 48, y, BombPower, GameObjects));
+                    }
+                    else
+                    {
+                        if (isEmptyCell(x, y)) GameObjects.Add(new Bomb(x, y, BombPower, GameObjects));
+                    }
+                }
+
+                //если идем в низ
+                if ((PlayerEnum)SMstate == PlayerEnum.WalkDown)
+                {
+                    x = PosWorldX;
+                    y = PosWorldY - PosWorldY % 48;
+                    if (PosWorldY % 48 > 38)
+                    {
+                        if (isEmptyCell(x , y+48)) GameObjects.Add(new Bomb(x , y+48, BombPower, GameObjects));
+                    }
+                    else
+                    {
+                        if (isEmptyCell(x, y)) GameObjects.Add(new Bomb(x, y, BombPower, GameObjects));
+                    }
+                }
+
+                //если идем в лево
+                if ((PlayerEnum)SMstate == PlayerEnum.WalkLeft)
+                {
+                    y = PosWorldY;
+                    x = PosWorldX - PosWorldX % 48 + 48;
+                    if (PosWorldX % 48 > 10)
+                    {
+                        if (isEmptyCell(x, y)) GameObjects.Add(new Bomb(x, y, BombPower, GameObjects));
+                    }
+                    else
+                    {
+                        if (isEmptyCell(x-48, y)) GameObjects.Add(new Bomb(x-48, y, BombPower, GameObjects));
+                    }
+                }
+
+                //если идем в верх
+                if ((PlayerEnum)SMstate == PlayerEnum.WalkUp)
+                {
+                    x = PosWorldX;
+                    y = PosWorldY - PosWorldY % 48 + 48;
+                    if (PosWorldY % 48 > 10)
+                    {
+                        if (isEmptyCell(x, y)) GameObjects.Add(new Bomb(x, y, BombPower, GameObjects));
+                    }
+                    else
+                    {
+                        if (isEmptyCell(x , y-48)) GameObjects.Add(new Bomb(x , y-48, BombPower, GameObjects));
+                    }
+                }
+                
+            }
+        }
+
+        /// <summary>пуста ли клетка ??</summary>
+        public bool isEmptyCell(int x, int y)
+        {
+            return GameObjects.FindAll(o => o.PosWorldX == x && o.PosWorldY == y).Count == 1;
+        }
+
+        /// <summary>Игрок подорвался на бомбе</summary>
+        public void Blow(BlowSide side)
+        {
+            ChangeState(PlayerEnum.Fire);
+        }
     }
 
 
@@ -380,19 +513,26 @@ namespace BomberMan.GameObj
 
     }
 
+    /// <summary>Игрок горит (подорвался на бомбе)</summary>
+    public class PlayerFire : State
+    {
+        public PlayerFire(GameObject player)
+            : base(player)
+        {
+            Animation = new Animation(new List<Rectangle>()
+            {
+                new Rectangle(0*48, 30*48, 48, 48),new Rectangle(1*48, 30*48, 48, 48),new Rectangle(2*48, 30*48, 48, 48),
+                new Rectangle(3*48, 30*48, 48, 48),new Rectangle(4*48, 30*48, 48, 48),new Rectangle(5*48, 30*48, 48, 48),
+                new Rectangle(6*48, 30*48, 48, 48),new Rectangle(7*48, 30*48, 48, 48),new Rectangle(8*48, 30*48, 48, 48),
+                new Rectangle(9*48, 30*48, 48, 48),new Rectangle(10*48, 30*48, 48, 48),new Rectangle(11*48, 30*48, 48, 48),
+                new Rectangle(12*48, 30*48, 48, 48),new Rectangle(13*48, 30*48, 48, 48),new Rectangle(14*48, 30*48, 48, 48),
+                new Rectangle(15*48, 30*48, 48, 48),new Rectangle(16*48, 30*48, 48, 48),new Rectangle(17*48, 30*48, 48, 48),
+                new Rectangle(18*48, 30*48, 48, 48),new Rectangle(19*48, 30*48, 48, 48),new Rectangle(0*48, 31*48, 48, 48),
+                new Rectangle(1*48, 31*48, 48, 48),
+            }, 80, true, false);
+        }
+    }
+
+
 }
 
-
-
-
-//            ObjectStates.Add(PlayerEnum.Fire, new State(new Animation(new List<Rectangle>()
-//            {
-//                new Rectangle(0 * 48, 30 * 48, 48, 48),new Rectangle(1 * 48, 30 * 48, 48, 48),new Rectangle(2 * 48, 30 * 48, 48, 48),
-//                new Rectangle(3 * 48, 30 * 48, 48, 48),new Rectangle(4 * 48, 30 * 48, 48, 48),new Rectangle(5 * 48, 30 * 48, 48, 48),
-//                new Rectangle(6 * 48, 30 * 48, 48, 48),new Rectangle(7 * 48, 30 * 48, 48, 48),new Rectangle(8 * 48, 30 * 48, 48, 48),
-//                new Rectangle(9 * 48, 30 * 48, 48, 48),new Rectangle(10 * 48, 30 * 48, 48, 48),new Rectangle(11 * 48, 30 * 48, 48, 48),
-//                new Rectangle(12 * 48, 30 * 48, 48, 48),new Rectangle(13 * 48, 30 * 48, 48, 48),new Rectangle(14 * 48, 30 * 48, 48, 48),
-//                new Rectangle(15 * 48, 30 * 48, 48, 48),new Rectangle(16 * 48, 30 * 48, 48, 48),new Rectangle(17 * 48, 30 * 48, 48, 48),
-//                new Rectangle(18 * 48, 30 * 48, 48, 48),new Rectangle(19 * 48, 30 * 48, 48, 48),
-//                new Rectangle(0 * 48, 31 * 48, 48, 48),new Rectangle(1 * 48, 31 * 48, 48, 48),
-//            }, 80, true, false)));

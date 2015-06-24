@@ -19,7 +19,7 @@ namespace BomberMan
         public Rectangle SpritePos { get { return SpriteList[SpriteCurentFrameNum]; } }
 
         /// <summary>Есть ли анимация</summary> 
-        private bool isAnimated;
+        public bool isAnimated;
 
         /// <summary>Круговая анимация ?</summary>
         private bool isLoop;

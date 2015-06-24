@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -21,130 +23,251 @@ namespace BomberMan.GameObj
         Explosion
     }
 
-    public class Bomb : GameObject
+    public class Bomb : GameObject, Iexterminable
     {
 
-        protected int ExplPower = 3;
+        protected int ExplPower = 1;
 
-        public Bomb(int x, int y, List<GameObject> O)
+        /// <summary>Правый-левый рукав взрыва</summary>
+        protected SortedSet<Point> ExpListX = new SortedSet<Point>(new SortByX());
+
+        /// <summary>Верхний-нижний рукав взрыва</summary>
+        protected SortedSet<Point> ExpListY = new SortedSet<Point>(new SortByY());
+
+        public Bomb(int x, int y, int explPower, List<GameObject> O)
             : base(x, y)
         {
+            
+            //Debug.WriteLine("Bomb "+x+"  "+y);
+            
             GameObjects = O;
+            ExplPower = explPower;
 
             ObjectStates.Add(BombEnum.Inflation, new State(new Animation(new List<Rectangle>()
             {
+                new Rectangle(3 * 48, 6 * 48, 48, 48),new Rectangle(2 * 48, 6 * 48, 48, 48),new Rectangle(1 * 48, 6 * 48, 48, 48),new Rectangle(0 * 48, 6 * 48, 48, 48),
                 new Rectangle(0 * 48, 5 * 48, 48, 48),new Rectangle(0 * 48, 5 * 48, 48, 48),new Rectangle(1 * 48, 5 * 48, 48, 48),new Rectangle(2 * 48, 5 * 48, 48, 48),
                 new Rectangle(3 * 48, 5 * 48, 48, 48),new Rectangle(4 * 48, 5 * 48, 48, 48),new Rectangle(5 * 48, 5 * 48, 48, 48),
                 new Rectangle(6 * 48, 5 * 48, 48, 48),new Rectangle(7 * 48, 5 * 48, 48, 48),new Rectangle(8 * 48, 5 * 48, 48, 48),
                 new Rectangle(9 * 48, 5 * 48, 48, 48),new Rectangle(10 * 48, 5 * 48, 48, 48),new Rectangle(11 * 48, 5 * 48, 48, 48)
-            }, 100, true, false, Explosion)));
+            }, 120, true, false, Explosion)));
+
+
+            ObjectStates.Add(BombEnum.Explosion, new State(new Animation(new List<Rectangle>()
+            {
+                new Rectangle(12 * 48, 2 * 48, 48, 48)
+            }, 10, true, false, Explosion)));
 
             ChangeState(BombEnum.Inflation);
         }
 
         public void Explosion()
         {
+            //объект бомба надо удалить
+            isAlive = false;
+
             //конец цепочки взрывов
             bool ExplEnd = false;
 
-            //координаты правого рукова взрыва
-            //List<Point> ExpListRight = new List<Point>();
-            List<GameObject> ExpListRight = new List<GameObject>();
+            //ставим центр взрыва
+            GameObjects.Add(new ExplCentr(PosWorldX, PosWorldY, GameObjects));
 
+
+            #region Правая ветвь взрыва
+            //Проходим по всей возможной длинне взрыва
             for (int i = 0; i < ExplPower && !ExplEnd; i++)
             {
+                //Перебираем все объекты
                 foreach (GameObject O in GameObjects)
                 {
-                    if (O.PosWorldX == PosWorldX + (48 * i) && O.PosWorldY == PosWorldY)
+                    if (O.PosWorldX == PosWorldX + (48 * (i + 1)) && O.PosWorldY == PosWorldY)
                     {
+                        //Если встретили стену. прерываем
                         if (O is StoneWall || O is SteelWall) { ExplEnd = true; break; }
 
-                        if (O is BrickWall)
-                        {
-                            ExplEnd = true;
-                            ExpListRight.Add(O);
-                            break;
-                        }
-                        ExpListRight.Add(O);
+                        //заносим коордитаы взрыва в список
+                        ExpListX.Add(new Point(O.PosWorldX, O.PosWorldY));
+
+                        //взрываем объект который попал в плямя взрыва
+                        if (O is Iexterminable) ((Iexterminable)(O)).Blow(BlowSide.Right);
+
+                        if (O is BrickWall) { ExplEnd = true; break; }
+
+                        continue;
+
+                    } //если объект несовсем в сетке
+                    else if ((O.PosWorldY - PosWorldY) * (O.PosWorldY - PosWorldY) +
+                             (O.PosWorldX - (PosWorldX + (48 * (i + 1)))) * (O.PosWorldX - (PosWorldX + (48 * (i + 1))))
+                             < 48 * 48)
+                    {
+                        if (O is Iexterminable) ((Iexterminable)(O)).Blow(BlowSide.Right);
                     }
                 }
             }
 
-
-            if (ExpListRight.Count > 0)
+            //отображаем получившуюся цепочку взрыва
+            if (ExpListX.Count > 0)
             {
-                //for (int i = 0; i < ExpListRight.Count-2; i++)
-                //{
-                //    GameObjects.Add(new ExplRight(ExpListRight[i].X, ExpListRight[i].Y,GameObjects));
-                //}
 
-                //GameObjects.Add(new ExplRight(ExpListRight.Last().X, ExpListRight.Last().Y, GameObjects));
+                for (int i = 0; i < ExpListX.Count - 1; i++)
+                {
+                    GameObjects.Add(new ExplRight(ExpListX.ElementAt(i).X, ExpListX.ElementAt(i).Y, GameObjects));
+                }
+                //ставим концовку взрыва
+                GameObjects.Add(new ExplRightEnd(ExpListX.Last().X, ExpListX.Last().Y, GameObjects));
+            }
+            #endregion
+
+            #region Левая ветвь взрыва
+
+            ExpListX.Clear();
+            ExplEnd = false;
+
+            //Проходим по всей возможной длинне взрыва
+            for (int i = 0; i < ExplPower && !ExplEnd; i++)
+            {
+                //Перебираем все объекты
+                foreach (GameObject O in GameObjects)
+                {
+                    if (O.PosWorldX == PosWorldX - (48 * (i + 1)) && O.PosWorldY == PosWorldY)
+                    {
+                        //Если встретили стену. прерываем
+                        if (O is StoneWall || O is SteelWall) { ExplEnd = true; break; }
+
+                        //заносим коордитаы взрыва в список
+                        ExpListX.Add(new Point(O.PosWorldX, O.PosWorldY));
+
+                        //взрываем объект который попал в плямя взрыва
+                        if (O is Iexterminable) ((Iexterminable)(O)).Blow(BlowSide.Left);
+
+                        if (O is BrickWall) { ExplEnd = true; break; }
+
+                    }//если объект несовсем в сетке
+                    else if ((O.PosWorldY - PosWorldY) * (O.PosWorldY - PosWorldY) +
+                             (O.PosWorldX - (PosWorldX - (48 * (i + 1)))) * (O.PosWorldX - (PosWorldX - (48 * (i + 1))))
+                             < 48 * 48)
+                    {
+                        if (O is Iexterminable) ((Iexterminable)(O)).Blow(BlowSide.Right);
+                    }
+                }
             }
 
+            //отображаем получившуюся цепочку взрыва
+            if (ExpListX.Count > 0)
+            {
+                for (int i = ExpListX.Count - 1; i > 0; i--)
+                {
+                    GameObjects.Add(new ExplLeft(ExpListX.ElementAt(i).X, ExpListX.ElementAt(i).Y, GameObjects));
+                }
+                //ставим концовку взрыва
+                GameObjects.Add(new ExplLeftEnd(ExpListX.First().X, ExpListX.First().Y, GameObjects));
+            }
+            #endregion
+
+            #region Нижняя ветвь взрыва
+            ExplEnd = false;
+
+            //Проходим по всей возможной длинне взрыва
+            for (int i = 0; i < ExplPower && !ExplEnd; i++)
+            {
+                //Перебираем все объекты
+                foreach (GameObject O in GameObjects)
+                {
+                    if (O is Player)
+                    {
+                        
+                    }
+
+                    if (O.PosWorldY == PosWorldY + (48 * (i + 1)) && O.PosWorldX == PosWorldX)
+                    {
+                        //Если встретили стену. прерываем
+                        if (O is StoneWall || O is SteelWall) { ExplEnd = true; break; }
+
+                        //заносим коордитаы взрыва в список
+                        ExpListY.Add(new Point(O.PosWorldX, O.PosWorldY));
+
+                        //взрываем объект который попал в плямя взрыва
+                        if (O is Iexterminable) ((Iexterminable)(O)).Blow(BlowSide.Down);
+
+                        if (O is BrickWall) { ExplEnd = true; break; }
+
+                    }//если объект несовсем в сетке
+                    else if ((O.PosWorldX - PosWorldX) * (O.PosWorldX - PosWorldX) +
+                             (O.PosWorldY - (PosWorldY + (48 * (i + 1)))) * (O.PosWorldY - (PosWorldY + (48 * (i + 1))))
+                             <48*48)
+
+                        
+                    {
+                        if (O is Iexterminable) ((Iexterminable)(O)).Blow(BlowSide.Right);
+                    }
+                }
+            }
+
+            //отображаем получившуюся цепочку взрыва
+            if (ExpListY.Count > 0)
+            {
+
+                for (int i = 0; i < ExpListY.Count - 1; i++)
+                {
+                    GameObjects.Add(new ExplDown(ExpListY.ElementAt(i).X, ExpListY.ElementAt(i).Y, GameObjects));
+                }
+                //ставим концовку взрыва
+                GameObjects.Add(new ExplDownEnd(ExpListY.Last().X, ExpListY.Last().Y, GameObjects));
+            }
+            #endregion
+
+            #region Верхняя ветвь взрыва
+            ExplEnd = false;
+            ExpListY.Clear();
+
+            //Проходим по всей возможной длинне взрыва
+            for (int i = 0; i < ExplPower && !ExplEnd; i++)
+            {
+                //Перебираем все объекты
+                foreach (GameObject O in GameObjects)
+                {
+                    if (O.PosWorldY == PosWorldY - (48 * (i + 1)) && O.PosWorldX == PosWorldX)
+                    {
+                        //Если встретили стену. прерываем
+                        if (O is StoneWall || O is SteelWall) { ExplEnd = true; break; }
+
+                        //заносим коордитаы взрыва в список
+                        ExpListY.Add(new Point(O.PosWorldX, O.PosWorldY));
+
+                        //взрываем объект который попал в плямя взрыва
+                        if (O is Iexterminable) ((Iexterminable)(O)).Blow(BlowSide.Up);
+
+                        if (O is BrickWall) { ExplEnd = true; break; }
+
+                    }
+                    else if ((O.PosWorldX - PosWorldX) * (O.PosWorldX - PosWorldX) +
+                             (O.PosWorldY - (PosWorldY - (48 * (i + 1)))) * (O.PosWorldY - (PosWorldY - (48 * (i + 1))))
+                             < 48 * 48)
+                    {
+                        if (O is Iexterminable) ((Iexterminable)(O)).Blow(BlowSide.Right);
+                    }
+                }
+            }
+
+            //отображаем получившуюся цепочку взрыва
+            if (ExpListY.Count > 0)
+            {
+
+                for (int i = ExpListY.Count - 1; i > 0; i--)
+                {
+                    GameObjects.Add(new ExplUp(ExpListY.ElementAt(i).X, ExpListY.ElementAt(i).Y, GameObjects));
+                }
+                //ставим концовку взрыва
+                GameObjects.Add(new ExplUpEnd(ExpListY.First().X, ExpListY.First().Y, GameObjects));
+            }
+            #endregion
         }
 
-        //public void Explosion()
-        //{
-        //    //объект бомба надо удалить
-        //    isAlive = false;
-
-        //    //Ставим центр взрыва
-        //    GameObjects.Add(new ExplCentr(PosWorldX, PosWorldY, GameObjects));
-
-        //    //флаг если концовка у взрыва
-        //    bool ExplEnd = true;
-
-        //    //расставляем взрывы по длинне
-        //    for (int i = 0; i < ExplPower; i++)
-        //    {
-        //        GameObjects.Find(o => 
-        //        {
-        //            if (o.PosWorldX == PosWorldX + (48*i) && o.PosWorldY == PosWorldY)
-        //            {
-        //                if (o is StoneWall || o is SteelWall ){ExplEnd = false;return true;}
-
-        //                if (o is BrickWall)
-        //                {
-        //                    o.ChangeState(WallEnum.DestroyLeft);
-        //                    //концовки взрыва не будет уперлись в сену
-        //                    ExplEnd = false;
-        //                    GameObjects.Add(new ExplRightEnd(PosWorldX + (48 * i), PosWorldY, GameObjects));
-        //                    return true;
-        //                }
-        //            }
-        //            return false;
-        //        });
-        //        //если в предыдущих итерациях наткнулись на стену то выходим
-        //        if(!ExplEnd)break;
-
-        //        GameObjects.Add(new ExplRight(PosWorldX + (48 * i), PosWorldY, GameObjects));
-        //    }
-
-        //    //расставляем концовку взрыва
-        //    if (ExplEnd)
-        //    {
-        //        GameObjects.Find(o =>
-        //            {
-        //                if (o.PosWorldX == PosWorldX + (48 * ExplPower) && o.PosWorldY == PosWorldY)
-        //                {
-        //                    if (o is StoneWall || o is SteelWall) { ExplEnd = false; return true; }
-
-        //                    if (o is BrickWall)
-        //                    {
-        //                        o.ChangeState(WallEnum.DestroyLeft);
-        //                        GameObjects.Add(new ExplRightEnd(PosWorldX + (48 * ExplPower), PosWorldY, GameObjects));
-        //                        ExplEnd = false;
-        //                        return true;
-        //                    }
-
-        //                }
-        //                return false;
-        //            });
-
-        //        if (ExplEnd) GameObjects.Add(new ExplRightEnd(PosWorldX + (48 * ExplPower), PosWorldY, GameObjects));
-
-        //    }
-        //}
+        /// <summary>Если бомба попала под другой взрыв </summary>
+        public void Blow(BlowSide side)
+        {
+            ChangeState(BombEnum.Explosion);
+        }
     }
 
     /// <summary>Центр взрыва</summary>
@@ -432,6 +555,26 @@ namespace BomberMan.GameObj
         public void Final()
         {
             isAlive = false;
+        }
+    }
+
+    public class SortByX : IComparer<Point>
+    {
+        public int Compare(Point x, Point y)
+        {
+            if (x.X > y.X) return 1;
+            if (x.X < y.X) return -1;
+            return 0;
+        }
+    }
+
+    public class SortByY : IComparer<Point>
+    {
+        public int Compare(Point x, Point y)
+        {
+            if (x.Y > y.Y) return 1;
+            if (x.Y < y.Y) return -1;
+            return 0;
         }
     }
 }
