@@ -34,19 +34,20 @@ namespace BomberMan.GameObj
     class Player : GameObject, Iexterminable
     {
 
-        /// <summary>Время в тиках прошедшее после последнего действия</summary>
-        private int ElapsedTime = 0;
-
         public int BombPower = 3;
 
         //Количество однавремен
         //private int MaxBombCount = 1;
+
+        public IBombarda BombGun;
 
         //конструктор
         public Player(int x, int y, List<GameObject> O)
             : base(x, y)
         {
             GameObjects = O;
+
+            BombGun = new SampleBombGun(GameObjects);
 
             //Задание состояний
             ObjectStates.Add(PlayerEnum.Idle, new PlayerIdle(this));
@@ -82,8 +83,8 @@ namespace BomberMan.GameObj
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.Idle, PlayerEnum.IdleRight);
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkRight, PlayerEnum.WalkRight);
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkLeft, PlayerEnum.Idle);
-            SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkUp, PlayerEnum.IdleUp);
-            SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkDown, PlayerEnum.Idle);
+            SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkUp, PlayerEnum.WalkUp);
+            SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.WalkDown, PlayerEnum.WalkDown);
             SMtransition[PlayerEnum.IdleRight].Add(PlayerEnum.Fire, PlayerEnum.Fire);
 
             SMtransition.Add(PlayerEnum.WalkLeft, new Dictionary<Enum, Enum>());
@@ -98,8 +99,8 @@ namespace BomberMan.GameObj
             SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.Idle, PlayerEnum.IdleLeft);
             SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.WalkRight, PlayerEnum.Idle);
             SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkLeft);
-            SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.WalkUp, PlayerEnum.IdleUp);
-            SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.WalkDown, PlayerEnum.Idle);
+            SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.WalkUp, PlayerEnum.WalkUp);
+            SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.WalkDown, PlayerEnum.WalkDown);
             SMtransition[PlayerEnum.IdleLeft].Add(PlayerEnum.Fire, PlayerEnum.Fire);
 
             SMtransition.Add(PlayerEnum.WalkUp, new Dictionary<Enum, Enum>());
@@ -112,8 +113,8 @@ namespace BomberMan.GameObj
 
             SMtransition.Add(PlayerEnum.IdleUp, new Dictionary<Enum, Enum>());
             SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.Idle, PlayerEnum.IdleUp);
-            SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.WalkRight, PlayerEnum.Idle);
-            SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.WalkLeft, PlayerEnum.Idle);
+            SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.WalkRight, PlayerEnum.WalkRight);
+            SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.WalkLeft, PlayerEnum.WalkLeft);
             SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.WalkUp, PlayerEnum.WalkUp);
             SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.WalkDown, PlayerEnum.Idle);
             SMtransition[PlayerEnum.IdleUp].Add(PlayerEnum.Fire, PlayerEnum.Fire);
@@ -142,118 +143,99 @@ namespace BomberMan.GameObj
 
             State.Update(gameTime);
 
-            ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-
-            if (ElapsedTime > 10)
+            //Установка бомбы
+            if (InputHelper.KeyPressed(Keys.Space))
             {
-                ElapsedTime = 0;
-
-
-                //Установка бомбы
-                if (InputHelper.KeyPressed(Keys.Space))
-                {
-                    DropBomb();
-
-                }
-
-                if ((PlayerEnum)SMstate == PlayerEnum.WalkRight || (PlayerEnum)SMstate == PlayerEnum.WalkLeft)
-                {
-                    if (PosWorldX % 48 == 0) SMrequest(PlayerEnum.Idle);
-                    return;
-                }
-
-                if ((PlayerEnum)SMstate == PlayerEnum.WalkUp || (PlayerEnum)SMstate == PlayerEnum.WalkDown)
-                {
-                    if (PosWorldY % 48 == 0) SMrequest(PlayerEnum.Idle);
-                    return;
-                }
-
-
-                if (InputHelper.IsKeyDown(Keys.Right))
-                {
-                    //если мы не в квадрате то выходим
-                    if (PosWorldX % 48 != 0) return;
-
-                    //Проверка на возможность входа в квадрат
-                    foreach (GameObject O in GameObjects)
-                        if (O.PosWorldX == PosWorldX + 48 && O.PosWorldY == PosWorldY && O.isPassability == false) return;
-
-                    SMrequest(PlayerEnum.WalkRight);
-
-                }
-
-
-                if (InputHelper.IsKeyDown(Keys.Left))
-                {
-                    //если мы не в квадрате то выходим
-                    if (PosWorldX % 48 != 0) return;
-
-                    foreach (GameObject O in GameObjects)
-                        if (O.PosWorldX == PosWorldX - 48 && O.PosWorldY == PosWorldY && O.isPassability == false) return;
-
-                    SMrequest(PlayerEnum.WalkLeft);
-
-                }
-
-                if (InputHelper.IsKeyDown(Keys.Up))
-                {
-                    //если мы не в квадрате то выходим
-                    if (PosWorldY % 48 != 0) return;
-
-                    foreach (GameObject O in GameObjects)
-                        if (O.PosWorldX == PosWorldX && O.PosWorldY + 48 == PosWorldY && O.isPassability == false) return;
-
-                    SMrequest(PlayerEnum.WalkUp);
-
-                }
-
-                if (InputHelper.IsKeyDown(Keys.Down))
-                {
-                    //если мы не в квадрате то выходим
-                    if (PosWorldY % 48 != 0) return;
-
-                    foreach (GameObject O in GameObjects)
-                        if (O.PosWorldX == PosWorldX && O.PosWorldY - 48 == PosWorldY && O.isPassability == false) return;
-
-                    SMrequest(PlayerEnum.WalkDown);
-                    //return;
-                }
-
-
-
-
-                //Востание из мертвых
-                if (InputHelper.IsKeyDown(Keys.R))
-                {
-                    //ObjectStates.Add(PlayerEnum.Fire, new PlayerFire(this));
-                    ObjectStates[PlayerEnum.Fire].Animation.SpriteCurentFrameNum = 0;
-                    ObjectStates[PlayerEnum.Fire].Animation.isAnimated = true;
-                    PosWorldX = 48;
-                    PosWorldY = 48;
-
-                    SMstate = PlayerEnum.Idle;
-                    ChangeState(PlayerEnum.Idle);
-                    return;
-                }
-
-                //Для тестовых целей 
-                if (InputHelper.IsKeyDown(Keys.T))
-                {
-                    //ObjectStates.Add(PlayerEnum.Fire, new PlayerFire(this));
-                    ObjectStates[PlayerEnum.Fire].Animation.SpriteCurentFrameNum = 0;
-                    ObjectStates[PlayerEnum.Fire].Animation.isAnimated = true;
-                    PosWorldX = 48*5;
-                    PosWorldY = 48;
-
-                    SMstate = PlayerEnum.Idle;
-                    ChangeState(PlayerEnum.Idle);
-                    return;
-                }
+                DropBomb();
 
             }
 
+            if ((PlayerEnum)SMstate == PlayerEnum.WalkRight || (PlayerEnum)SMstate == PlayerEnum.WalkLeft)
+            {
+                if (PosWorldX % 48 == 0) SMrequest(PlayerEnum.Idle);
+            }
 
+            if ((PlayerEnum)SMstate == PlayerEnum.WalkUp || (PlayerEnum)SMstate == PlayerEnum.WalkDown)
+            {
+                if (PosWorldY % 48 == 0) SMrequest(PlayerEnum.Idle);
+            }
 
+            
+            for (int i = InputHelper.KeyStatePrioryti.Count-1; i >= 0; i--)
+            {
+                switch (InputHelper.KeyStatePrioryti[i])
+                {
+                        case Keys.Left:
+                            TryGoLeft(); break;
+                        case Keys.Right:
+                            TryGoRight(); break;
+                        case Keys.Up:
+                            TryGoUp(); break;
+                        case Keys.Down:
+                            TryGoDown(); break;
+                }
+            }
+
+           
+            //Востание из мертвых
+            if (InputHelper.IsKeyDown(Keys.R))
+            {
+                //ObjectStates.Add(PlayerEnum.Fire, new PlayerFire(this));
+                ObjectStates[PlayerEnum.Fire].Animation.SpriteCurentFrameNum = 0;
+                ObjectStates[PlayerEnum.Fire].Animation.isAnimated = true;
+                PosWorldX = 48;
+                PosWorldY = 48;
+
+                SMstate = PlayerEnum.Idle;
+                ChangeState(PlayerEnum.Idle);
+                return;
+            }
+
+            //Для тестовых целей 
+            if (InputHelper.IsKeyDown(Keys.T))
+            {
+                //ObjectStates.Add(PlayerEnum.Fire, new PlayerFire(this));
+                ObjectStates[PlayerEnum.Fire].Animation.SpriteCurentFrameNum = 0;
+                ObjectStates[PlayerEnum.Fire].Animation.isAnimated = true;
+                PosWorldX = 48 * 5+30;
+                PosWorldY = 48;
+
+                SMstate = PlayerEnum.Idle;
+                ChangeState(PlayerEnum.Idle);
+                return;
+            }
+
+        }
+
+        /// <summary>Хождение по сторонам</summary>
+        private void TryGoDown()
+        {
+            if (PosWorldY % 48 == 0 && PassabilityCheck(PosWorldX, PosWorldY + 48)) SMrequest(PlayerEnum.WalkDown);
+        }
+
+        private void TryGoUp()
+        {
+            if (PosWorldY % 48 == 0 && PassabilityCheck(PosWorldX, PosWorldY - 48)) SMrequest(PlayerEnum.WalkUp);
+        }
+
+        private void TryGoLeft()
+        {
+            if (PosWorldX%48 == 0 && PassabilityCheck(PosWorldX - 48, PosWorldY)) SMrequest(PlayerEnum.WalkLeft);
+        }
+
+        private void TryGoRight()
+        {
+            if (PosWorldX%48 == 0 && PassabilityCheck(PosWorldX + 48, PosWorldY)) SMrequest(PlayerEnum.WalkRight);
+        }
+
+        /// <summary>Проверка проходим ли данный квадрат</summary>
+        public bool PassabilityCheck(int x, int y)
+        {
+            //если мы находим в звданном квадрате непроходимый объект то выходим
+            foreach (GameObject O in GameObjects)
+                if (O.PosWorldX == x && O.PosWorldY == y && O.isPassability == false) return false;
+            //иначе квадрат проходим
+            return true;
         }
 
         /// <summary>Игрок пытается установить бомбу</summary>
@@ -268,7 +250,7 @@ namespace BomberMan.GameObj
             {
                 //В клетке с бомбой может быть только 2 элемента игрок и пустое поле тогда только ставим бомбу
                 if (GameObjects.FindAll(o => o.PosWorldX == PosWorldX && o.PosWorldY == PosWorldY).Count == 2)
-                    GameObjects.Add(new Bomb(PosWorldX, PosWorldY, BombPower, GameObjects));
+                     BombGun.DropBomb(PosWorldX, PosWorldY);
             }
             else //мы не в квадрате
             {
@@ -279,11 +261,11 @@ namespace BomberMan.GameObj
                     x = PosWorldX - PosWorldX % 48;
                     if (PosWorldX % 48 > 38)
                     {
-                        if (isEmptyCell(x + 48, y)) GameObjects.Add(new Bomb(x + 48, y, BombPower, GameObjects));
+                        if (isEmptyCell(x + 48, y)) BombGun.DropBomb(x + 48, y);
                     }
                     else
                     {
-                        if (isEmptyCell(x, y)) GameObjects.Add(new Bomb(x, y, BombPower, GameObjects));
+                        if (isEmptyCell(x, y)) BombGun.DropBomb(x, y);
                     }
                 }
 
@@ -294,11 +276,11 @@ namespace BomberMan.GameObj
                     y = PosWorldY - PosWorldY % 48;
                     if (PosWorldY % 48 > 38)
                     {
-                        if (isEmptyCell(x , y+48)) GameObjects.Add(new Bomb(x , y+48, BombPower, GameObjects));
+                        if (isEmptyCell(x, y + 48)) BombGun.DropBomb(x, y + 48);
                     }
                     else
                     {
-                        if (isEmptyCell(x, y)) GameObjects.Add(new Bomb(x, y, BombPower, GameObjects));
+                        if (isEmptyCell(x, y)) BombGun.DropBomb(x, y);
                     }
                 }
 
@@ -309,11 +291,11 @@ namespace BomberMan.GameObj
                     x = PosWorldX - PosWorldX % 48 + 48;
                     if (PosWorldX % 48 > 10)
                     {
-                        if (isEmptyCell(x, y)) GameObjects.Add(new Bomb(x, y, BombPower, GameObjects));
+                        if (isEmptyCell(x, y)) BombGun.DropBomb(x, y);
                     }
                     else
                     {
-                        if (isEmptyCell(x-48, y)) GameObjects.Add(new Bomb(x-48, y, BombPower, GameObjects));
+                        if (isEmptyCell(x - 48, y)) BombGun.DropBomb(x - 48, y);
                     }
                 }
 
@@ -324,18 +306,18 @@ namespace BomberMan.GameObj
                     y = PosWorldY - PosWorldY % 48 + 48;
                     if (PosWorldY % 48 > 10)
                     {
-                        if (isEmptyCell(x, y)) GameObjects.Add(new Bomb(x, y, BombPower, GameObjects));
+                        if (isEmptyCell(x, y)) BombGun.DropBomb(x, y);
                     }
                     else
                     {
-                        if (isEmptyCell(x , y-48)) GameObjects.Add(new Bomb(x , y-48, BombPower, GameObjects));
+                        if (isEmptyCell(x, y - 48)) BombGun.DropBomb(x, y - 48);
                     }
                 }
-                
+
             }
         }
 
-        /// <summary>пуста ли клетка ??</summary>
+        /// <summary>пуста ли клетка ?? проверяется при установки бомбы</summary>
         public bool isEmptyCell(int x, int y)
         {
             return GameObjects.FindAll(o => o.PosWorldX == x && o.PosWorldY == y).Count == 1;

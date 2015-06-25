@@ -9,6 +9,10 @@ using Microsoft.Xna.Framework;
 
 namespace BomberMan.GameObj
 {
+
+   
+
+
     /// <summary>В какой стороне прогримел взрыв</summary>
     public enum BlowSide
     {
@@ -23,9 +27,9 @@ namespace BomberMan.GameObj
         Explosion
     }
 
-    public class Bomb : GameObject, Iexterminable
+    public abstract class BombObject : GameObject, Iexterminable
     {
-
+        /// <summary>Сила взрыва</summary>
         protected int ExplPower = 1;
 
         /// <summary>Правый-левый рукав взрыва</summary>
@@ -34,33 +38,21 @@ namespace BomberMan.GameObj
         /// <summary>Верхний-нижний рукав взрыва</summary>
         protected SortedSet<Point> ExpListY = new SortedSet<Point>(new SortByY());
 
-        public Bomb(int x, int y, int explPower, List<GameObject> O)
-            : base(x, y)
+        public BombObject(int x,int y,List<GameObject> O) 
         {
-            
-            //Debug.WriteLine("Bomb "+x+"  "+y);
-            
             GameObjects = O;
-            ExplPower = explPower;
 
-            ObjectStates.Add(BombEnum.Inflation, new State(new Animation(new List<Rectangle>()
-            {
-                new Rectangle(3 * 48, 6 * 48, 48, 48),new Rectangle(2 * 48, 6 * 48, 48, 48),new Rectangle(1 * 48, 6 * 48, 48, 48),new Rectangle(0 * 48, 6 * 48, 48, 48),
-                new Rectangle(0 * 48, 5 * 48, 48, 48),new Rectangle(0 * 48, 5 * 48, 48, 48),new Rectangle(1 * 48, 5 * 48, 48, 48),new Rectangle(2 * 48, 5 * 48, 48, 48),
-                new Rectangle(3 * 48, 5 * 48, 48, 48),new Rectangle(4 * 48, 5 * 48, 48, 48),new Rectangle(5 * 48, 5 * 48, 48, 48),
-                new Rectangle(6 * 48, 5 * 48, 48, 48),new Rectangle(7 * 48, 5 * 48, 48, 48),new Rectangle(8 * 48, 5 * 48, 48, 48),
-                new Rectangle(9 * 48, 5 * 48, 48, 48),new Rectangle(10 * 48, 5 * 48, 48, 48),new Rectangle(11 * 48, 5 * 48, 48, 48)
-            }, 120, true, false, Explosion)));
-
+            PosWorldX = x;
+            PosWorldY = y;
 
             ObjectStates.Add(BombEnum.Explosion, new State(new Animation(new List<Rectangle>()
             {
                 new Rectangle(12 * 48, 2 * 48, 48, 48)
             }, 10, true, false, Explosion)));
-
-            ChangeState(BombEnum.Inflation);
+            
         }
 
+        /// <summary>Разлет пламени взрыва</summary>
         public void Explosion()
         {
             //объект бомба надо удалить
@@ -267,6 +259,66 @@ namespace BomberMan.GameObj
         public void Blow(BlowSide side)
         {
             ChangeState(BombEnum.Explosion);
+        }
+
+    }
+
+
+    public class SampleBomb:BombObject
+    {
+        //Конструктор
+        public SampleBomb(int x, int y,List<GameObject> O)
+            : base(x,y,O)
+        {
+            //Установка силы взрыва
+            ExplPower = 1;
+            
+            //добавсляем состояние огненных лучей (одинаковое для всех взрывов)
+            ObjectStates.Add(BombEnum.Inflation, new State(new Animation(new List<Rectangle>()
+            {
+                new Rectangle(3 * 48, 6 * 48, 48, 48),new Rectangle(2 * 48, 6 * 48, 48, 48),new Rectangle(1 * 48, 6 * 48, 48, 48),new Rectangle(0 * 48, 6 * 48, 48, 48),
+                new Rectangle(0 * 48, 5 * 48, 48, 48),new Rectangle(0 * 48, 5 * 48, 48, 48),new Rectangle(1 * 48, 5 * 48, 48, 48),new Rectangle(2 * 48, 5 * 48, 48, 48),
+                new Rectangle(3 * 48, 5 * 48, 48, 48),new Rectangle(4 * 48, 5 * 48, 48, 48),new Rectangle(5 * 48, 5 * 48, 48, 48),
+                new Rectangle(6 * 48, 5 * 48, 48, 48),new Rectangle(7 * 48, 5 * 48, 48, 48),new Rectangle(8 * 48, 5 * 48, 48, 48),
+                new Rectangle(9 * 48, 5 * 48, 48, 48),new Rectangle(10 * 48, 5 * 48, 48, 48),new Rectangle(11 * 48, 5 * 48, 48, 48)
+            }, 120, true, false, Explosion)));
+
+            ChangeState(BombEnum.Inflation);
+
+        }
+
+        
+    }
+
+
+    /// <summary>Общий интерфейс для всех пушек</summary>
+    interface IBombarda
+    {
+        /// <summary>Установить бомбу</summary>
+        void DropBomb(int x, int y);
+    }
+
+    /// <summary>Базовый клас пушек</summary>
+    public abstract class BombGunObject : IBombarda
+    {
+        /// <summary>Ссылка на все игровые объекты</summary>
+        protected List<GameObject> GameObjects;
+
+        /// <summary>Конструктор</summary>
+        public BombGunObject(List<GameObject> O){GameObjects = O;}
+
+        /// <summary>Установить бомбу</summary>
+        public abstract void DropBomb(int x, int y);
+    }
+
+    /// <summary>Пушка устанавливающая простые бомбы</summary>
+    public class SampleBombGun : BombGunObject
+    {
+        public SampleBombGun(List<GameObject> O): base(O){}
+
+        public override void DropBomb(int x, int y)
+        {
+            GameObjects.Add(new SampleBomb(x, y, GameObjects));
         }
     }
 

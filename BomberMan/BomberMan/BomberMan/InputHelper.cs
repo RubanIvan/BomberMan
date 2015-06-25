@@ -28,6 +28,9 @@ namespace BomberMan
         /// <summary>Предыдущее состояние клавиатуры</summary>
         public static KeyboardState PreviousKeyboardState;
 
+        /// <summary>список нажатых клавиш в порядке их нажатия</summary>
+        public static List<Keys> KeyStatePrioryti=new List<Keys>(); 
+
         /// <summary>Обновлене данных</summary>
         public static void Update()
         {
@@ -35,6 +38,17 @@ namespace BomberMan
             PreviousKeyboardState = CurrentKeyboardState;
             СurrentMouseState = Mouse.GetState();
             CurrentKeyboardState = Keyboard.GetState();
+
+            if (CurrentKeyboardState.IsKeyDown(Keys.Left)){ AddKeyToList(Keys.Left);}
+            if (CurrentKeyboardState.IsKeyDown(Keys.Right)) { AddKeyToList(Keys.Right); }
+            if (CurrentKeyboardState.IsKeyDown(Keys.Up)) { AddKeyToList(Keys.Up); }
+            if (CurrentKeyboardState.IsKeyDown(Keys.Down)) { AddKeyToList(Keys.Down); }
+
+            if (CurrentKeyboardState.IsKeyUp(Keys.Left)) { RemoveKeyFromList(Keys.Left); }
+            if (CurrentKeyboardState.IsKeyUp(Keys.Right)) { RemoveKeyFromList(Keys.Right); }
+            if (CurrentKeyboardState.IsKeyUp(Keys.Up)) { RemoveKeyFromList(Keys.Up); }
+            if (CurrentKeyboardState.IsKeyUp(Keys.Down)) { RemoveKeyFromList(Keys.Down); }
+
         }
 
         /// <summary>Была ли нажата и отпущена лева клавиша мыши</summary>
@@ -63,6 +77,16 @@ namespace BomberMan
             return CurrentKeyboardState.IsKeyDown(k);
         }
 
-       
+
+        private static void AddKeyToList(Keys k)
+        {
+            if(!KeyStatePrioryti.Contains(k)) KeyStatePrioryti.Add(k);
+        }
+
+        private static void RemoveKeyFromList(Keys k)
+        {
+            if (KeyStatePrioryti.Contains(k)) KeyStatePrioryti.Remove(k);
+        }
+
     }
 }

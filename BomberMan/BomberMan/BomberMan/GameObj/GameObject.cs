@@ -96,6 +96,11 @@ namespace BomberMan.GameObj
             
         }
 
+        public GameObject()
+        {
+            isAlive = true;
+        }
+
         /// <summary>Сменить состояние объекта</summary>
         public void ChangeState(System.Enum state)
         {
