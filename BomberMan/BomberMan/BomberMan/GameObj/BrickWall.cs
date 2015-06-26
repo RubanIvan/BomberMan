@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace BomberMan.GameObj
+namespace BomberMan
 {
 
     enum WallEnum
@@ -26,6 +26,8 @@ namespace BomberMan.GameObj
         //конструктор
         public BrickWall(int x, int y) : base(x, y)
         {
+            Zorder = Zorders.BrickWall;
+
             ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(1 * 48, 0 * 48, 48, 48) })));
 
             ObjectStates.Add(WallEnum.DestroyLeft, new State(new Animation(new List<Rectangle>()

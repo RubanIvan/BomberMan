@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BomberMan.GameObj
+namespace BomberMan
 {
     /// <summary>Фазы игры (игра, настройки, начальное, меню) </summary>
     public enum Phase
@@ -49,7 +49,7 @@ namespace BomberMan.GameObj
 
         /// <summary>Список всех объектов</summary>
         protected List<GameObject> GameObjects;
-
+        
         public GamePhaseObject(Texture2D texture, SpriteBatch spriteBatch)
         {
             GameObjects=new List<GameObject>();

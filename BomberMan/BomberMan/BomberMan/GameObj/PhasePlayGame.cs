@@ -4,28 +4,36 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using BomberMan.GameObj;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace BomberMan.GameObj
+namespace BomberMan
 {
     class PhasePlayGame : GamePhaseObject
     {
         /// <summary>ссылка на игрока </summary>
-        public Player Player;
+        private Player Player;
+
+        private VievCam VievCam;
+
 
         public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch): base(texture, spriteBatch)
         {
             //GameObjects.Add(new StoneWall(0, 0));
             //GameObjects.Add(new Player(48, 48));
             //GameObjects.Add(new BrickWall(48, 48 * 2));
-            LoadLevel(1);
+            Point LevSize=LoadLevel(1);
             FindPlayer();
+            VievCam=new VievCam(LevSize.X*48,LevSize.Y*48,Player);
+
+            //GameObjects.Add(new Zomby(48, 48 ,GameObjects,Player));
+
 
         }
 
-
+        
         public override void Update(GameTime gameTime)
         {
             for (int i = 0; i < GameObjects.Count; i++)
@@ -38,6 +46,8 @@ namespace BomberMan.GameObj
 
                 
             }
+
+            VievCam.Update(gameTime);
 
         }
 
@@ -54,23 +64,35 @@ namespace BomberMan.GameObj
         }
 
         ///<summary>Загрузка уровня</summary>
-        private void LoadLevel(int level)
+        private Point LoadLevel(int level)
         {
             GameObjects.Clear();
             TextReader tx = new StreamReader(File.OpenRead(String.Format(".\\Levels\\level{0}.txt", level.ToString())));
             string s;
 
+            //Размер уровня
+            int levelDx = 0;
+            int levelDy=0;
+
             //while ((s=tx.ReadLine()) !="!" )
 
             for (int j = 0; (s = tx.ReadLine()) != "!"; j++)
             {
+                if (levelDy < j) levelDy = j;
+                if (levelDx < s.Length) levelDx = s.Length;
+
                 for (int i = 0; i < s.Length; i++)
                 {
+
                     switch (s[i])
                     {
                         case 'S':
                             GameObjects.Add(new EmptyLand(48 * i, 48 * j));
                             GameObjects.Add(new Player(48 * i, 48 * j,GameObjects));
+                            break;
+                        case 'Z':
+                            GameObjects.Add(new EmptyLand(48 * i, 48 * j));
+                            GameObjects.Add(new Zomby(48 * i, 48 * j, GameObjects));
                             break;
                         case 'X':
                             GameObjects.Add(new SteelWall(48 * i, 48 * j));
@@ -95,6 +117,11 @@ namespace BomberMan.GameObj
                 }
             }
 
+            //Пересортировать в соответсвии с Zorder
+            GameObjects.Sort();
+
+            return new Point(levelDx,levelDy+1);
+
         }
 
         /// <summary>Найти игрока среди объектов и установить на него ссылку (после загрузки уровня)</summary>
@@ -104,8 +131,8 @@ namespace BomberMan.GameObj
                 if (O is Player)
                 {
                     Player = (Player)O;
-                    GameObjects.Remove(Player);
-                    GameObjects.Add(Player);
+                    //GameObjects.Remove(Player);
+                    //GameObjects.Add(Player);
                     break;
                 }
 

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BomberMan.GameObj;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -18,19 +17,6 @@ namespace BomberMan
         /// <summary>Размер экрана</summary>
         public const int ScrDx = 800 - 32;
         public const int ScrDy = 600;
-    }
-
-    /// <summary>Положение камеры в мировых координатах</summary>
-    static class VievCam
-    {
-        //координаты
-        public static int X;
-        public static int Y;
-
-        //размер
-        public const int DX = Const.ScrDx;
-        public const int DY = Const.ScrDy;
-        
     }
 
     public class Game1 : Microsoft.Xna.Framework.Game

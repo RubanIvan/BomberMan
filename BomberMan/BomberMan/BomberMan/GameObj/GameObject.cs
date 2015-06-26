@@ -5,9 +5,20 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BomberMan.GameObj
+namespace BomberMan
 {
-    
+    /// <summary>Порядок размещения обьектов в глубину </summary>
+    public enum Zorders
+    {
+        EmptyLand,
+        SteelWall,
+        StoneWall,
+        BrickWall,
+        Player,
+        Enemy,
+        Bomb
+    }
+
 
     /// <summary>Интерфейс для объектов которые могут быть уничтожены взрывом</summary>
     interface Iexterminable
@@ -50,8 +61,11 @@ namespace BomberMan.GameObj
 
 
     /// <summary>Обобщенный игровой объект</summary>
-    public class GameObject
+    public class GameObject:IComparable<GameObject>
     {
+        /// <summary>чем меньше тем глубже</summary>
+        public Zorders Zorder;
+
         /// <summary>Ссылка на все объекты на карте</summary>
         protected List<GameObject> GameObjects;
 
@@ -71,7 +85,7 @@ namespace BomberMan.GameObj
         protected State State;
 
         /// <summary>Текущего состояние конечного автомата</summary>
-        protected System.Enum SMstate;
+        public System.Enum SMstate;
 
         /// <summary>Таблица переходов конечного автомата</summary>
         protected Dictionary<System.Enum, Dictionary<System.Enum, System.Enum>> SMtransition = new Dictionary<Enum, Dictionary<Enum, Enum>>();
@@ -113,7 +127,25 @@ namespace BomberMan.GameObj
         {
             ChangeState(SMtransition[SMstate][newstate]);
         }
-        
+
+
+        /// <summary>Проверка проходим ли данный квадрат</summary>
+        public bool PassabilityCheck(int x, int y)
+        {
+            //если мы находим в звданном квадрате непроходимый объект то выходим
+            foreach (GameObject O in GameObjects)
+                if (O.PosWorldX == x && O.PosWorldY == y && O.isPassability == false) return false;
+            //иначе квадрат проходим
+            return true;
+        }
+
+
+        public int CompareTo(GameObject other)
+        {
+            if (Zorder > other.Zorder) return 1;
+            if (Zorder < other.Zorder) return -1;
+            return 0;
+        }
     }
 
    

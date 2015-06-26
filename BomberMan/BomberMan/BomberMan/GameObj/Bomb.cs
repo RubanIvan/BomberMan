@@ -7,12 +7,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace BomberMan.GameObj
+namespace BomberMan
 {
-
-   
-
-
     /// <summary>В какой стороне прогримел взрыв</summary>
     public enum BlowSide
     {
@@ -29,6 +25,7 @@ namespace BomberMan.GameObj
 
     public abstract class BombObject : GameObject, Iexterminable
     {
+
         /// <summary>Сила взрыва</summary>
         protected int ExplPower = 1;
 
@@ -38,9 +35,11 @@ namespace BomberMan.GameObj
         /// <summary>Верхний-нижний рукав взрыва</summary>
         protected SortedSet<Point> ExpListY = new SortedSet<Point>(new SortByY());
 
-        public BombObject(int x,int y,List<GameObject> O) 
+        public BombObject(int x, int y, List<GameObject> O)
         {
             GameObjects = O;
+
+            Zorder = Zorders.Bomb;
 
             PosWorldX = x;
             PosWorldY = y;
@@ -49,7 +48,7 @@ namespace BomberMan.GameObj
             {
                 new Rectangle(12 * 48, 2 * 48, 48, 48)
             }, 10, true, false, Explosion)));
-            
+
         }
 
         /// <summary>Разлет пламени взрыва</summary>
@@ -167,7 +166,7 @@ namespace BomberMan.GameObj
                 {
                     if (O is Player)
                     {
-                        
+
                     }
 
                     if (O.PosWorldY == PosWorldY + (48 * (i + 1)) && O.PosWorldX == PosWorldX)
@@ -186,9 +185,7 @@ namespace BomberMan.GameObj
                     }//если объект несовсем в сетке
                     else if ((O.PosWorldX - PosWorldX) * (O.PosWorldX - PosWorldX) +
                              (O.PosWorldY - (PosWorldY + (48 * (i + 1)))) * (O.PosWorldY - (PosWorldY + (48 * (i + 1))))
-                             <48*48)
-
-                        
+                             < 48 * 48)
                     {
                         if (O is Iexterminable) ((Iexterminable)(O)).Blow(BlowSide.Right);
                     }
@@ -264,20 +261,20 @@ namespace BomberMan.GameObj
     }
 
 
-    public class SampleBomb:BombObject
+    public class SampleBomb : BombObject
     {
         //Конструктор
-        public SampleBomb(int x, int y,List<GameObject> O)
-            : base(x,y,O)
+        public SampleBomb(int x, int y, List<GameObject> O)
+            : base(x, y, O)
         {
             //Установка силы взрыва
             ExplPower = 1;
-            
+
             //добавсляем состояние огненных лучей (одинаковое для всех взрывов)
             ObjectStates.Add(BombEnum.Inflation, new State(new Animation(new List<Rectangle>()
             {
-                new Rectangle(3 * 48, 6 * 48, 48, 48),new Rectangle(2 * 48, 6 * 48, 48, 48),new Rectangle(1 * 48, 6 * 48, 48, 48),new Rectangle(0 * 48, 6 * 48, 48, 48),
-                new Rectangle(0 * 48, 5 * 48, 48, 48),new Rectangle(0 * 48, 5 * 48, 48, 48),new Rectangle(1 * 48, 5 * 48, 48, 48),new Rectangle(2 * 48, 5 * 48, 48, 48),
+                new Rectangle(4 * 48, 6 * 48, 48, 48),new Rectangle(3 * 48, 6 * 48, 48, 48),new Rectangle(2 * 48, 6 * 48, 48, 48),new Rectangle(1 * 48, 6 * 48, 48, 48),new Rectangle(0 * 48, 6 * 48, 48, 48),
+                new Rectangle(0 * 48, 5 * 48, 48, 48), new Rectangle(1 * 48, 5 * 48, 48, 48),new Rectangle(2 * 48, 5 * 48, 48, 48),
                 new Rectangle(3 * 48, 5 * 48, 48, 48),new Rectangle(4 * 48, 5 * 48, 48, 48),new Rectangle(5 * 48, 5 * 48, 48, 48),
                 new Rectangle(6 * 48, 5 * 48, 48, 48),new Rectangle(7 * 48, 5 * 48, 48, 48),new Rectangle(8 * 48, 5 * 48, 48, 48),
                 new Rectangle(9 * 48, 5 * 48, 48, 48),new Rectangle(10 * 48, 5 * 48, 48, 48),new Rectangle(11 * 48, 5 * 48, 48, 48)
@@ -286,9 +283,61 @@ namespace BomberMan.GameObj
             ChangeState(BombEnum.Inflation);
 
         }
-
-        
     }
+
+    public class MidleBomb : BombObject
+    {
+        //Конструктор
+        public MidleBomb(int x, int y, List<GameObject> O)
+            : base(x, y, O)
+        {
+            //Установка силы взрыва
+            ExplPower = 2;
+
+            //добавсляем состояние огненных лучей (одинаковое для всех взрывов)
+            ObjectStates.Add(BombEnum.Inflation, new State(new Animation(new List<Rectangle>()
+            {
+                new Rectangle(4 * 48, 33 * 48, 48, 48),new Rectangle(3 * 48, 33 * 48, 48, 48),new Rectangle(2 * 48, 33 * 48, 48, 48),new Rectangle(1 * 48, 33 * 48, 48, 48),new Rectangle(0 * 48, 33 * 48, 48, 48),
+                new Rectangle(0 * 48, 32 * 48, 48, 48),new Rectangle(1 * 48, 32 * 48, 48, 48),new Rectangle(2 * 48, 32 * 48, 48, 48),
+                new Rectangle(3 * 48, 32 * 48, 48, 48),new Rectangle(4 * 48, 32 * 48, 48, 48),new Rectangle(5 * 48, 32 * 48, 48, 48),
+                new Rectangle(6 * 48, 32 * 48, 48, 48),new Rectangle(7 * 48, 32 * 48, 48, 48),new Rectangle(8 * 48, 32 * 48, 48, 48),
+                new Rectangle(9 * 48, 32 * 48, 48, 48),new Rectangle(10 * 48, 32 * 48, 48, 48),new Rectangle(11 * 48, 32 * 48, 48, 48)
+            }, 120, true, false, Explosion)));
+
+            ChangeState(BombEnum.Inflation);
+
+        }
+
+
+    }
+
+
+    public class BigBomb : BombObject
+    {
+        //Конструктор
+        public BigBomb(int x, int y, List<GameObject> O)
+            : base(x, y, O)
+        {
+            //Установка силы взрыва
+            ExplPower = 3;
+
+            //добавсляем состояние огненных лучей (одинаковое для всех взрывов)
+            ObjectStates.Add(BombEnum.Inflation, new State(new Animation(new List<Rectangle>()
+            {
+                new Rectangle(4 * 48, 35 * 48, 48, 48),new Rectangle(3 * 48, 35 * 48, 48, 48),new Rectangle(2 * 48, 35 * 48, 48, 48),new Rectangle(1 * 48, 35 * 48, 48, 48),new Rectangle(0 * 48, 35 * 48, 48, 48),
+                new Rectangle(0 * 48, 34 * 48, 48, 48),new Rectangle(1 * 48, 34 * 48, 48, 48),new Rectangle(2 * 48, 34 * 48, 48, 48),
+                new Rectangle(3 * 48, 34 * 48, 48, 48),new Rectangle(4 * 48, 34 * 48, 48, 48),new Rectangle(5 * 48, 34 * 48, 48, 48),
+                new Rectangle(6 * 48, 34 * 48, 48, 48),new Rectangle(7 * 48, 34 * 48, 48, 48),new Rectangle(8 * 48, 34 * 48, 48, 48),
+                new Rectangle(9 * 48, 34 * 48, 48, 48),new Rectangle(10 * 48, 34 * 48, 48, 48),new Rectangle(11 * 48, 34 * 48, 48, 48)
+            }, 120, true, false, Explosion)));
+
+            ChangeState(BombEnum.Inflation);
+
+        }
+
+
+    }
+
 
 
     /// <summary>Общий интерфейс для всех пушек</summary>
@@ -305,7 +354,7 @@ namespace BomberMan.GameObj
         protected List<GameObject> GameObjects;
 
         /// <summary>Конструктор</summary>
-        public BombGunObject(List<GameObject> O){GameObjects = O;}
+        public BombGunObject(List<GameObject> O) { GameObjects = O; }
 
         /// <summary>Установить бомбу</summary>
         public abstract void DropBomb(int x, int y);
@@ -314,11 +363,33 @@ namespace BomberMan.GameObj
     /// <summary>Пушка устанавливающая простые бомбы</summary>
     public class SampleBombGun : BombGunObject
     {
-        public SampleBombGun(List<GameObject> O): base(O){}
+        public SampleBombGun(List<GameObject> O) : base(O) { }
 
         public override void DropBomb(int x, int y)
         {
             GameObjects.Add(new SampleBomb(x, y, GameObjects));
+        }
+    }
+
+    /// <summary>Пушка устанавливающая средние бомбы</summary>
+    public class MidleBombGun : BombGunObject
+    {
+        public MidleBombGun(List<GameObject> O) : base(O) { }
+
+        public override void DropBomb(int x, int y)
+        {
+            GameObjects.Add(new MidleBomb(x, y, GameObjects));
+        }
+    }
+
+    /// <summary>Пушка устанавливающая большие бомбы</summary>
+    public class BigBombGun : BombGunObject
+    {
+        public BigBombGun(List<GameObject> O) : base(O) { }
+
+        public override void DropBomb(int x, int y)
+        {
+            GameObjects.Add(new BigBomb(x, y, GameObjects));
         }
     }
 
