@@ -244,9 +244,9 @@ namespace BomberMan
             //если мы в квадрате 
             if (PosWorldY % 48 == 0 && PosWorldX % 48 == 0)
             {
-                //В клетке с бомбой может быть только 2 элемента игрок и пустое поле тогда только ставим бомбу
-                if (GameObjects.FindAll(o => o.PosWorldX == PosWorldX && o.PosWorldY == PosWorldY).Count == 2)
-                     BombGun.DropBomb(PosWorldX, PosWorldY);
+                //Проверяем пуста ли клетка ставим бомбу
+                if (isEmptyCell(PosWorldX, PosWorldY)) BombGun.DropBomb(PosWorldX, PosWorldY);
+
             }
             else //мы не в квадрате
             {
@@ -316,7 +316,11 @@ namespace BomberMan
         /// <summary>пуста ли клетка ?? проверяется при установки бомбы</summary>
         public bool isEmptyCell(int x, int y)
         {
-            return GameObjects.FindAll(o => o.PosWorldX == x && o.PosWorldY == y).Count == 1;
+            //return GameObjects.FindAll(o => o.PosWorldX == x && o.PosWorldY == y).Count == 1;
+            foreach (GameObject O in GameObjects)
+                if (O.PosWorldX == x && O.PosWorldY == y && O.isPassability == false) return false;
+            //иначе квадрат проходим
+            return true;
         }
 
         /// <summary>Игрок подорвался на бомбе</summary>
@@ -324,6 +328,10 @@ namespace BomberMan
         {
             ChangeState(PlayersEnum.Fire);
         }
+
+       
+
+
     }
 
 

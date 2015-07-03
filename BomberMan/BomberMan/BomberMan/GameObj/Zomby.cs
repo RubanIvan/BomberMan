@@ -34,9 +34,10 @@ namespace BomberMan
             ObjectStates.Add(PlayersEnum.Idle, new ZombyIdle(this));
             ObjectStates.Add(PlayersEnum.Fire, new ZombyFire(this));
 
-            ChangeState(PlayersEnum.Idle);
+            ChangeState(PlayersEnum.WalkRight);
 
-            Move=new RandomMove(this,GameObjects);
+            //Move=new RandomMove(this,GameObjects);
+            Move=new AntMove(this,GameObjects);
         }
 
         public override void Update(GameTime gameTime)
