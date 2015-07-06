@@ -125,6 +125,8 @@ namespace BomberMan.GameObj
                 if (MoveVariant[j].Flavor > MoveVariant[i].Flavor) j = i;
             }
 
+            if (MoveVariant[j].Flavor==Int32.MaxValue)return PlayersEnum.Idle;
+            else
             return MoveVariant[j].MoveEnum;
 
         }

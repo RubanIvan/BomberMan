@@ -10,6 +10,24 @@
       <Output>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\spritesheet.xnb</Output>
       <Time>2015-06-26T16:10:50.0282092+03:00</Time>
     </Item>
+    <Item>
+      <Source>menu bkg.png</Source>
+      <Name>menu bkg</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\menu bkg.xnb</Output>
+      <Time>2015-07-06T14:52:38.8098675+03:00</Time>
+    </Item>
+    <Item>
+      <Source>GameOver.png</Source>
+      <Name>GameOver</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\GameOver.xnb</Output>
+      <Time>2015-07-06T17:11:07.46565+03:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{D43E5282-91EE-44E2-B926-88A46CAF5847}</ContentProjectGUID>

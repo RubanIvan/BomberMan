@@ -42,12 +42,20 @@ namespace BomberMan
         /// <summary>LoadContent will be called once per game and is the place to load all of your content.</summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+            
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-            Texture = Content.Load<Texture2D>("spritesheet");
+            
+            //фаза меню
+            GamePhaseManager.Add(Phase.MainMenu, new PhaseMenu(Content.Load<Texture2D>("menu bkg"), SpriteBatch));
+            
+            //фаза игры
+            GamePhaseManager.Add(Phase.PlayGame, new PhasePlayGame(Content.Load<Texture2D>("spritesheet"), SpriteBatch));
 
-            GamePhaseManager.Add(Phase.PlayGame, new PhasePlayGame(Texture, SpriteBatch));
-            GamePhaseManager.SwitchTo(Phase.PlayGame);
+            GamePhaseManager.Add(Phase.GameOver, new PhaseGameOver(Content.Load<Texture2D>("GameOver"), SpriteBatch));
+
+            GamePhaseManager.Add(Phase.Exit, new PhaseExit(this));
+
+            GamePhaseManager.SwitchTo(Phase.GameOver);
 
             
         }

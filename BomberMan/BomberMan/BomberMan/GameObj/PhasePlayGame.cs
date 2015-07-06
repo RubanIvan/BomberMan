@@ -21,9 +21,7 @@ namespace BomberMan
 
         public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch): base(texture, spriteBatch)
         {
-            //GameObjects.Add(new StoneWall(0, 0));
-            //GameObjects.Add(new Player(48, 48));
-            //GameObjects.Add(new BrickWall(48, 48 * 2));
+            
             Point LevSize=LoadLevel(1);
             FindPlayer();
             VievCam=new VievCam(LevSize.X*48,LevSize.Y*48,Player);
@@ -74,8 +72,6 @@ namespace BomberMan
             int levelDx = 0;
             int levelDy=0;
 
-            //while ((s=tx.ReadLine()) !="!" )
-
             for (int j = 0; (s = tx.ReadLine()) != "!"; j++)
             {
                 if (levelDy < j) levelDy = j;
@@ -116,6 +112,8 @@ namespace BomberMan
                     }
                 }
             }
+
+            tx.Close();
 
             //Пересортировать в соответсвии с Zorder
             GameObjects.Sort();

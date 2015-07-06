@@ -146,6 +146,8 @@ namespace BomberMan
             if (Zorder < other.Zorder) return -1;
             return 0;
         }
+
+        
     }
 
    

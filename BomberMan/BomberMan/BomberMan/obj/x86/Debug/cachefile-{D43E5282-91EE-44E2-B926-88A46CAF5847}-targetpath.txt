@@ -1,1 +1,3 @@
 Content\spritesheet.xnb
+Content\menu bkg.xnb
+Content\GameOver.xnb
