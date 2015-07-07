@@ -1,0 +1,8 @@
+D:\Projects\BomberMan_new\BitmapFontMaker\ttf2bmp\bin\Debug\ttf2bmp.exe
+D:\Projects\BomberMan_new\BitmapFontMaker\ttf2bmp\bin\Debug\ttf2bmp.pdb
+D:\Projects\BomberMan_new\BitmapFontMaker\ttf2bmp\obj\Debug\ttf2bmp.csprojResolveAssemblyReference.cache
+D:\Projects\BomberMan_new\BitmapFontMaker\ttf2bmp\obj\Debug\TrueTypeConverter.MainForm.resources
+D:\Projects\BomberMan_new\BitmapFontMaker\ttf2bmp\obj\Debug\TrueTypeConverter.Properties.Resources.resources
+D:\Projects\BomberMan_new\BitmapFontMaker\ttf2bmp\obj\Debug\ttf2bmp.csproj.GenerateResource.Cache
+D:\Projects\BomberMan_new\BitmapFontMaker\ttf2bmp\obj\Debug\ttf2bmp.exe
+D:\Projects\BomberMan_new\BitmapFontMaker\ttf2bmp\obj\Debug\ttf2bmp.pdb

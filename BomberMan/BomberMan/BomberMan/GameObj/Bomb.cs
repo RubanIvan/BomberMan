@@ -341,7 +341,7 @@ namespace BomberMan
 
 
     /// <summary>Общий интерфейс для всех пушек</summary>
-    interface IBombarda
+    public interface IBombarda
     {
         /// <summary>Установить бомбу</summary>
         void DropBomb(int x, int y);

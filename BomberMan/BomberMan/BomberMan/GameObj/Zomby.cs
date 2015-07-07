@@ -15,12 +15,15 @@ namespace BomberMan
 
     class Zomby : GameObject, Iexterminable
     {
+        public Player Player;
 
         private MoveStrategy Move;
 
         public Zomby(int x, int y, List<GameObject> O)
             : base(x, y)
         {
+            foreach (GameObject GO in O)if (GO is Player) Player = (Player) GO;
+            
             GameObjects = O;
 
             Zorder = Zorders.Enemy;
@@ -184,6 +187,7 @@ namespace BomberMan
 
     public class ZombyFire : State
     {
+        
         public ZombyFire(GameObject player)
             : base(player)
         {
@@ -197,7 +201,14 @@ namespace BomberMan
                 new Rectangle(6 * 48, 22 * 48, 48, 48),new Rectangle(0 * 48, 0 * 48, 48, 48)
 
 
-            },80,true,false);
+            },80,true,false,ZombyDead);
+
+            
+        }
+
+        public void ZombyDead()
+        {
+            ((Zomby)GameObject).Player.Score += 100;
         }
     }
 }

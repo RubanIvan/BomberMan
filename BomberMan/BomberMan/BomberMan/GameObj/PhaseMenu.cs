@@ -28,8 +28,8 @@ namespace BomberMan
 
         private Fire Fire;
 
-        public PhaseMenu(Texture2D texture, SpriteBatch spriteBatch)
-            : base(texture, spriteBatch)
+        public PhaseMenu(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font)
+            : base(texture, spriteBatch,font)
         {
             Fire = new Fire();
         }
@@ -87,7 +87,7 @@ namespace BomberMan
         private Game1 Game;
 
         public PhaseExit(Game1 game)
-            : base(null, null)
+            : base(null, null,null)
         {
             Game = game;
 
@@ -111,8 +111,8 @@ namespace BomberMan
         /// <summary>Позиция заднего фона в текстуре</summary>
         Rectangle BkgFrom = new Rectangle(16, 0, 800, 600);
 
-        public PhaseGameOver(Texture2D texture, SpriteBatch spriteBatch)
-            : base(texture, spriteBatch)
+        public PhaseGameOver(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font)
+            : base(texture, spriteBatch,font)
         {
         }
 

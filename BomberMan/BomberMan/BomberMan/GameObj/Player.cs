@@ -31,7 +31,7 @@ namespace BomberMan
         Fire,
     }
 
-    class Player : GameObject, Iexterminable
+    public class Player : GameObject, Iexterminable
     {
 
         //public int BombPower = 3;
@@ -42,7 +42,9 @@ namespace BomberMan
         public IBombarda BombGun;
 
         /// <summary>Количество жизней</summary>
-        private int Lives = 3;
+        public int Lives = 3;
+
+        public int Score = 0;
 
         /// <summary>стартовая позиция игрока </summary>
         private Point StartPos;

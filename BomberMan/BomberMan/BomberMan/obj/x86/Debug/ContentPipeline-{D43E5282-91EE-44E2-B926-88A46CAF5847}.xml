@@ -28,6 +28,15 @@
       <Output>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\GameOver.xnb</Output>
       <Time>2015-07-06T17:11:07.46565+03:00</Time>
     </Item>
+    <Item>
+      <Source>font.bmp</Source>
+      <Name>font</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>FontTextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\font.xnb</Output>
+      <Time>2015-07-07T10:57:16.4261414+03:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{D43E5282-91EE-44E2-B926-88A46CAF5847}</ContentProjectGUID>

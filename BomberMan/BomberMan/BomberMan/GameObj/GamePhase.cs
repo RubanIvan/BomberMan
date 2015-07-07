@@ -60,15 +60,16 @@ namespace BomberMan
         //public GraphicsDeviceManager Graphics;
         public SpriteBatch SpriteBatch;
         public Texture2D Texture;
-
+        public SpriteFont Font;
         /// <summary>Список всех объектов</summary>
         protected List<GameObject> GameObjects;
         
-        public GamePhaseObject(Texture2D texture, SpriteBatch spriteBatch)
+        public GamePhaseObject(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font)
         {
             GameObjects=new List<GameObject>();
             Texture = texture;
             SpriteBatch = spriteBatch;
+            Font = font;
         }
 
         public abstract void Update(GameTime gameTime);

@@ -19,7 +19,7 @@ namespace BomberMan
         private VievCam VievCam;
 
 
-        public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch): base(texture, spriteBatch)
+        public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font): base(texture, spriteBatch,font)
         {
             
             Point LevSize=LoadLevel(1);
@@ -55,7 +55,8 @@ namespace BomberMan
             {
                 if (O is Player)
                 {
-                    SpriteBatch.DrawString();
+                    SpriteBatch.DrawString(Font, "Life: "+((Player)O).Lives, new Vector2(10, 10), Color.Azure);
+                    SpriteBatch.DrawString(Font, "Score: " + ((Player)O).Score.ToString("D5"), new Vector2(150, 10), Color.Azure);
                 }
 
                 //Проверяем пересечение прямоугольников 
@@ -142,5 +143,15 @@ namespace BomberMan
 
         }
 
+        public override void Reset()
+        {
+            base.Reset();
+            Player = null;
+            GameObjects.Clear();
+
+            Point LevSize = LoadLevel(1);
+            FindPlayer();
+            VievCam = new VievCam(LevSize.X * 48, LevSize.Y * 48, Player);
+        }
     }
 }

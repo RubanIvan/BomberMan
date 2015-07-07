@@ -1,0 +1,10 @@
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Release\Levels\Level1.txt
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Release\Content\spritesheet.xnb
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Release\Content\menu bkg.xnb
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Release\Content\GameOver.xnb
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Release\Content\font.xnb
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Release\BomberMan.exe
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Release\BomberMan.pdb
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\obj\x86\Release\BomberMan.exe
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\obj\x86\Release\BomberMan.pdb

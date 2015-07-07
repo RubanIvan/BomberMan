@@ -63,6 +63,9 @@ namespace BomberMan
     /// <summary>Обобщенный игровой объект</summary>
     public class GameObject:IComparable<GameObject>
     {
+        /// <summary>Ссылка на игрока</summary>
+        private Player Player;
+
         /// <summary>чем меньше тем глубже</summary>
         public Zorders Zorder;
 
@@ -107,7 +110,8 @@ namespace BomberMan
             PosWorldX = x;
             PosWorldY = y;
             isAlive = true;
-            
+           
+
         }
 
         public GameObject()

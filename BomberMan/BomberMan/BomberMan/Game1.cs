@@ -24,6 +24,7 @@ namespace BomberMan
         GraphicsDeviceManager Graphics;
         SpriteBatch SpriteBatch;
         Texture2D Texture;
+        SpriteFont Font;
 
         public Game1()
         {
@@ -42,16 +43,18 @@ namespace BomberMan
         /// <summary>LoadContent will be called once per game and is the place to load all of your content.</summary>
         protected override void LoadContent()
         {
-            
+
+            Font = Content.Load<SpriteFont>("font");
+
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             
             //фаза меню
-            GamePhaseManager.Add(Phase.MainMenu, new PhaseMenu(Content.Load<Texture2D>("menu bkg"), SpriteBatch));
+            GamePhaseManager.Add(Phase.MainMenu, new PhaseMenu(Content.Load<Texture2D>("menu bkg"), SpriteBatch,Font));
             
             //фаза игры
-            GamePhaseManager.Add(Phase.PlayGame, new PhasePlayGame(Content.Load<Texture2D>("spritesheet"), SpriteBatch));
+            GamePhaseManager.Add(Phase.PlayGame, new PhasePlayGame(Content.Load<Texture2D>("spritesheet"), SpriteBatch,Font));
 
-            GamePhaseManager.Add(Phase.GameOver, new PhaseGameOver(Content.Load<Texture2D>("GameOver"), SpriteBatch));
+            GamePhaseManager.Add(Phase.GameOver, new PhaseGameOver(Content.Load<Texture2D>("GameOver"), SpriteBatch,Font));
 
             GamePhaseManager.Add(Phase.Exit, new PhaseExit(this));
 
@@ -90,7 +93,7 @@ namespace BomberMan
             SpriteBatch.Begin();
 
             GamePhaseManager.CurrentPhase.Draw();
-
+            
             SpriteBatch.End();
             
             base.Draw(gameTime);

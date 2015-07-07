@@ -8,3 +8,4 @@ D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Lev
 D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\obj\x86\Debug\BomberMan.csprojResolveAssemblyReference.cache
 D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\menu bkg.xnb
 D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\GameOver.xnb
+D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\font.xnb
