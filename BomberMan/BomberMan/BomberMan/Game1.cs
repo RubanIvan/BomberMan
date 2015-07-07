@@ -55,7 +55,7 @@ namespace BomberMan
 
             GamePhaseManager.Add(Phase.Exit, new PhaseExit(this));
 
-            GamePhaseManager.SwitchTo(Phase.GameOver);
+            GamePhaseManager.SwitchTo(Phase.MainMenu);
 
             
         }

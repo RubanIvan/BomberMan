@@ -41,6 +41,12 @@ namespace BomberMan
 
         public IBombarda BombGun;
 
+        /// <summary>Количество жизней</summary>
+        private int Lives = 3;
+
+        /// <summary>стартовая позиция игрока </summary>
+        private Point StartPos;
+
         //конструктор
         public Player(int x, int y, List<GameObject> O)
             : base(x, y)
@@ -54,6 +60,9 @@ namespace BomberMan
             BombGun = new BigBombGun(GameObjects);
 
             isPassability = true;
+
+            StartPos.X = x;
+            StartPos.Y = y;
 
             //Задание состояний
             ObjectStates.Add(PlayersEnum.Idle, new PlayerIdle(this));
@@ -142,6 +151,7 @@ namespace BomberMan
             SMtransition[PlayersEnum.Fire].Add(PlayersEnum.Fire, PlayersEnum.Fire);
 
         }
+
 
 
         public override void Update(GameTime gameTime)
@@ -329,7 +339,19 @@ namespace BomberMan
             ChangeState(PlayersEnum.Fire);
         }
 
-       
+        /// <summary>Воскрешение послесмерти</summary>
+        public void Resurrection()
+        {
+            Lives--;
+            if(Lives<0)GamePhaseManager.SwitchTo(Phase.GameOver);
+            else
+            {
+                SMstate = PlayersEnum.WalkLeft;
+                ChangeState(PlayersEnum.Idle);
+                PosWorldX = StartPos.X;
+                PosWorldY = StartPos.Y;
+            }
+        }
 
 
     }
@@ -502,6 +524,8 @@ namespace BomberMan
     /// <summary>Игрок горит (подорвался на бомбе)</summary>
     public class PlayerFire : State
     {
+       
+
         public PlayerFire(GameObject player)
             : base(player)
         {
@@ -515,7 +539,17 @@ namespace BomberMan
                 new Rectangle(15*48, 30*48, 48, 48),new Rectangle(16*48, 30*48, 48, 48),new Rectangle(17*48, 30*48, 48, 48),
                 new Rectangle(18*48, 30*48, 48, 48),new Rectangle(19*48, 30*48, 48, 48),new Rectangle(0*48, 31*48, 48, 48),
                 new Rectangle(1*48, 31*48, 48, 48),
-            }, 80, true, false);
+            }, 80, true, false,Resurrection);
+
+            
+        }
+
+        /// <summary>Воскрешение послесмерти</summary>
+        private void Resurrection()
+        {
+            Animation.SpriteCurentFrameNum = 0;
+            Animation.isAnimated = true;
+            ((Player)GameObject).Resurrection();
         }
     }
 

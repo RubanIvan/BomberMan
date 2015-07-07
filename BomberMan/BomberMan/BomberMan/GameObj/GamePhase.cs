@@ -49,6 +49,7 @@ namespace BomberMan
         public static void SwitchTo(Phase name)
         {
             CurrentPhase = GamePhases[name];
+            CurrentPhase.Reset();
         }
 
     }
@@ -73,6 +74,8 @@ namespace BomberMan
         public abstract void Update(GameTime gameTime);
 
         public abstract void Draw();
+
+        public virtual void Reset(){}
 
     }
 

@@ -53,6 +53,11 @@ namespace BomberMan
         {
             foreach (GameObject O in GameObjects)
             {
+                if (O is Player)
+                {
+                    SpriteBatch.DrawString();
+                }
+
                 //Проверяем пересечение прямоугольников 
                 if (O.PosWorldX + 48 < VievCam.X || O.PosWorldX > VievCam.X + VievCam.DX || O.PosWorldY + 48 < VievCam.Y || O.PosWorldY > VievCam.Y + VievCam.DY) continue;
 
