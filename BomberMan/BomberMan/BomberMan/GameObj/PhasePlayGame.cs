@@ -96,6 +96,16 @@ namespace BomberMan
                             GameObjects.Add(new EmptyLand(48 * i, 48 * j));
                             GameObjects.Add(new Zomby(48 * i, 48 * j, GameObjects));
                             break;
+                        case 'L':
+                            GameObjects.Add(new EmptyLand(48 * i, 48 * j));
+                            GameObjects.Add(new BrickWall(48 * i, 48 * j));
+                            GameObjects.Add(new ItemLife(48 * i, 48 * j, GameObjects));
+                            break;
+                        case 'P':
+                            GameObjects.Add(new EmptyLand(48 * i, 48 * j));
+                            GameObjects.Add(new BrickWall(48 * i, 48 * j));
+                            GameObjects.Add(new ItemBombPower(48 * i, 48 * j, GameObjects));
+                            break;
                         case 'X':
                             GameObjects.Add(new SteelWall(48 * i, 48 * j));
                             break;

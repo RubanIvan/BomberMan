@@ -75,7 +75,7 @@ namespace BomberMan.GameObj
         }
 
         /// <summary>Запах клетки</summary>
-        private Dictionary<Point, int> flavour = new Dictionary<Point, int>();
+        private Dictionary<Point, int> flavour = new Dictionary<Point, int>(50);
 
         private CellFlavor[] MoveVariant = new CellFlavor[4];
         

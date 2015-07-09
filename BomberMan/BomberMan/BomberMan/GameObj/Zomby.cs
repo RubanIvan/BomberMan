@@ -22,6 +22,7 @@ namespace BomberMan
         public Zomby(int x, int y, List<GameObject> O)
             : base(x, y)
         {
+            //найти игрока
             foreach (GameObject GO in O)if (GO is Player) Player = (Player) GO;
             
             GameObjects = O;

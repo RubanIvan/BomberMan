@@ -57,9 +57,9 @@ namespace BomberMan
 
             Zorder = Zorders.Player;
 
-            //BombGun = new SampleBombGun(GameObjects);
+            BombGun = new SampleBombGun(GameObjects);
             //BombGun = new MidleBombGun(GameObjects);
-            BombGun = new BigBombGun(GameObjects);
+            //BombGun = new BigBombGun(GameObjects);
 
             isPassability = true;
 

@@ -63,6 +63,12 @@ namespace BomberMan
             //ставим центр взрыва
             GameObjects.Add(new ExplCentr(PosWorldX, PosWorldY, GameObjects));
 
+            //взрываем центр центр
+            foreach (GameObject O in GameObjects)
+            {
+                if (O.PosWorldX == PosWorldX && O.PosWorldY == PosWorldY)
+                    if (O is Iexterminable) ((Iexterminable) (O)).Blow(BlowSide.Right);
+            }
 
             #region Правая ветвь взрыва
             //Проходим по всей возможной длинне взрыва

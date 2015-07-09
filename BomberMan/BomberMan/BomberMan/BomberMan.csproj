@@ -78,6 +78,7 @@
     <Compile Include="GameObj\BrickWall.cs" />
     <Compile Include="GameObj\GameObject.cs" />
     <Compile Include="GameObj\GamePhase.cs" />
+    <Compile Include="GameObj\Item.cs" />
     <Compile Include="GameObj\MoveStrategy.cs" />
     <Compile Include="GameObj\PhaseMenu.cs" />
     <Compile Include="GameObj\PhasePlayGame.cs" />

@@ -1,7 +1,7 @@
 ﻿XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XS  ....Z.......Z.....................X
-X #.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.X
-X ............Z.......................X
+XS L....Z.......Z.....................X
+X #P#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.X
+X P...........Z.......................X
 X #.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.X
 X ................Z...................X
 X #.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.#.X
@@ -20,6 +20,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 !
 
 'S' Player start point
+'P' BombPower
+'L' Life
 'Z' Zomby
 ' ' EmptyLand
 'X' SteelWall

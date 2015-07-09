@@ -13,6 +13,7 @@ namespace BomberMan
         EmptyLand,
         SteelWall,
         StoneWall,
+        Item,
         BrickWall,
         Player,
         Enemy,
