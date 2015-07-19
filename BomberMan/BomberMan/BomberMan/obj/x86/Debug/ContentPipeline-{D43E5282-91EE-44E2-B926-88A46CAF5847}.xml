@@ -2,22 +2,13 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>spritesheet.png</Source>
-      <Name>spritesheet</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\spritesheet.xnb</Output>
-      <Time>2015-07-09T15:05:04.9368068+03:00</Time>
-    </Item>
-    <Item>
       <Source>menu bkg.png</Source>
       <Name>menu bkg</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\menu bkg.xnb</Output>
-      <Time>2015-07-06T14:52:38.8098675+03:00</Time>
+      <Output>F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\menu bkg.xnb</Output>
+      <Time>2015-07-19T15:33:50.8317813+03:00</Time>
     </Item>
     <Item>
       <Source>GameOver.png</Source>
@@ -25,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\GameOver.xnb</Output>
-      <Time>2015-07-06T17:11:07.46565+03:00</Time>
+      <Output>F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\GameOver.xnb</Output>
+      <Time>2015-07-19T15:33:50.826781+03:00</Time>
     </Item>
     <Item>
       <Source>font.bmp</Source>
@@ -34,8 +25,35 @@
       <Importer>TextureImporter</Importer>
       <Processor>FontTextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\font.xnb</Output>
-      <Time>2015-07-07T10:57:16.4261414+03:00</Time>
+      <Output>F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\font.xnb</Output>
+      <Time>2015-07-19T15:33:50.8297811+03:00</Time>
+    </Item>
+    <Item>
+      <Source>spritesheet.png</Source>
+      <Name>spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\spritesheet.xnb</Output>
+      <Time>2015-07-19T15:33:50.8467821+03:00</Time>
+    </Item>
+    <Item>
+      <Source>MenuSelect.wav</Source>
+      <Name>MenuSelect</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\MenuSelect.xnb</Output>
+      <Time>2015-07-19T18:07:40.2581627+03:00</Time>
+    </Item>
+    <Item>
+      <Source>MenuChange.wav</Source>
+      <Name>MenuChange</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\MenuChange.xnb</Output>
+      <Time>2015-07-19T18:35:24.1089286+03:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -44,10 +62,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberManContent\</RootDirectory>
-      <LoggerRootDirectory>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\</LoggerRootDirectory>
-      <IntermediateDirectory>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberManContent\</RootDirectory>
+      <LoggerRootDirectory>F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\</LoggerRootDirectory>
+      <IntermediateDirectory>F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -76,7 +94,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2015-03-27T12:30:02.9453738+03:00</Value>
+        <Value>2014-09-12T15:22:58.7144398+03:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

@@ -9,3 +9,16 @@ D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\obj\x86\Debug\BomberMan.
 D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\menu bkg.xnb
 D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\GameOver.xnb
 D:\Projects\BomberMan_new\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\font.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\obj\x86\Debug\BomberMan.csprojResolveAssemblyReference.cache
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\obj\x86\Debug\BomberMan.exe
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level1.txt
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\menu bkg.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\GameOver.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\font.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\spritesheet.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\BomberMan.exe
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\BomberMan.pdb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\obj\x86\Debug\BomberMan.pdb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\MenuSelect.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\MenuChange.xnb

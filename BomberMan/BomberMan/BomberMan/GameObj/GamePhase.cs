@@ -61,15 +61,19 @@ namespace BomberMan
         public SpriteBatch SpriteBatch;
         public Texture2D Texture;
         public SpriteFont Font;
+        public SoundEngine SoundEngine;
+
         /// <summary>Список всех объектов</summary>
         protected List<GameObject> GameObjects;
         
-        public GamePhaseObject(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font)
+        //Конструктор
+        public GamePhaseObject(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font,SoundEngine soundEngine)
         {
             GameObjects=new List<GameObject>();
             Texture = texture;
             SpriteBatch = spriteBatch;
             Font = font;
+            SoundEngine = soundEngine;
         }
 
         public abstract void Update(GameTime gameTime);

@@ -19,7 +19,7 @@ namespace BomberMan
         private VievCam VievCam;
 
 
-        public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font): base(texture, spriteBatch,font)
+        public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font,SoundEngine sound): base(texture, spriteBatch,font,sound)
         {
             
             Point LevSize=LoadLevel(1);

@@ -1,5 +1,7 @@
-Content\spritesheet.xnb
 Content\menu bkg.xnb
 Content\GameOver.xnb
 Content\font.xnb
+Content\spritesheet.xnb
+Content\MenuSelect.xnb
+Content\MenuChange.xnb
 Levels\Level1.txt

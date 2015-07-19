@@ -19,18 +19,19 @@ namespace BomberMan
         public const int ScrDy = 600;
     }
 
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public partial class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager Graphics;
         SpriteBatch SpriteBatch;
         Texture2D Texture;
         SpriteFont Font;
+        SoundEngine SoundEngine=new SoundEngine();
 
         public Game1()
         {
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
+            
             Graphics.PreferredBackBufferHeight = Const.ScrDy;
             Graphics.PreferredBackBufferWidth = Const.ScrDx;
         }
@@ -43,18 +44,19 @@ namespace BomberMan
         /// <summary>LoadContent will be called once per game and is the place to load all of your content.</summary>
         protected override void LoadContent()
         {
+            SoundEngine.SoundInit(Content);
 
             Font = Content.Load<SpriteFont>("font");
 
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             
             //фаза меню
-            GamePhaseManager.Add(Phase.MainMenu, new PhaseMenu(Content.Load<Texture2D>("menu bkg"), SpriteBatch,Font));
+            GamePhaseManager.Add(Phase.MainMenu, new PhaseMenu(Content.Load<Texture2D>("menu bkg"), SpriteBatch,Font,SoundEngine));
             
             //фаза игры
-            GamePhaseManager.Add(Phase.PlayGame, new PhasePlayGame(Content.Load<Texture2D>("spritesheet"), SpriteBatch,Font));
+            GamePhaseManager.Add(Phase.PlayGame, new PhasePlayGame(Content.Load<Texture2D>("spritesheet"), SpriteBatch,Font,SoundEngine));
 
-            GamePhaseManager.Add(Phase.GameOver, new PhaseGameOver(Content.Load<Texture2D>("GameOver"), SpriteBatch,Font));
+            GamePhaseManager.Add(Phase.GameOver, new PhaseGameOver(Content.Load<Texture2D>("GameOver"), SpriteBatch,Font,SoundEngine));
 
             GamePhaseManager.Add(Phase.Exit, new PhaseExit(this));
 
@@ -100,3 +102,4 @@ namespace BomberMan
         }
     }
 }
+

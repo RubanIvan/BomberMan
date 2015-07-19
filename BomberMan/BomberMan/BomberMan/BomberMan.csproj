@@ -83,6 +83,7 @@
     <Compile Include="GameObj\PhaseMenu.cs" />
     <Compile Include="GameObj\PhasePlayGame.cs" />
     <Compile Include="GameObj\Player.cs" />
+    <Compile Include="GameObj\Sound.cs" />
     <Compile Include="GameObj\StoneWall.cs" />
     <Compile Include="GameObj\ViewCam.cs" />
     <Compile Include="GameObj\Zomby.cs" />
