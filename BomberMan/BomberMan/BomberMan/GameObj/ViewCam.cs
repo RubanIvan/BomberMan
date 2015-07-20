@@ -10,7 +10,7 @@ namespace BomberMan
     class VievCam
     {
         /// <summary>ссылка на игрока </summary>
-        public Player Player;
+        public CPlayer Player;
 
         //координаты
         public  int X;
@@ -31,7 +31,7 @@ namespace BomberMan
         /// <param name="LevDx">Длинна уровня</param>
         /// <param name="LevDy">Длинна уровня</param>
         /// <param name="player">Ссылка на игрока</param>
-        public VievCam(int LevDx,int LevDy, Player player)
+        public VievCam(int LevDx,int LevDy, CPlayer player)
         {
             Player = player;
             MaxX = LevDx - DX;

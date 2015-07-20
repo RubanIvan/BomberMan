@@ -14,7 +14,7 @@ namespace BomberMan
     class PhasePlayGame : GamePhaseObject
     {
         /// <summary>ссылка на игрока </summary>
-        private Player Player;
+        private CPlayer Player;
 
         //текущий загруженный уровень
         private int Level = 1;
@@ -30,17 +30,7 @@ namespace BomberMan
 
         public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font,SoundEngine sound): base(texture, spriteBatch,font,sound)
         {
-
-            Point LevSize = LoadLevel(Level);
-            Player = new Player(StartPoint.X, StartPoint.Y, GameObjects);
-            GameObjects.Add(Player);
-            //FindPlayer();
-            VievCam=new VievCam(LevSize.X*48,LevSize.Y*48,Player);
-            UIelement = new UIelemrnt(Texture, spriteBatch,font);
-
-            //GameObjects.Add(new Zomby(48, 48 ,GameObjects,Player));
-
-
+            UIelement = new UIelemrnt(texture, spriteBatch, font);
         }
 
         
@@ -62,7 +52,6 @@ namespace BomberMan
             if (GoToNextLevel)
             {
                 Level++;
-                FindPlayer();
                 GameObjects.Clear();
                 Point LevSize = LoadLevel(Level);
             }
@@ -74,24 +63,21 @@ namespace BomberMan
         {
             foreach (GameObject O in GameObjects)
             {
-                if (O is Player)
-                {
-                    UIelement.Draw((Player) O);
-                }
-
+               
                 //Проверяем пересечение прямоугольников 
                 if (O.PosWorldX + 48 < VievCam.X || O.PosWorldX > VievCam.X + VievCam.DX || O.PosWorldY + 48 < VievCam.Y || O.PosWorldY > VievCam.Y + VievCam.DY) continue;
 
                 //пересчитываем координаты из мировых в экранные для данного объекта и отрисовываем
                 SpriteBatch.Draw(Texture, new Rectangle(O.PosWorldX - VievCam.X, O.PosWorldY - VievCam.Y, 48, 48), O.Sprite, Color.White);
             }
-            
+
+            UIelement.Draw(Player);
+
         }
 
         ///<summary>Загрузка уровня</summary>
         private Point LoadLevel(int level)
         {
-            GameObjects.Clear();
             TextReader tx = new StreamReader(File.OpenRead(String.Format(".\\Levels\\level{0}.txt", level.ToString())));
             string s;
 
@@ -111,7 +97,10 @@ namespace BomberMan
                     {
                         case 'S'://Player start point
                             GameObjects.Add(new EmptyLand(48 * i, 48 * j,Player));
-                            StartPoint.X = 48*i;StartPoint.Y = 48*j;
+                            Player.PosWorldX= 48*i;
+                            Player.PosWorldY= 48*j;
+                            Player.StartPos.X = 48 * i;
+                            Player.StartPos.Y = 48 * j;
                             //GameObjects.Add(new Player(48 * i, 48 * j,GameObjects));
                             break;
                         case 'Z'://Zomby
@@ -170,29 +159,16 @@ namespace BomberMan
 
         }
 
-        /// <summary>Найти игрока среди объектов и установить на него ссылку (после загрузки уровня)</summary>
-        private void FindPlayer()
-        {
-            foreach (GameObject O in GameObjects)
-                if (O is Player)
-                {
-                    Player = (Player)O;
-                    //GameObjects.Remove(Player);
-                    //GameObjects.Add(Player);
-                    break;
-                }
-
-
-        }
-
         public override void Reset()
         {
             base.Reset();
-            Player = null;
+            //Player = null;
+            Player = new CPlayer(0, 0, GameObjects);
             GameObjects.Clear();
-
+            GameObjects.Add(Player);
+            
             Point LevSize = LoadLevel(1);
-            FindPlayer();
+            
             VievCam = new VievCam(LevSize.X * 48, LevSize.Y * 48, Player);
         }
     }
@@ -217,7 +193,7 @@ namespace BomberMan
             
         }
 
-        public void Draw(Player Player)
+        public void Draw(CPlayer Player)
         {
             SpriteBatch.DrawString(Font, "Life: " + Player.Lives, LifePos, Color.Azure);
             SpriteBatch.DrawString(Font, "Score: " + Player.Score.ToString("D5"), ScorePos, Color.Azure);

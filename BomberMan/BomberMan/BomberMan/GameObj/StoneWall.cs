@@ -8,7 +8,7 @@ namespace BomberMan
 {
     class StoneWall : GameObject
     {
-        public StoneWall(int x, int y,Player p)
+        public StoneWall(int x, int y,CPlayer p)
             : base(x, y,p)
         {
 
@@ -21,7 +21,7 @@ namespace BomberMan
 
     class SteelWall : GameObject
     {
-        public SteelWall(int x, int y, Player p)
+        public SteelWall(int x, int y, CPlayer p)
             : base(x, y,p)
         {
             Zorder = Zorders.SteelWall;
@@ -32,7 +32,7 @@ namespace BomberMan
 
     class EmptyLand : GameObject
     {
-        public EmptyLand(int x, int y, Player p)
+        public EmptyLand(int x, int y, CPlayer p)
             : base(x, y,p)
         {
             isPassability = true;

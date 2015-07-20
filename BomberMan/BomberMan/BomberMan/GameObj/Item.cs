@@ -12,9 +12,7 @@ namespace BomberMan.GameObj
         //чтобы пережить взрыв стены которая скрывает объект. считаем взрывы
         protected int BlowCount = 1;
 
-        protected Player Player;
-
-        public Item(int x, int y, List<GameObject> O,Player p)
+        public Item(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;
@@ -37,7 +35,7 @@ namespace BomberMan.GameObj
     class ItemBombPower : Item
     {
 
-        public ItemBombPower(int x, int y, List<GameObject> O,Player p)
+        public ItemBombPower(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y, O,p)
         {
             ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(1 * 48, 24 * 48, 48, 48) })));
@@ -65,7 +63,7 @@ namespace BomberMan.GameObj
     /// <summary>Уменьшение времени перезарядки</summary>
     class ItemBombReloadTime : Item
     {
-        public ItemBombReloadTime(int x, int y, List<GameObject> O,Player p)
+        public ItemBombReloadTime(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y, O,p)
         {
             ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(4 * 48, 24 * 48, 48, 48) })));
@@ -90,7 +88,7 @@ namespace BomberMan.GameObj
     /// <summary>Дополнительная бомба</summary>
     class ItemBombQuantity : Item
     {
-        public ItemBombQuantity(int x, int y, List<GameObject> O,Player p)
+        public ItemBombQuantity(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y, O,p)
         {
             ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(0 * 48, 24 * 48, 48, 48) })));
@@ -103,6 +101,7 @@ namespace BomberMan.GameObj
             if (Player.PosWorldX == PosWorldX && Player.PosWorldY == PosWorldY)
             {
                 isAlive = false;
+                Player.BombCount++;
                 Player.MaxBombCount++;
             }
 
@@ -114,7 +113,7 @@ namespace BomberMan.GameObj
     /// <summary>Дополнительная жизнь</summary>
     class ItemLife : Item
     {
-        public ItemLife(int x, int y, List<GameObject> O,Player p)
+        public ItemLife(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y, O,p)
         {
             ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(2 * 48, 24 * 48, 48, 48) })));

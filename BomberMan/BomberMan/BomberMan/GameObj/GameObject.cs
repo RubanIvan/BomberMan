@@ -65,7 +65,7 @@ namespace BomberMan
     public class GameObject:IComparable<GameObject>
     {
         /// <summary>Ссылка на игрока</summary>
-        public Player Player;
+        public CPlayer Player;
 
         /// <summary>чем меньше тем глубже</summary>
         public Zorders Zorder;
@@ -106,7 +106,7 @@ namespace BomberMan
         }
 
         //Конструктор
-        public GameObject(int x,int y,Player player)
+        public GameObject(int x,int y,CPlayer player)
         {
             PosWorldX = x;
             PosWorldY = y;

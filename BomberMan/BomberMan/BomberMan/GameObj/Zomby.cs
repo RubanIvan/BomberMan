@@ -15,11 +15,9 @@ namespace BomberMan
 
     class Zomby : GameObject, Iexterminable
     {
-        public Player Player;
-
         private MoveStrategy Move;
 
-        public Zomby(int x, int y, List<GameObject> O,Player p)
+        public Zomby(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;

@@ -139,7 +139,7 @@ namespace BomberMan
 
     class Fire : GameObject
     {
-        public Fire(Player p)
+        public Fire(CPlayer p)
             : base(100 - 50, 100 + 35,p)
         {
             ObjectStates.Add(PlayersEnum.Idle, new State(new Animation(new List<Rectangle>()

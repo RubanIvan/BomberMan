@@ -170,7 +170,7 @@ namespace BomberMan
                 //Перебираем все объекты
                 foreach (GameObject O in GameObjects)
                 {
-                    if (O is Player)
+                    if (O is CPlayer)
                     {
 
                     }
@@ -403,7 +403,7 @@ namespace BomberMan
     public class ExplCentr : GameObject
     {
 
-        public ExplCentr(int x, int y, List<GameObject> O,Player p)
+        public ExplCentr(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;
@@ -435,7 +435,7 @@ namespace BomberMan
     public class ExplUp : GameObject
     {
 
-        public ExplUp(int x, int y, List<GameObject> O,Player p)
+        public ExplUp(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;
@@ -467,7 +467,7 @@ namespace BomberMan
     public class ExplUpEnd : GameObject
     {
 
-        public ExplUpEnd(int x, int y, List<GameObject> O,Player p)
+        public ExplUpEnd(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;
@@ -499,7 +499,7 @@ namespace BomberMan
     public class ExplDown : GameObject
     {
 
-        public ExplDown(int x, int y, List<GameObject> O,Player p)
+        public ExplDown(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;
@@ -531,7 +531,7 @@ namespace BomberMan
     public class ExplDownEnd : GameObject
     {
 
-        public ExplDownEnd(int x, int y, List<GameObject> O,Player p)
+        public ExplDownEnd(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;
@@ -563,7 +563,7 @@ namespace BomberMan
     public class ExplRight : GameObject
     {
 
-        public ExplRight(int x, int y, List<GameObject> O,Player p)
+        public ExplRight(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;
@@ -595,7 +595,7 @@ namespace BomberMan
     public class ExplRightEnd : GameObject
     {
 
-        public ExplRightEnd(int x, int y, List<GameObject> O,Player p)
+        public ExplRightEnd(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;
@@ -627,7 +627,7 @@ namespace BomberMan
     public class ExplLeft : GameObject
     {
 
-        public ExplLeft(int x, int y, List<GameObject> O,Player p)
+        public ExplLeft(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;
@@ -659,7 +659,7 @@ namespace BomberMan
     public class ExplLeftEnd : GameObject
     {
 
-        public ExplLeftEnd(int x, int y, List<GameObject> O,Player p)
+        public ExplLeftEnd(int x, int y, List<GameObject> O,CPlayer p)
             : base(x, y,p)
         {
             GameObjects = O;

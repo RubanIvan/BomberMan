@@ -31,7 +31,7 @@ namespace BomberMan
         Fire,
     }
 
-    public class Player : GameObject, Iexterminable
+    public class CPlayer : GameObject, Iexterminable
     {
         /// <summary>Текущее количество бомб в обойме</summary>
         public int BombCount = 3;
@@ -53,10 +53,10 @@ namespace BomberMan
         public int Score = 0;
 
         /// <summary>стартовая позиция игрока </summary>
-        private Point StartPos;
+        public Point StartPos;
 
         //конструктор
-        public Player(int x, int y, List<GameObject> O)
+        public CPlayer(int x, int y, List<GameObject> O)
             : base(x, y,null)
         {
             GameObjects = O;
@@ -583,7 +583,7 @@ namespace BomberMan
         {
             Animation.SpriteCurentFrameNum = 0;
             Animation.isAnimated = true;
-            ((Player)GameObject).Resurrection();
+            ((CPlayer)GameObject).Resurrection();
         }
     }
 
