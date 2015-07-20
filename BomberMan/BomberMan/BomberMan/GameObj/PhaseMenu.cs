@@ -33,7 +33,7 @@ namespace BomberMan
         public PhaseMenu(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font,SoundEngine sound)
             : base(texture, spriteBatch,font,sound)
         {
-            Fire = new Fire();
+            Fire = new Fire(null);
         }
 
         public override void Update(GameTime gameTime)
@@ -139,8 +139,8 @@ namespace BomberMan
 
     class Fire : GameObject
     {
-        public Fire()
-            : base(100 - 50, 100 + 35)
+        public Fire(Player p)
+            : base(100 - 50, 100 + 35,p)
         {
             ObjectStates.Add(PlayersEnum.Idle, new State(new Animation(new List<Rectangle>()
             {

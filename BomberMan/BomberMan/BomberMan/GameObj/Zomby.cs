@@ -19,12 +19,9 @@ namespace BomberMan
 
         private MoveStrategy Move;
 
-        public Zomby(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public Zomby(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
-            //найти игрока
-            foreach (GameObject GO in O)if (GO is Player) Player = (Player) GO;
-            
             GameObjects = O;
 
             Zorder = Zorders.Enemy;

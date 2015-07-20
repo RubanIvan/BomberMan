@@ -8,8 +8,8 @@ namespace BomberMan
 {
     class StoneWall : GameObject
     {
-        public StoneWall(int x, int y)
-            : base(x, y)
+        public StoneWall(int x, int y,Player p)
+            : base(x, y,p)
         {
 
             Zorder = Zorders.StoneWall;
@@ -21,8 +21,8 @@ namespace BomberMan
 
     class SteelWall : GameObject
     {
-        public SteelWall(int x, int y)
-            : base(x, y)
+        public SteelWall(int x, int y, Player p)
+            : base(x, y,p)
         {
             Zorder = Zorders.SteelWall;
             ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(3 * 48, 0, 48, 48) })));
@@ -32,8 +32,8 @@ namespace BomberMan
 
     class EmptyLand : GameObject
     {
-        public EmptyLand(int x, int y)
-            : base(x, y)
+        public EmptyLand(int x, int y, Player p)
+            : base(x, y,p)
         {
             isPassability = true;
 

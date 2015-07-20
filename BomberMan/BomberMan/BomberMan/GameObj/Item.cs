@@ -6,26 +6,40 @@ using Microsoft.Xna.Framework;
 
 namespace BomberMan.GameObj
 {
-    /// <summary>Увеличение мощности взрыва</summary>
-    class ItemBombPower : GameObject, Iexterminable
+
+    class Item : GameObject, Iexterminable
     {
         //чтобы пережить взрыв стены которая скрывает объект. считаем взрывы
-        private int BlowCount = 1;
+        protected int BlowCount = 1;
 
-        private Player Player;
+        protected Player Player;
 
-        public ItemBombPower(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public Item(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
-            //найти игрока
-            foreach (GameObject G in O) if (G is Player) Player = (Player)G;
-
             GameObjects = O;
 
             Zorder = Zorders.Item;
 
             isPassability = true;
 
+        }
+
+        public void Blow(BlowSide side)
+        {
+            BlowCount--;
+            if (BlowCount < 0) isAlive = false;
+        }
+    }
+
+
+    /// <summary>Увеличение мощности взрыва</summary>
+    class ItemBombPower : Item
+    {
+
+        public ItemBombPower(int x, int y, List<GameObject> O,Player p)
+            : base(x, y, O,p)
+        {
             ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(1 * 48, 24 * 48, 48, 48) })));
             ChangeState(WallEnum.Idle);
         }
@@ -39,36 +53,70 @@ namespace BomberMan.GameObj
                 if (Player.BombGun is SampleBombGun) Player.BombGun = new MidleBombGun(GameObjects);
                 else if (Player.BombGun is MidleBombGun) Player.BombGun = new BigBombGun(GameObjects);
                 else Player.Score += 1000;
-                
+
             }
 
         }
 
-        public void Blow(BlowSide side)
-        {
-            BlowCount--;
-            if (BlowCount < 0) isAlive = false;
-        }
+
     }
 
-    /// <summary>Дополнительная жизнь</summary>
-    class ItemLife : GameObject, Iexterminable
+
+    /// <summary>Уменьшение времени перезарядки</summary>
+    class ItemBombReloadTime : Item
     {
-        //чтобы пережить взрыв стены которая скрывает объект. считаем взрывы
-        private int BlowCount = 1;
-
-        private Player Player;
-
-        public ItemLife(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public ItemBombReloadTime(int x, int y, List<GameObject> O,Player p)
+            : base(x, y, O,p)
         {
-            //найти игрока
-            foreach (GameObject G in O) if (G is Player) Player = (Player)G;
+            ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(4 * 48, 24 * 48, 48, 48) })));
+            ChangeState(WallEnum.Idle);
+        }
 
-            Zorder = Zorders.Item;
+        public override void Update(GameTime gameTime)
+        {
+            State.Update(gameTime);
+            if (Player.PosWorldX == PosWorldX && Player.PosWorldY == PosWorldY)
+            {
+                isAlive = false;
+                Player.BombTimeReload -= 500;
+                if (Player.BombTimeReload < 0) Player.BombTimeReload = 0;
+            }
 
-            isPassability = true;
+        }
 
+    }
+
+
+    /// <summary>Дополнительная бомба</summary>
+    class ItemBombQuantity : Item
+    {
+        public ItemBombQuantity(int x, int y, List<GameObject> O,Player p)
+            : base(x, y, O,p)
+        {
+            ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(0 * 48, 24 * 48, 48, 48) })));
+            ChangeState(WallEnum.Idle);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            State.Update(gameTime);
+            if (Player.PosWorldX == PosWorldX && Player.PosWorldY == PosWorldY)
+            {
+                isAlive = false;
+                Player.MaxBombCount++;
+            }
+
+        }
+
+    }
+
+
+    /// <summary>Дополнительная жизнь</summary>
+    class ItemLife : Item
+    {
+        public ItemLife(int x, int y, List<GameObject> O,Player p)
+            : base(x, y, O,p)
+        {
             ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(2 * 48, 24 * 48, 48, 48) })));
             ChangeState(WallEnum.Idle);
         }
@@ -84,10 +132,9 @@ namespace BomberMan.GameObj
 
         }
 
-        public void Blow(BlowSide side)
-        {
-            BlowCount--;
-            if(BlowCount<0) isAlive = false;
-        }
     }
+
+
+    
+    
 }

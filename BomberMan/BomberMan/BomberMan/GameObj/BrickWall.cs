@@ -24,7 +24,7 @@ namespace BomberMan
     class BrickWall:GameObject,Iexterminable
     {
         //конструктор
-        public BrickWall(int x, int y) : base(x, y)
+        public BrickWall(int x, int y,Player p) : base(x, y,p)
         {
             Zorder = Zorders.BrickWall;
 

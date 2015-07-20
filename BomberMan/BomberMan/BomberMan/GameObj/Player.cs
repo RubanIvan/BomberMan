@@ -33,11 +33,17 @@ namespace BomberMan
 
     public class Player : GameObject, Iexterminable
     {
+        /// <summary>Текущее количество бомб в обойме</summary>
+        public int BombCount = 3;
 
-        //public int BombPower = 3;
+        /// <summary>Максимапльное количество бомб в обойме</summary>
+        public int MaxBombCount = 3;
 
-        //Количество однавремен
-        //private int MaxBombCount = 1;
+        /// <summary>Время перезарядки бомбы</summary>
+        public int BombTimeReload=3000;
+
+        //сколько прошло времени с последней перезарядки
+        private int BombTime;
 
         public IBombarda BombGun;
 
@@ -51,7 +57,7 @@ namespace BomberMan
 
         //конструктор
         public Player(int x, int y, List<GameObject> O)
-            : base(x, y)
+            : base(x, y,null)
         {
             GameObjects = O;
 
@@ -158,13 +164,22 @@ namespace BomberMan
 
         public override void Update(GameTime gameTime)
         {
+            if (BombCount != MaxBombCount)
+            {
+                BombTime += gameTime.ElapsedGameTime.Milliseconds;
+                if (BombTime > BombTimeReload)
+                {
+                    BombCount++;
+                    BombTime = 0;
+                }
+            }
 
             State.Update(gameTime);
 
             //Установка бомбы
             if (InputHelper.KeyPressed(Keys.Space))
             {
-                DropBomb();
+                TryDropBomb();
 
             }
 
@@ -247,7 +262,7 @@ namespace BomberMan
         }
 
         /// <summary>Игрок пытается установить бомбу</summary>
-        public void DropBomb()
+        public void TryDropBomb()
         {
             int x, y;
 
@@ -257,7 +272,7 @@ namespace BomberMan
             if (PosWorldY % 48 == 0 && PosWorldX % 48 == 0)
             {
                 //Проверяем пуста ли клетка ставим бомбу
-                if (isEmptyCell(PosWorldX, PosWorldY)) BombGun.DropBomb(PosWorldX, PosWorldY);
+                if (isEmptyCell(PosWorldX, PosWorldY)) DropBomb(PosWorldX, PosWorldY);
 
             }
             else //мы не в квадрате
@@ -269,11 +284,11 @@ namespace BomberMan
                     x = PosWorldX - PosWorldX % 48;
                     if (PosWorldX % 48 > 38)
                     {
-                        if (isEmptyCell(x + 48, y)) BombGun.DropBomb(x + 48, y);
+                        if (isEmptyCell(x + 48, y)) DropBomb(x + 48, y);
                     }
                     else
                     {
-                        if (isEmptyCell(x, y)) BombGun.DropBomb(x, y);
+                        if (isEmptyCell(x, y)) DropBomb(x, y);
                     }
                 }
 
@@ -284,11 +299,11 @@ namespace BomberMan
                     y = PosWorldY - PosWorldY % 48;
                     if (PosWorldY % 48 > 38)
                     {
-                        if (isEmptyCell(x, y + 48)) BombGun.DropBomb(x, y + 48);
+                        if (isEmptyCell(x, y + 48)) DropBomb(x, y + 48);
                     }
                     else
                     {
-                        if (isEmptyCell(x, y)) BombGun.DropBomb(x, y);
+                        if (isEmptyCell(x, y)) DropBomb(x, y);
                     }
                 }
 
@@ -299,11 +314,11 @@ namespace BomberMan
                     x = PosWorldX - PosWorldX % 48 + 48;
                     if (PosWorldX % 48 > 10)
                     {
-                        if (isEmptyCell(x, y)) BombGun.DropBomb(x, y);
+                        if (isEmptyCell(x, y)) DropBomb(x, y);
                     }
                     else
                     {
-                        if (isEmptyCell(x - 48, y)) BombGun.DropBomb(x - 48, y);
+                        if (isEmptyCell(x - 48, y)) DropBomb(x - 48, y);
                     }
                 }
 
@@ -314,14 +329,26 @@ namespace BomberMan
                     y = PosWorldY - PosWorldY % 48 + 48;
                     if (PosWorldY % 48 > 10)
                     {
-                        if (isEmptyCell(x, y)) BombGun.DropBomb(x, y);
+                        if (isEmptyCell(x, y)) DropBomb(x, y);
                     }
                     else
                     {
-                        if (isEmptyCell(x, y - 48)) BombGun.DropBomb(x, y - 48);
+                        if (isEmptyCell(x, y - 48)) DropBomb(x, y - 48);
                     }
                 }
 
+            }
+        }
+
+        //установка бомбы по ранее расшитаным координатам
+        private void DropBomb(int x,int y)
+        {
+            if (BombCount == MaxBombCount) BombTime = 0;
+            
+            if (BombCount > 0)
+            {
+                BombCount--;
+                BombGun.DropBomb(x, y);
             }
         }
 
@@ -345,6 +372,11 @@ namespace BomberMan
         public void Resurrection()
         {
             Lives--;
+            BombCount = 3;
+            MaxBombCount = 3;
+            BombTimeReload=3000;
+            BombGun=new SampleBombGun(GameObjects);
+
             if(Lives<0)GamePhaseManager.SwitchTo(Phase.GameOver);
             else
             {

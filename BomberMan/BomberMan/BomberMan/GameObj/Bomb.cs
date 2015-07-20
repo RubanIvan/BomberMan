@@ -61,7 +61,7 @@ namespace BomberMan
             bool ExplEnd = false;
 
             //ставим центр взрыва
-            GameObjects.Add(new ExplCentr(PosWorldX, PosWorldY, GameObjects));
+            GameObjects.Add(new ExplCentr(PosWorldX, PosWorldY, GameObjects,Player));
 
             //взрываем центр центр
             foreach (GameObject O in GameObjects)
@@ -108,10 +108,10 @@ namespace BomberMan
 
                 for (int i = 0; i < ExpListX.Count - 1; i++)
                 {
-                    GameObjects.Add(new ExplRight(ExpListX.ElementAt(i).X, ExpListX.ElementAt(i).Y, GameObjects));
+                    GameObjects.Add(new ExplRight(ExpListX.ElementAt(i).X, ExpListX.ElementAt(i).Y, GameObjects,Player));
                 }
                 //ставим концовку взрыва
-                GameObjects.Add(new ExplRightEnd(ExpListX.Last().X, ExpListX.Last().Y, GameObjects));
+                GameObjects.Add(new ExplRightEnd(ExpListX.Last().X, ExpListX.Last().Y, GameObjects,Player));
             }
             #endregion
 
@@ -154,10 +154,10 @@ namespace BomberMan
             {
                 for (int i = ExpListX.Count - 1; i > 0; i--)
                 {
-                    GameObjects.Add(new ExplLeft(ExpListX.ElementAt(i).X, ExpListX.ElementAt(i).Y, GameObjects));
+                    GameObjects.Add(new ExplLeft(ExpListX.ElementAt(i).X, ExpListX.ElementAt(i).Y, GameObjects,Player));
                 }
                 //ставим концовку взрыва
-                GameObjects.Add(new ExplLeftEnd(ExpListX.First().X, ExpListX.First().Y, GameObjects));
+                GameObjects.Add(new ExplLeftEnd(ExpListX.First().X, ExpListX.First().Y, GameObjects,Player));
             }
             #endregion
 
@@ -204,10 +204,10 @@ namespace BomberMan
 
                 for (int i = 0; i < ExpListY.Count - 1; i++)
                 {
-                    GameObjects.Add(new ExplDown(ExpListY.ElementAt(i).X, ExpListY.ElementAt(i).Y, GameObjects));
+                    GameObjects.Add(new ExplDown(ExpListY.ElementAt(i).X, ExpListY.ElementAt(i).Y, GameObjects,Player));
                 }
                 //ставим концовку взрыва
-                GameObjects.Add(new ExplDownEnd(ExpListY.Last().X, ExpListY.Last().Y, GameObjects));
+                GameObjects.Add(new ExplDownEnd(ExpListY.Last().X, ExpListY.Last().Y, GameObjects,Player));
             }
             #endregion
 
@@ -250,10 +250,10 @@ namespace BomberMan
 
                 for (int i = ExpListY.Count - 1; i > 0; i--)
                 {
-                    GameObjects.Add(new ExplUp(ExpListY.ElementAt(i).X, ExpListY.ElementAt(i).Y, GameObjects));
+                    GameObjects.Add(new ExplUp(ExpListY.ElementAt(i).X, ExpListY.ElementAt(i).Y, GameObjects,Player));
                 }
                 //ставим концовку взрыва
-                GameObjects.Add(new ExplUpEnd(ExpListY.First().X, ExpListY.First().Y, GameObjects));
+                GameObjects.Add(new ExplUpEnd(ExpListY.First().X, ExpListY.First().Y, GameObjects,Player));
             }
             #endregion
         }
@@ -403,8 +403,8 @@ namespace BomberMan
     public class ExplCentr : GameObject
     {
 
-        public ExplCentr(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public ExplCentr(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
             GameObjects = O;
 
@@ -435,8 +435,8 @@ namespace BomberMan
     public class ExplUp : GameObject
     {
 
-        public ExplUp(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public ExplUp(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
             GameObjects = O;
 
@@ -467,8 +467,8 @@ namespace BomberMan
     public class ExplUpEnd : GameObject
     {
 
-        public ExplUpEnd(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public ExplUpEnd(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
             GameObjects = O;
 
@@ -499,8 +499,8 @@ namespace BomberMan
     public class ExplDown : GameObject
     {
 
-        public ExplDown(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public ExplDown(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
             GameObjects = O;
 
@@ -531,8 +531,8 @@ namespace BomberMan
     public class ExplDownEnd : GameObject
     {
 
-        public ExplDownEnd(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public ExplDownEnd(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
             GameObjects = O;
 
@@ -563,8 +563,8 @@ namespace BomberMan
     public class ExplRight : GameObject
     {
 
-        public ExplRight(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public ExplRight(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
             GameObjects = O;
 
@@ -595,8 +595,8 @@ namespace BomberMan
     public class ExplRightEnd : GameObject
     {
 
-        public ExplRightEnd(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public ExplRightEnd(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
             GameObjects = O;
 
@@ -627,8 +627,8 @@ namespace BomberMan
     public class ExplLeft : GameObject
     {
 
-        public ExplLeft(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public ExplLeft(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
             GameObjects = O;
 
@@ -659,8 +659,8 @@ namespace BomberMan
     public class ExplLeftEnd : GameObject
     {
 
-        public ExplLeftEnd(int x, int y, List<GameObject> O)
-            : base(x, y)
+        public ExplLeftEnd(int x, int y, List<GameObject> O,Player p)
+            : base(x, y,p)
         {
             GameObjects = O;
 

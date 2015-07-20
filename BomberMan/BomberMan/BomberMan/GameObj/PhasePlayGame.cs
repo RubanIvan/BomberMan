@@ -16,15 +16,27 @@ namespace BomberMan
         /// <summary>ссылка на игрока </summary>
         private Player Player;
 
+        //текущий загруженный уровень
+        private int Level = 1;
+
+        //точка с которой стартует игрок
+        private Point StartPoint;
+
         private VievCam VievCam;
 
+        private UIelemrnt UIelement;
+
+        public bool GoToNextLevel=false;
 
         public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font,SoundEngine sound): base(texture, spriteBatch,font,sound)
         {
-            
-            Point LevSize=LoadLevel(1);
-            FindPlayer();
+
+            Point LevSize = LoadLevel(Level);
+            Player = new Player(StartPoint.X, StartPoint.Y, GameObjects);
+            GameObjects.Add(Player);
+            //FindPlayer();
             VievCam=new VievCam(LevSize.X*48,LevSize.Y*48,Player);
+            UIelement = new UIelemrnt(Texture, spriteBatch,font);
 
             //GameObjects.Add(new Zomby(48, 48 ,GameObjects,Player));
 
@@ -47,6 +59,15 @@ namespace BomberMan
 
             VievCam.Update(gameTime);
 
+            if (GoToNextLevel)
+            {
+                Level++;
+                FindPlayer();
+                GameObjects.Clear();
+                Point LevSize = LoadLevel(Level);
+            }
+
+
         }
 
         public override void Draw()
@@ -55,8 +76,7 @@ namespace BomberMan
             {
                 if (O is Player)
                 {
-                    SpriteBatch.DrawString(Font, "Life: "+((Player)O).Lives, new Vector2(10, 10), Color.Azure);
-                    SpriteBatch.DrawString(Font, "Score: " + ((Player)O).Score.ToString("D5"), new Vector2(150, 10), Color.Azure);
+                    UIelement.Draw((Player) O);
                 }
 
                 //Проверяем пересечение прямоугольников 
@@ -65,6 +85,7 @@ namespace BomberMan
                 //пересчитываем координаты из мировых в экранные для данного объекта и отрисовываем
                 SpriteBatch.Draw(Texture, new Rectangle(O.PosWorldX - VievCam.X, O.PosWorldY - VievCam.Y, 48, 48), O.Sprite, Color.White);
             }
+            
         }
 
         ///<summary>Загрузка уровня</summary>
@@ -88,41 +109,52 @@ namespace BomberMan
 
                     switch (s[i])
                     {
-                        case 'S':
-                            GameObjects.Add(new EmptyLand(48 * i, 48 * j));
-                            GameObjects.Add(new Player(48 * i, 48 * j,GameObjects));
+                        case 'S'://Player start point
+                            GameObjects.Add(new EmptyLand(48 * i, 48 * j,Player));
+                            StartPoint.X = 48*i;StartPoint.Y = 48*j;
+                            //GameObjects.Add(new Player(48 * i, 48 * j,GameObjects));
                             break;
-                        case 'Z':
-                            GameObjects.Add(new EmptyLand(48 * i, 48 * j));
-                            GameObjects.Add(new Zomby(48 * i, 48 * j, GameObjects));
+                        case 'Z'://Zomby
+                            GameObjects.Add(new EmptyLand(48 * i, 48 * j,Player));
+                            GameObjects.Add(new Zomby(48 * i, 48 * j, GameObjects,Player));
                             break;
-                        case 'L':
-                            GameObjects.Add(new EmptyLand(48 * i, 48 * j));
-                            GameObjects.Add(new BrickWall(48 * i, 48 * j));
-                            GameObjects.Add(new ItemLife(48 * i, 48 * j, GameObjects));
+                        case 'L'://Life
+                            GameObjects.Add(new EmptyLand(48 * i, 48 * j, Player));
+                            GameObjects.Add(new BrickWall(48 * i, 48 * j, Player));
+                            GameObjects.Add(new ItemLife(48 * i, 48 * j, GameObjects, Player));
                             break;
-                        case 'P':
-                            GameObjects.Add(new EmptyLand(48 * i, 48 * j));
-                            GameObjects.Add(new BrickWall(48 * i, 48 * j));
-                            GameObjects.Add(new ItemBombPower(48 * i, 48 * j, GameObjects));
+                        case 'P'://BombPower
+                            GameObjects.Add(new EmptyLand(48 * i, 48 * j, Player));
+                            GameObjects.Add(new BrickWall(48 * i, 48 * j, Player));
+                            GameObjects.Add(new ItemBombPower(48 * i, 48 * j, GameObjects, Player));
                             break;
-                        case 'X':
-                            GameObjects.Add(new SteelWall(48 * i, 48 * j));
+                        case 'Q'://BombQuantity
+                            GameObjects.Add(new EmptyLand(48 * i, 48 * j, Player));
+                            GameObjects.Add(new BrickWall(48 * i, 48 * j, Player));
+                            GameObjects.Add(new ItemBombQuantity(48 * i, 48 * j, GameObjects, Player));
                             break;
-                        case '#':
-                            GameObjects.Add(new StoneWall(48 * i, 48 * j));
+                        case 'T': //BombReloadTime
+                            GameObjects.Add(new EmptyLand(48 * i, 48 * j, Player));
+                            GameObjects.Add(new BrickWall(48 * i, 48 * j, Player));
+                            GameObjects.Add(new ItemBombReloadTime(48 * i, 48 * j, GameObjects, Player));
                             break;
-                        case ' ':
-                            GameObjects.Add(new EmptyLand(48 * i, 48 * j));
+                        case 'X'://SteelWall
+                            GameObjects.Add(new SteelWall(48 * i, 48 * j, Player));
                             break;
-                        case '.':
+                        case '#'://StoneWall
+                            GameObjects.Add(new StoneWall(48 * i, 48 * j, Player));
+                            break;
+                        case ' ': //EmptyLand
+                            GameObjects.Add(new EmptyLand(48 * i, 48 * j, Player));
+                            break;
+                        case '.'://BrickWall
                             if (Rnd.Next(100) > 60)
                             {
                                 //подкладываем землю под каждую стену
-                                GameObjects.Add(new EmptyLand(48 * i, 48 * j));
-                                GameObjects.Add(new BrickWall(48 * i, 48 * j));
+                                GameObjects.Add(new EmptyLand(48 * i, 48 * j, Player));
+                                GameObjects.Add(new BrickWall(48 * i, 48 * j, Player));
                             }
-                            else GameObjects.Add(new EmptyLand(48 * i, 48 * j));
+                            else GameObjects.Add(new EmptyLand(48 * i, 48 * j, Player));
                             break;
 
                     }
@@ -164,4 +196,37 @@ namespace BomberMan
             VievCam = new VievCam(LevSize.X * 48, LevSize.Y * 48, Player);
         }
     }
+
+
+    public class UIelemrnt
+    {
+        
+        private Texture2D Texture;
+        private SpriteBatch SpriteBatch;
+        private SpriteFont Font;
+
+        Vector2 LifePos=new Vector2(10,10);
+        Vector2 ScorePos = new Vector2(150+150, 10);
+        private Rectangle BombSrc = new Rectangle(0, 25*48, 48, 48);
+
+        public UIelemrnt(Texture2D textere,SpriteBatch spriteBatch,SpriteFont font)
+        {
+            Texture = textere;
+            SpriteBatch = spriteBatch;
+            Font = font;
+            
+        }
+
+        public void Draw(Player Player)
+        {
+            SpriteBatch.DrawString(Font, "Life: " + Player.Lives, LifePos, Color.Azure);
+            SpriteBatch.DrawString(Font, "Score: " + Player.Score.ToString("D5"), ScorePos, Color.Azure);
+
+            for (int i = 0; i < Player.BombCount; i++)
+            {
+                SpriteBatch.Draw(Texture, new Rectangle(120 + 24 * i, -7, 48, 48), BombSrc, Color.White);
+            }
+        }
+    }
+
 }

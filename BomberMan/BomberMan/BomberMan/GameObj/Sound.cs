@@ -12,20 +12,21 @@ namespace BomberMan
     {
         MenuSelect=0,
         MenuChange=1
+
     }
 
     public class SoundEngine
     {
-        public List<SoundEffectInstance > SoundList=new List<SoundEffectInstance>();
+        public List<SoundEffect> SoundList=new List<SoundEffect>();
 
         public void SoundInit(ContentManager Content)
         {
-            SoundList.Add(Content.Load<SoundEffect>("MenuSelect").CreateInstance());
-            SoundList.Add(Content.Load<SoundEffect>("MenuChange").CreateInstance());
+            SoundList.Add(Content.Load<SoundEffect>("MenuSelect"));
+            SoundList.Add(Content.Load<SoundEffect>("MenuChange"));
             
         }
 
-        public SoundEffectInstance this[SoundNames s]
+        public SoundEffect this[SoundNames s]
         {
             get { return SoundList[(int) s]; }
         }
