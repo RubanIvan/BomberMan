@@ -23,7 +23,7 @@ namespace BomberMan.GameObj
 
         }
 
-        public void Blow(BlowSide side)
+        public virtual void Blow(BlowSide side)
         {
             BlowCount--;
             if (BlowCount < 0) isAlive = false;
@@ -134,6 +134,36 @@ namespace BomberMan.GameObj
     }
 
 
-    
+    /// <summary>Выход на следующий уровень</summary>
+    class ItemExit : Item
+    {
+        private PhasePlayGame Phase;
+
+        public ItemExit(int x, int y, List<GameObject> O, CPlayer p,PhasePlayGame phase)
+            : base(x, y, O, p)
+        {
+            ObjectStates.Add(WallEnum.Idle, new State(new Animation(new List<Rectangle>() { new Rectangle(3 * 48, 24 * 48, 48, 48) })));
+            ChangeState(WallEnum.Idle);
+            Phase = phase;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            State.Update(gameTime);
+            if (Player.PosWorldX == PosWorldX && Player.PosWorldY == PosWorldY)
+            {
+                isAlive = false;
+                Phase.GoToNextLevel = true;
+            }
+
+        }
+
+        public override void Blow(BlowSide side)
+        {
+            //нельзя взорвать
+            isAlive = true;
+        }
+
+    }
     
 }

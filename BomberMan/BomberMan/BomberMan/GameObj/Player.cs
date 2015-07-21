@@ -42,8 +42,8 @@ namespace BomberMan
         /// <summary>Время перезарядки бомбы</summary>
         public int BombTimeReload=3000;
 
-        //сколько прошло времени с последней перезарядки
-        private int BombTime;
+        /// <summary>Cколько прошло времени с последней перезарядки</summary>
+        public int BombTime;
 
         public IBombarda BombGun;
 
