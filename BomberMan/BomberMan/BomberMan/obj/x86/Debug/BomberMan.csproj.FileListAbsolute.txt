@@ -40,3 +40,4 @@ D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level3.
 D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level4.txt
 D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level5.txt
 D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level6.txt
+D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\highscores.xnb

@@ -58,9 +58,11 @@ namespace BomberMan
 
             GamePhaseManager.Add(Phase.GameOver, new PhaseGameOver(Content.Load<Texture2D>("GameOver"), SpriteBatch,Font,SoundEngine));
 
+            GamePhaseManager.Add(Phase.HiScore, new PhaseHiScore(Content.Load<Texture2D>("highscores"), SpriteBatch, Font, SoundEngine));
+
             GamePhaseManager.Add(Phase.Exit, new PhaseExit(this));
 
-            GamePhaseManager.SwitchTo(Phase.MainMenu);
+            GamePhaseManager.SwitchTo(Phase.HiScore);
 
             
         }

@@ -55,6 +55,7 @@ namespace BomberMan
             {
                 GoToNextLevel = false;
                 Level++;
+                if (Level > 6) Level = 1;
                 GameObjects.Clear();
                 Point LevSize = LoadLevel(Level);
                 GameObjects.Add(Player);

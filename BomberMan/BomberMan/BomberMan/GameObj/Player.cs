@@ -29,6 +29,8 @@ namespace BomberMan
         IdleUp,
         /// <summary>Горит, подорвался на бомбе</summary>
         Fire,
+        /// <summary>Игока догнал противник</summary>
+        Dead
     }
 
     public class CPlayer : GameObject, Iexterminable
@@ -82,6 +84,7 @@ namespace BomberMan
             ObjectStates.Add(PlayersEnum.IdleUp, new PlayerIdleUp(this));
             ObjectStates.Add(PlayersEnum.WalkDown, new PlayerWalkDown(this));
             ObjectStates.Add(PlayersEnum.Fire, new PlayerFire(this));
+            ObjectStates.Add(PlayersEnum.Dead, new PlayerDead(this));
 
             ChangeState(PlayersEnum.Idle);
 
@@ -92,6 +95,7 @@ namespace BomberMan
             SMtransition[PlayersEnum.Idle].Add(PlayersEnum.WalkUp, PlayersEnum.WalkUp);
             SMtransition[PlayersEnum.Idle].Add(PlayersEnum.WalkDown, PlayersEnum.WalkDown);
             SMtransition[PlayersEnum.Idle].Add(PlayersEnum.Fire, PlayersEnum.Fire);
+            SMtransition[PlayersEnum.Idle].Add(PlayersEnum.Dead, PlayersEnum.Dead);
 
 
             SMtransition.Add(PlayersEnum.WalkRight, new Dictionary<Enum, Enum>());
@@ -101,6 +105,7 @@ namespace BomberMan
             SMtransition[PlayersEnum.WalkRight].Add(PlayersEnum.WalkUp, PlayersEnum.WalkRight);
             SMtransition[PlayersEnum.WalkRight].Add(PlayersEnum.WalkDown, PlayersEnum.WalkRight);
             SMtransition[PlayersEnum.WalkRight].Add(PlayersEnum.Fire, PlayersEnum.Fire);
+            SMtransition[PlayersEnum.WalkRight].Add(PlayersEnum.Dead, PlayersEnum.Dead);
 
             SMtransition.Add(PlayersEnum.IdleRight, new Dictionary<Enum, Enum>());
             SMtransition[PlayersEnum.IdleRight].Add(PlayersEnum.Idle, PlayersEnum.IdleRight);
@@ -109,6 +114,7 @@ namespace BomberMan
             SMtransition[PlayersEnum.IdleRight].Add(PlayersEnum.WalkUp, PlayersEnum.WalkUp);
             SMtransition[PlayersEnum.IdleRight].Add(PlayersEnum.WalkDown, PlayersEnum.WalkDown);
             SMtransition[PlayersEnum.IdleRight].Add(PlayersEnum.Fire, PlayersEnum.Fire);
+            SMtransition[PlayersEnum.IdleRight].Add(PlayersEnum.Dead, PlayersEnum.Dead);
 
             SMtransition.Add(PlayersEnum.WalkLeft, new Dictionary<Enum, Enum>());
             SMtransition[PlayersEnum.WalkLeft].Add(PlayersEnum.Idle, PlayersEnum.IdleLeft);
@@ -117,6 +123,7 @@ namespace BomberMan
             SMtransition[PlayersEnum.WalkLeft].Add(PlayersEnum.WalkUp, PlayersEnum.WalkLeft);
             SMtransition[PlayersEnum.WalkLeft].Add(PlayersEnum.WalkDown, PlayersEnum.WalkLeft);
             SMtransition[PlayersEnum.WalkLeft].Add(PlayersEnum.Fire, PlayersEnum.Fire);
+            SMtransition[PlayersEnum.WalkLeft].Add(PlayersEnum.Dead, PlayersEnum.Dead);
 
             SMtransition.Add(PlayersEnum.IdleLeft, new Dictionary<Enum, Enum>());
             SMtransition[PlayersEnum.IdleLeft].Add(PlayersEnum.Idle, PlayersEnum.IdleLeft);
@@ -125,6 +132,7 @@ namespace BomberMan
             SMtransition[PlayersEnum.IdleLeft].Add(PlayersEnum.WalkUp, PlayersEnum.WalkUp);
             SMtransition[PlayersEnum.IdleLeft].Add(PlayersEnum.WalkDown, PlayersEnum.WalkDown);
             SMtransition[PlayersEnum.IdleLeft].Add(PlayersEnum.Fire, PlayersEnum.Fire);
+            SMtransition[PlayersEnum.IdleLeft].Add(PlayersEnum.Dead, PlayersEnum.Dead);
 
             SMtransition.Add(PlayersEnum.WalkUp, new Dictionary<Enum, Enum>());
             SMtransition[PlayersEnum.WalkUp].Add(PlayersEnum.Idle, PlayersEnum.IdleUp);
@@ -133,6 +141,7 @@ namespace BomberMan
             SMtransition[PlayersEnum.WalkUp].Add(PlayersEnum.WalkUp, PlayersEnum.WalkUp);
             SMtransition[PlayersEnum.WalkUp].Add(PlayersEnum.WalkDown, PlayersEnum.WalkUp);
             SMtransition[PlayersEnum.WalkUp].Add(PlayersEnum.Fire, PlayersEnum.Fire);
+            SMtransition[PlayersEnum.WalkUp].Add(PlayersEnum.Dead, PlayersEnum.Dead);
 
             SMtransition.Add(PlayersEnum.IdleUp, new Dictionary<Enum, Enum>());
             SMtransition[PlayersEnum.IdleUp].Add(PlayersEnum.Idle, PlayersEnum.IdleUp);
@@ -141,6 +150,7 @@ namespace BomberMan
             SMtransition[PlayersEnum.IdleUp].Add(PlayersEnum.WalkUp, PlayersEnum.WalkUp);
             SMtransition[PlayersEnum.IdleUp].Add(PlayersEnum.WalkDown, PlayersEnum.Idle);
             SMtransition[PlayersEnum.IdleUp].Add(PlayersEnum.Fire, PlayersEnum.Fire);
+            SMtransition[PlayersEnum.IdleUp].Add(PlayersEnum.Dead, PlayersEnum.Dead);
 
             SMtransition.Add(PlayersEnum.WalkDown, new Dictionary<Enum, Enum>());
             SMtransition[PlayersEnum.WalkDown].Add(PlayersEnum.Idle, PlayersEnum.Idle);
@@ -149,6 +159,7 @@ namespace BomberMan
             SMtransition[PlayersEnum.WalkDown].Add(PlayersEnum.WalkUp, PlayersEnum.WalkDown);
             SMtransition[PlayersEnum.WalkDown].Add(PlayersEnum.WalkDown, PlayersEnum.WalkDown);
             SMtransition[PlayersEnum.WalkDown].Add(PlayersEnum.Fire, PlayersEnum.Fire);
+            SMtransition[PlayersEnum.WalkDown].Add(PlayersEnum.Dead, PlayersEnum.Dead);
 
             SMtransition.Add(PlayersEnum.Fire, new Dictionary<Enum, Enum>());
             SMtransition[PlayersEnum.Fire].Add(PlayersEnum.Idle, PlayersEnum.Fire);
@@ -157,7 +168,16 @@ namespace BomberMan
             SMtransition[PlayersEnum.Fire].Add(PlayersEnum.WalkUp, PlayersEnum.Fire);
             SMtransition[PlayersEnum.Fire].Add(PlayersEnum.WalkDown, PlayersEnum.Fire);
             SMtransition[PlayersEnum.Fire].Add(PlayersEnum.Fire, PlayersEnum.Fire);
+            SMtransition[PlayersEnum.Fire].Add(PlayersEnum.Dead, PlayersEnum.Dead);
 
+            SMtransition.Add(PlayersEnum.Dead, new Dictionary<Enum, Enum>());
+            SMtransition[PlayersEnum.Dead].Add(PlayersEnum.Idle, PlayersEnum.Dead);
+            SMtransition[PlayersEnum.Dead].Add(PlayersEnum.WalkRight, PlayersEnum.Dead);
+            SMtransition[PlayersEnum.Dead].Add(PlayersEnum.WalkLeft, PlayersEnum.Dead);
+            SMtransition[PlayersEnum.Dead].Add(PlayersEnum.WalkUp, PlayersEnum.Dead);
+            SMtransition[PlayersEnum.Dead].Add(PlayersEnum.WalkDown, PlayersEnum.Dead);
+            SMtransition[PlayersEnum.Dead].Add(PlayersEnum.Fire, PlayersEnum.Dead);
+            SMtransition[PlayersEnum.Dead].Add(PlayersEnum.Dead, PlayersEnum.Dead);
         }
 
 
@@ -558,8 +578,7 @@ namespace BomberMan
     /// <summary>Игрок горит (подорвался на бомбе)</summary>
     public class PlayerFire : State
     {
-       
-
+ 
         public PlayerFire(GameObject player)
             : base(player)
         {
@@ -587,6 +606,28 @@ namespace BomberMan
         }
     }
 
+    /// <summary>Игрок горит (подорвался на бомбе)</summary>
+    public class PlayerDead : State
+    {
+        public PlayerDead(GameObject player)
+            : base(player)
+        {
+            Animation = new Animation(new List<Rectangle>()
+            {
+                new Rectangle(0*48, 8*48, 48, 48),new Rectangle(1*48, 8*48, 48, 48),new Rectangle(2*48, 8*48, 48, 48),
+                new Rectangle(3*48, 8*48, 48, 48),new Rectangle(4*48, 8*48, 48, 48),new Rectangle(5*48, 8*48, 48, 48),
+           }, 80, true, false, Resurrection);
 
+
+        }
+
+        /// <summary>Воскрешение послесмерти</summary>
+        private void Resurrection()
+        {
+            Animation.SpriteCurentFrameNum = 0;
+            Animation.isAnimated = true;
+            ((CPlayer)GameObject).Resurrection();
+        }
+    }
 }
 

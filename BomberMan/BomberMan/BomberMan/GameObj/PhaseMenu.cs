@@ -28,6 +28,12 @@ namespace BomberMan
 
         private int ElapsTime;
 
+        /// <summary>Время до переключения на экран очков</summary>
+        private int TimeToShowScore=10000;
+
+        private int TimeToShowScoreElapse;
+
+
         private Fire Fire;
 
         public PhaseMenu(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font,SoundEngine sound)
@@ -40,6 +46,13 @@ namespace BomberMan
         {
             Fire.Update(gameTime);
             ElapsTime += gameTime.ElapsedGameTime.Milliseconds;
+
+            TimeToShowScoreElapse += gameTime.ElapsedGameTime.Milliseconds;
+            if (TimeToShowScoreElapse > TimeToShowScore)
+            {
+                GamePhaseManager.SwitchTo(Phase.HiScore);
+            }
+
             if (ElapsTime > 500)
             {
                 if (InputHelper.KeyPressed(Keys.Left))
@@ -86,6 +99,11 @@ namespace BomberMan
             MenuState = menuState;
         }
 
+        public override void Reset()
+        {
+            base.Reset();
+            TimeToShowScoreElapse = 0;
+        }
     }
 
     class PhaseExit : GamePhaseObject

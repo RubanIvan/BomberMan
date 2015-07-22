@@ -42,8 +42,11 @@ namespace BomberMan
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            //зомби догнал игрока
+            if(PosWorldX==Player.PosWorldX && PosWorldY==Player.PosWorldY)Player.ChangeState(PlayersEnum.Dead);
             //если мы в клетке то выбираем куда идти дальше
             if(PosWorldX%48==0 && PosWorldY%48==0) ChangeState(Move.GetMove());
+            
         }
 
         public void Blow(BlowSide side)
@@ -183,10 +186,12 @@ namespace BomberMan
 
     public class ZombyFire : State
     {
-        
+
         public ZombyFire(GameObject player)
             : base(player)
         {
+
+
             Animation = new Animation(new List<Rectangle>()
             {
                 new Rectangle(0 * 48, 21 * 48, 48, 48),new Rectangle(1 * 48, 21 * 48, 48, 48),new Rectangle(2 * 48, 21 * 48, 48, 48),
@@ -205,6 +210,7 @@ namespace BomberMan
         public void ZombyDead()
         {
             ((Zomby)GameObject).Player.Score += 100;
+            GameObject.isAlive = false;
         }
     }
 }

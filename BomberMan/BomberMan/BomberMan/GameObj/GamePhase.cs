@@ -19,6 +19,7 @@ namespace BomberMan
 
         GameOver,
 
+        HiScore
         
 
 
@@ -82,6 +83,7 @@ namespace BomberMan
 
         public virtual void Reset(){}
 
+        
     }
 
 }

@@ -4,3 +4,4 @@ Content\font.xnb
 Content\spritesheet.xnb
 Content\MenuSelect.xnb
 Content\MenuChange.xnb
+Content\highscores.xnb
