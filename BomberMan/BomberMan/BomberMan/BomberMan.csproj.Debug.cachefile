@@ -2,9 +2,16 @@ Content\menu bkg.xnb
 Content\GameOver.xnb
 Content\font.xnb
 Content\spritesheet.xnb
+Content\highscores.xnb
 Content\MenuSelect.xnb
 Content\MenuChange.xnb
-Content\highscores.xnb
+Content\BombBlow.xnb
+Content\BombBurn.xnb
+Content\BombDrop.xnb
+Content\ItemPickUp.xnb
+Content\ZombyBurn.xnb
+Content\PlayerBurn.xnb
+Content\GameOverSound.xnb
 Levels\Level1.txt
 Levels\Level2.txt
 Levels\Level3.txt

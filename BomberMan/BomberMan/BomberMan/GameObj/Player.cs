@@ -604,6 +604,11 @@ namespace BomberMan
             Animation.isAnimated = true;
             ((CPlayer)GameObject).Resurrection();
         }
+
+        public override void OnChange()
+        {
+            SoundEngine.GetEffect(SoundNames.PlayerBurn).CreateInstance().Play();
+        }
     }
 
     /// <summary>Игрок горит (подорвался на бомбе)</summary>

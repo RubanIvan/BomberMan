@@ -36,8 +36,8 @@ namespace BomberMan
 
         private Fire Fire;
 
-        public PhaseMenu(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font,SoundEngine sound)
-            : base(texture, spriteBatch,font,sound)
+        public PhaseMenu(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font)
+            : base(texture, spriteBatch,font)
         {
             Fire = new Fire(null);
         }
@@ -57,7 +57,7 @@ namespace BomberMan
             {
                 if (InputHelper.KeyPressed(Keys.Left))
                 {
-                    SoundEngine[SoundNames.MenuChange].Play();
+                    SoundEngine.GetEffect(SoundNames.MenuChange).Play();
                     if (MenuState == MenyEnum.Play) { ChangeMenu(MenyEnum.Exit); return; }
                     if (MenuState == MenyEnum.Exit) { ChangeMenu(MenyEnum.Play); return; }
                     
@@ -65,14 +65,14 @@ namespace BomberMan
 
                 if (InputHelper.KeyPressed(Keys.Right))
                 {
-                    SoundEngine[SoundNames.MenuChange].Play();
+                    SoundEngine.GetEffect(SoundNames.MenuChange).Play();
                     if (MenuState == MenyEnum.Play) { ChangeMenu(MenyEnum.Exit); return; }
                     if (MenuState == MenyEnum.Exit) { ChangeMenu(MenyEnum.Play); return; }
                 }
 
                 if (InputHelper.KeyPressed(Keys.Space) || InputHelper.KeyPressed(Keys.Enter))
                 {
-                    SoundEngine[SoundNames.MenuSelect].Play();
+                    SoundEngine.GetEffect(SoundNames.MenuSelect).Play();
                     if (MenuState == MenyEnum.Play) { GamePhaseManager.SwitchTo(Phase.PlayGame); return; }
                     if (MenuState == MenyEnum.Exit) { GamePhaseManager.SwitchTo(Phase.Exit); Thread.Sleep(500); return; }
                 }
@@ -103,6 +103,7 @@ namespace BomberMan
         {
             base.Reset();
             TimeToShowScoreElapse = 0;
+            
         }
     }
 
@@ -111,7 +112,7 @@ namespace BomberMan
         private Game1 Game;
 
         public PhaseExit(Game1 game)
-            : base(null, null,null,null)
+            : base(null, null,null)
         {
             Game = game;
 
@@ -135,8 +136,8 @@ namespace BomberMan
         /// <summary>Позиция заднего фона в текстуре</summary>
         Rectangle BkgFrom = new Rectangle(16, 0, 800, 600);
 
-        public PhaseGameOver(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font,SoundEngine sound)
-            : base(texture, spriteBatch,font,sound)
+        public PhaseGameOver(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font)
+            : base(texture, spriteBatch,font)
         {
         }
 
@@ -151,6 +152,12 @@ namespace BomberMan
         public override void Draw()
         {
             SpriteBatch.Draw(Texture, BkgTo, BkgFrom, Color.White);
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            SoundEngine.GetEffect(SoundNames.GameOverSound).Play();
         }
     }
 

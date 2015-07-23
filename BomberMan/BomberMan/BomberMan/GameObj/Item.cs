@@ -47,6 +47,7 @@ namespace BomberMan.GameObj
             State.Update(gameTime);
             if (Player.PosWorldX == PosWorldX && Player.PosWorldY == PosWorldY)
             {
+                SoundEngine.GetEffect(SoundNames.ItemPickUp).CreateInstance().Play();
                 isAlive = false;
                 if (Player.BombGun is SampleBombGun) Player.BombGun = new MidleBombGun(GameObjects);
                 else if (Player.BombGun is MidleBombGun) Player.BombGun = new BigBombGun(GameObjects);
@@ -75,6 +76,7 @@ namespace BomberMan.GameObj
             State.Update(gameTime);
             if (Player.PosWorldX == PosWorldX && Player.PosWorldY == PosWorldY)
             {
+                SoundEngine.GetEffect(SoundNames.ItemPickUp).CreateInstance().Play();
                 isAlive = false;
                 Player.BombTimeReload -= 500;
                 if (Player.BombTimeReload < 0) Player.BombTimeReload = 0;
@@ -100,6 +102,7 @@ namespace BomberMan.GameObj
             State.Update(gameTime);
             if (Player.PosWorldX == PosWorldX && Player.PosWorldY == PosWorldY)
             {
+                SoundEngine.GetEffect(SoundNames.ItemPickUp).CreateInstance().Play();
                 isAlive = false;
                 Player.BombCount++;
                 Player.MaxBombCount++;
@@ -125,6 +128,7 @@ namespace BomberMan.GameObj
             State.Update(gameTime);
             if (Player.PosWorldX == PosWorldX && Player.PosWorldY == PosWorldY)
             {
+                SoundEngine.GetEffect(SoundNames.ItemPickUp).CreateInstance().Play();
                 isAlive = false;
                 Player.Lives++;
             }
@@ -152,6 +156,7 @@ namespace BomberMan.GameObj
             State.Update(gameTime);
             if (Player.PosWorldX == PosWorldX && Player.PosWorldY == PosWorldY)
             {
+                SoundEngine.GetEffect(SoundNames.ItemPickUp).CreateInstance().Play();
                 isAlive = false;
                 Phase.GoToNextLevel = true;
             }

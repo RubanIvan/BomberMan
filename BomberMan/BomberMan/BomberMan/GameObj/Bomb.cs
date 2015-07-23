@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace BomberMan
 {
@@ -25,7 +26,7 @@ namespace BomberMan
 
     public abstract class BombObject : GameObject, Iexterminable
     {
-
+        
         /// <summary>Сила взрыва</summary>
         protected int ExplPower = 1;
 
@@ -35,9 +36,13 @@ namespace BomberMan
         /// <summary>Верхний-нижний рукав взрыва</summary>
         protected SortedSet<Point> ExpListY = new SortedSet<Point>(new SortByY());
 
+        SoundEffectInstance BurnInstance = SoundEngine.GetEffect(SoundNames.BombBurn).CreateInstance();
+
         public BombObject(int x, int y, List<GameObject> O)
         {
             GameObjects = O;
+            
+            BurnInstance.Play();
 
             Zorder = Zorders.Bomb;
 
@@ -54,6 +59,9 @@ namespace BomberMan
         /// <summary>Разлет пламени взрыва</summary>
         public void Explosion()
         {
+            BurnInstance.Stop();
+            SoundEngine.GetEffect(SoundNames.BombBlow).CreateInstance().Play();
+
             //объект бомба надо удалить
             isAlive = false;
 
@@ -363,7 +371,10 @@ namespace BomberMan
         public BombGunObject(List<GameObject> O) { GameObjects = O; }
 
         /// <summary>Установить бомбу</summary>
-        public abstract void DropBomb(int x, int y);
+        public virtual void DropBomb(int x, int y)
+        {
+            SoundEngine.GetEffect(SoundNames.BombDrop).CreateInstance().Play();
+        }
     }
 
     /// <summary>Пушка устанавливающая простые бомбы</summary>
@@ -373,8 +384,11 @@ namespace BomberMan
 
         public override void DropBomb(int x, int y)
         {
+            base.DropBomb(x, y);
             GameObjects.Add(new SampleBomb(x, y, GameObjects));
         }
+
+        
     }
 
     /// <summary>Пушка устанавливающая средние бомбы</summary>
@@ -384,6 +398,7 @@ namespace BomberMan
 
         public override void DropBomb(int x, int y)
         {
+            base.DropBomb(x, y);
             GameObjects.Add(new MidleBomb(x, y, GameObjects));
         }
     }
@@ -395,6 +410,7 @@ namespace BomberMan
 
         public override void DropBomb(int x, int y)
         {
+            base.DropBomb(x, y);
             GameObjects.Add(new BigBomb(x, y, GameObjects));
         }
     }

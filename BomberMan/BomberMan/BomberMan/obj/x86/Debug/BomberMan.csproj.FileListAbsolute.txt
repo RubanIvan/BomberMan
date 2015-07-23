@@ -41,3 +41,16 @@ D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level4.
 D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level5.txt
 D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level6.txt
 D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\highscores.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level2.txt
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level3.txt
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level4.txt
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level5.txt
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Levels\Level6.txt
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\highscores.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\BombBlow.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\BombBurn.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\BombDrop.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\ItemPickUp.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\ZombyBurn.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\PlayerBurn.xnb
+F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\GameOverSound.xnb

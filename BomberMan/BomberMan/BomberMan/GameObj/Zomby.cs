@@ -212,5 +212,10 @@ namespace BomberMan
             ((Zomby)GameObject).Player.Score += 100;
             GameObject.isAlive = false;
         }
+
+        public override void OnChange()
+        {
+            SoundEngine.GetEffect(SoundNames.ZombyBurn).CreateInstance().Play();
+        }
     }
 }

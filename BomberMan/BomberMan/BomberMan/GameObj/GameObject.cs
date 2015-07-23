@@ -58,6 +58,11 @@ namespace BomberMan
             Animation.Update(gameTime);
         }
 
+        /// <summary>Вызывается когда выбирается состояние</summary>
+        public virtual void OnChange()
+        {
+        }
+
     }
 
 
@@ -126,6 +131,7 @@ namespace BomberMan
         {
             State = ObjectStates[state];
             SMstate = state;
+            State.OnChange();
         }
 
         /// <summary>Переход в новое состояние конечного автомата</summary>

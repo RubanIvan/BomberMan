@@ -25,7 +25,7 @@ namespace BomberMan
         SpriteBatch SpriteBatch;
         Texture2D Texture;
         SpriteFont Font;
-        SoundEngine SoundEngine=new SoundEngine();
+        
 
         public Game1()
         {
@@ -51,14 +51,14 @@ namespace BomberMan
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             
             //фаза меню
-            GamePhaseManager.Add(Phase.MainMenu, new PhaseMenu(Content.Load<Texture2D>("menu bkg"), SpriteBatch,Font,SoundEngine));
+            GamePhaseManager.Add(Phase.MainMenu, new PhaseMenu(Content.Load<Texture2D>("menu bkg"), SpriteBatch,Font));
             
             //фаза игры
-            GamePhaseManager.Add(Phase.PlayGame, new PhasePlayGame(Content.Load<Texture2D>("spritesheet"), SpriteBatch,Font,SoundEngine));
+            GamePhaseManager.Add(Phase.PlayGame, new PhasePlayGame(Content.Load<Texture2D>("spritesheet"), SpriteBatch,Font));
 
-            GamePhaseManager.Add(Phase.GameOver, new PhaseGameOver(Content.Load<Texture2D>("GameOver"), SpriteBatch,Font,SoundEngine));
+            GamePhaseManager.Add(Phase.GameOver, new PhaseGameOver(Content.Load<Texture2D>("GameOver"), SpriteBatch,Font));
 
-            GamePhaseManager.Add(Phase.HiScore, new PhaseHiScore(Content.Load<Texture2D>("highscores"), SpriteBatch, Font, SoundEngine));
+            GamePhaseManager.Add(Phase.HiScore, new PhaseHiScore(Content.Load<Texture2D>("highscores"), SpriteBatch, Font));
 
             GamePhaseManager.Add(Phase.Exit, new PhaseExit(this));
 

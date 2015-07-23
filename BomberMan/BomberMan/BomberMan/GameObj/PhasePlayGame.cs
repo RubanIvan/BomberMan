@@ -29,8 +29,8 @@ namespace BomberMan
 
         public bool GoToNextLevel = false;
 
-        public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch, SpriteFont font, SoundEngine sound)
-            : base(texture, spriteBatch, font, sound)
+        public PhasePlayGame(Texture2D texture, SpriteBatch spriteBatch, SpriteFont font)
+            : base(texture, spriteBatch, font)
         {
             UIelement = new UIelemrnt(texture, spriteBatch, font);
         }

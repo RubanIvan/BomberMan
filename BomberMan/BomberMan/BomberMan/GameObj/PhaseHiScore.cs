@@ -27,8 +27,8 @@ namespace BomberMan
 
         private int TimeToShowMenuElapse;
 
-        public PhaseHiScore(Texture2D texture, SpriteBatch spriteBatch, SpriteFont font, SoundEngine sound)
-            : base(texture, spriteBatch, font, sound)
+        public PhaseHiScore(Texture2D texture, SpriteBatch spriteBatch, SpriteFont font)
+            : base(texture, spriteBatch, font)
         {
         }
 

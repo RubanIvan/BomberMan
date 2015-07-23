@@ -11,24 +11,37 @@ namespace BomberMan
     public enum SoundNames
     {
         MenuSelect=0,
-        MenuChange=1
+        MenuChange=1,
+        BombBlow,
+        BombBurn,
+        BombDrop,
+        ItemPickUp,
+        ZombyBurn,
+        GameOverSound,
+        PlayerBurn
 
     }
 
-    public class SoundEngine
+    public static class SoundEngine
     {
-        public List<SoundEffect> SoundList=new List<SoundEffect>();
+        public static  List<SoundEffect> SoundList=new List<SoundEffect>();
 
-        public void SoundInit(ContentManager Content)
+        public static void SoundInit(ContentManager Content)
         {
             SoundList.Add(Content.Load<SoundEffect>("MenuSelect"));
             SoundList.Add(Content.Load<SoundEffect>("MenuChange"));
-            
+            SoundList.Add(Content.Load<SoundEffect>("BombBlow"));
+            SoundList.Add(Content.Load<SoundEffect>("BombBurn"));
+            SoundList.Add(Content.Load<SoundEffect>("BombDrop"));
+            SoundList.Add(Content.Load<SoundEffect>("ItemPickUp"));
+            SoundList.Add(Content.Load<SoundEffect>("ZombyBurn"));
+            SoundList.Add(Content.Load<SoundEffect>("GameOverSound"));
+            SoundList.Add(Content.Load<SoundEffect>("PlayerBurn"));
         }
 
-        public SoundEffect this[SoundNames s]
+        public static SoundEffect GetEffect(SoundNames s)
         {
-            get { return SoundList[(int) s]; }
+             return SoundList[(int) s];
         }
     }
 }
