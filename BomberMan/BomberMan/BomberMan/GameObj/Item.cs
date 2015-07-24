@@ -158,6 +158,8 @@ namespace BomberMan.GameObj
             {
                 SoundEngine.GetEffect(SoundNames.ItemPickUp).CreateInstance().Play();
                 isAlive = false;
+                Player.SMstate = PlayersEnum.Idle;
+                Player.ChangeState(PlayersEnum.Idle);
                 Phase.GoToNextLevel = true;
             }
 

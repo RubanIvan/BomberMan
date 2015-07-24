@@ -18,7 +18,8 @@ namespace BomberMan
         ItemPickUp,
         ZombyBurn,
         GameOverSound,
-        PlayerBurn
+        PlayerBurn,
+        KeyDown
 
     }
 
@@ -37,6 +38,7 @@ namespace BomberMan
             SoundList.Add(Content.Load<SoundEffect>("ZombyBurn"));
             SoundList.Add(Content.Load<SoundEffect>("GameOverSound"));
             SoundList.Add(Content.Load<SoundEffect>("PlayerBurn"));
+            SoundList.Add(Content.Load<SoundEffect>("KeyDown"));
         }
 
         public static SoundEffect GetEffect(SoundNames s)

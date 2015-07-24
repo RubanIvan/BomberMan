@@ -51,6 +51,7 @@ namespace BomberMan
                 {
                     if (Name.Length > 1)
                     {
+                        SoundEngine.GetEffect(SoundNames.KeyDown).CreateInstance().Play();
                         Name = Name.Remove(Name.Length - 2);
                         Name += "|";
                     }
@@ -63,6 +64,7 @@ namespace BomberMan
                     if (InputHelper.CurrentKeyboardState.GetPressedKeys()[0] >= Keys.A &&
                         InputHelper.CurrentKeyboardState.GetPressedKeys()[0] <= Keys.Z) 
                     {
+                        SoundEngine.GetEffect(SoundNames.KeyDown).CreateInstance().Play();
                         Name = Name.Remove(Name.Length - 1);
                         Name += InputHelper.CurrentKeyboardState.GetPressedKeys()[0].ToString();
                         Name += "|";
@@ -70,6 +72,7 @@ namespace BomberMan
                 }else if (InputHelper.CurrentKeyboardState.GetPressedKeys()[0] >= Keys.A &&
                         InputHelper.CurrentKeyboardState.GetPressedKeys()[0] <= Keys.Z)
                     {
+                        SoundEngine.GetEffect(SoundNames.KeyDown).CreateInstance().Play();
                         Name = Name.Remove(Name.Length - 1);
                         Name += InputHelper.CurrentKeyboardState.GetPressedKeys()[0].ToString().ToLower();
                         Name += "|";
@@ -77,26 +80,20 @@ namespace BomberMan
 
                 if (InputHelper.CurrentKeyboardState.GetPressedKeys()[0] == Keys.Space)
                 {
+                    SoundEngine.GetEffect(SoundNames.KeyDown).CreateInstance().Play();
                     Name = Name.Remove(Name.Length - 1);
                     Name += " ";
                     Name += "|";
                 }
 
-                //if (InputHelper.CurrentKeyboardState.IsKeyDown(Keys.LeftShift) ||
-                //    InputHelper.CurrentKeyboardState.IsKeyDown(Keys.RightShift))
-                //{
-                //    Name += InputHelper.CurrentKeyboardState.GetPressedKeys()[0].ToString();
-                //}
-                //else
-                //{
-                //    Name += InputHelper.CurrentKeyboardState.GetPressedKeys()[0].ToString().ToLower();
-                //}
+                
             }
 
             
 
             if (InputHelper.KeyPressed(Keys.Enter))
             {
+                SoundEngine.GetEffect(SoundNames.KeyDown).CreateInstance().Play();
                 Name = Name.Remove(Name.Length - 1);
 
                 HiScore.Add(new KeyValuePair<int, string>(BomberMan.HiScore.Score,Name));

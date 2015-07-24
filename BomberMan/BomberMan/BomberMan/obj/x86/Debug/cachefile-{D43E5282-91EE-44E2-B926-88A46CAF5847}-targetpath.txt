@@ -12,3 +12,4 @@ Content\ItemPickUp.xnb
 Content\ZombyBurn.xnb
 Content\PlayerBurn.xnb
 Content\GameOverSound.xnb
+Content\KeyDown.xnb
