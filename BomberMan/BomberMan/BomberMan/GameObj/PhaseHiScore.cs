@@ -41,6 +41,7 @@ namespace BomberMan
             {
                 GamePhaseManager.SwitchTo(Phase.MainMenu);
             }
+            
         }
 
         public override void Draw()

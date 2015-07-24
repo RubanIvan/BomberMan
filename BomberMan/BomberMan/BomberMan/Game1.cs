@@ -60,9 +60,13 @@ namespace BomberMan
 
             GamePhaseManager.Add(Phase.HiScore, new PhaseHiScore(Content.Load<Texture2D>("highscores"), SpriteBatch, Font));
 
+            GamePhaseManager.Add(Phase.NewHiScore, new PhaseNewHiScore(Content.Load<Texture2D>("highscores"), SpriteBatch, Font));
+
             GamePhaseManager.Add(Phase.Exit, new PhaseExit(this));
 
-            GamePhaseManager.SwitchTo(Phase.HiScore);
+            GamePhaseManager.CurrentPhase = new PhaseExit(this);
+            HiScore.Score = 0;
+            GamePhaseManager.SwitchTo(Phase.MainMenu);
 
             
         }

@@ -234,6 +234,11 @@ namespace BomberMan
 
             VievCam = new VievCam(LevSize.X * 48, LevSize.Y * 48, Player);
         }
+
+        public override void onLostFocus()
+        {
+            HiScore.Score = Player.Score;
+        }
     }
 
 

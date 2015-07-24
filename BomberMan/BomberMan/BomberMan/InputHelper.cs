@@ -51,6 +51,13 @@ namespace BomberMan
 
         }
 
+        /// <summary>Проверка на нажатие любой клавиши</summary>
+        public static bool PressAnyKey()
+        {
+            if (PreviousKeyboardState != CurrentKeyboardState) return true;
+            return false;
+        }
+
         /// <summary>Была ли нажата и отпущена лева клавиша мыши</summary>
         public static bool MouseLeftButtonPressed()
         {

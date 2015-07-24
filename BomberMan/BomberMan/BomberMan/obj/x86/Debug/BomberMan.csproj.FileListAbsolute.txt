@@ -54,3 +54,10 @@ F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\
 F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\ZombyBurn.xnb
 F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\PlayerBurn.xnb
 F:\visual\My_prog\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\GameOverSound.xnb
+D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\BombBlow.xnb
+D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\BombBurn.xnb
+D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\BombDrop.xnb
+D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\ItemPickUp.xnb
+D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\ZombyBurn.xnb
+D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\PlayerBurn.xnb
+D:\Projects\BomberMan\BomberMan\BomberMan\BomberMan\bin\x86\Debug\Content\GameOverSound.xnb

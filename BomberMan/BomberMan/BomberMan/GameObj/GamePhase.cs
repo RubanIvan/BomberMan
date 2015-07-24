@@ -19,7 +19,9 @@ namespace BomberMan
 
         GameOver,
 
-        HiScore
+        HiScore,
+
+        NewHiScore
         
 
 
@@ -49,6 +51,7 @@ namespace BomberMan
         /// <summary>Переключение состояний</summary>
         public static void SwitchTo(Phase name)
         {
+            CurrentPhase.onLostFocus();
             CurrentPhase = GamePhases[name];
             CurrentPhase.Reset();
         }
@@ -81,8 +84,11 @@ namespace BomberMan
 
         public abstract void Draw();
 
+        /// <summary>Выполняется при получении фокуса (начале работы) </summary>
         public virtual void Reset(){}
 
+        /// <summary>Выполняется при потери фокуса (конец работы фазы) </summary>
+        public virtual void onLostFocus() { }
         
     }
 

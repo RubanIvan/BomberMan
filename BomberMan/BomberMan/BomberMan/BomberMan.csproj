@@ -82,6 +82,7 @@
     <Compile Include="GameObj\MoveStrategy.cs" />
     <Compile Include="GameObj\PhaseHiScore.cs" />
     <Compile Include="GameObj\PhaseMenu.cs" />
+    <Compile Include="GameObj\PhaseNewHiScore.cs" />
     <Compile Include="GameObj\PhasePlayGame.cs" />
     <Compile Include="GameObj\Player.cs" />
     <Compile Include="GameObj\Sound.cs" />

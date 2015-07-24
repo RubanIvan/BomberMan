@@ -136,6 +136,8 @@ namespace BomberMan
         /// <summary>Позиция заднего фона в текстуре</summary>
         Rectangle BkgFrom = new Rectangle(16, 0, 800, 600);
 
+        private SoundEffectInstance Sound;
+
         public PhaseGameOver(Texture2D texture, SpriteBatch spriteBatch,SpriteFont font)
             : base(texture, spriteBatch,font)
         {
@@ -145,7 +147,7 @@ namespace BomberMan
         {
             if (InputHelper.KeyPressed(Keys.Space) || InputHelper.KeyPressed(Keys.Enter))
             {
-                GamePhaseManager.SwitchTo(Phase.MainMenu);
+                GamePhaseManager.SwitchTo(Phase.NewHiScore);
             }
         }
 
@@ -157,7 +159,13 @@ namespace BomberMan
         public override void Reset()
         {
             base.Reset();
-            SoundEngine.GetEffect(SoundNames.GameOverSound).Play();
+            Sound=SoundEngine.GetEffect(SoundNames.GameOverSound).CreateInstance();
+            Sound.Play();
+        }
+
+        public override void onLostFocus()
+        {
+            Sound.Stop();
         }
     }
 
